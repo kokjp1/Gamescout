@@ -1,0 +1,57 @@
+@font-face {
+    font-family: 'SF Pro Text';
+    src: url('../fonts/sf-pro-text-regular.woff') format('woff');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'SF Pro Text';
+    src: url('../fonts/sf-pro-text-light.woff') format('woff');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'SF Pro Text';
+    src: url('../fonts/sf-pro-text-medium.woff') format('woff');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'SF Pro Text';
+    src: url('../fonts/sf-pro-text-semibold.woff') format('woff');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'SF Pro Text';
+    src: url('../fonts/sf-pro-text-bold.woff') format('woff');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'SF Pro Text';
+    src: url('../fonts/sf-pro-text-heavy.woff') format('woff');
+    font-weight: 800;
+}
+
+html {
+    background-color: #202020;
+    color:white;
+    
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+h1 {
+    font-family: 'SF Pro Text', sans-serif;
+    font-weight: 700;
+}
+
+p {
+    font-family: 'SF Pro Text', sans-serif;
+    font-weight: 500;
+    font-size:1em;
+}
