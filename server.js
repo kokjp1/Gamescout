@@ -5,14 +5,11 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 
-app
-.use(express.urlencoded({extended: true})) 
-.use(express.static('static'))             
-.set('view engine', 'ejs')                 
-.set('views', 'views')
 
-.listen(4332, () => console.log('Server is running on http://localhost:4332'))
-
+app.use(express.urlencoded({extended: true})) 
+app.use(express.static('static'))             
+app.set('view engine', 'ejs')                 
+app.set('views', 'views')
 
 
 // MongoDB setup
