@@ -64,4 +64,3 @@ app.listen(process.env.PORT, () => {
   console.log(`🌐 beschikbaar op port: http://localhost:${process.env.PORT} 🌐`)
 })
 
-hallo
