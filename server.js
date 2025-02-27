@@ -63,5 +63,3 @@ app.listen(process.env.PORT, () => {
   console.log('✅ Server gestart en online ✅')
   console.log(`🌐 beschikbaar op port: http://localhost:${process.env.PORT} 🌐`)
 })
-
-Testtesttesttesteterfrergergefqbgqrbqegvqrbhngwrhbqgfbghtqrh2rtywhnrwtyghqerthertq
