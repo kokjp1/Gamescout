@@ -11,6 +11,7 @@ app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 
+
 // MongoDB setup
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
@@ -26,7 +27,7 @@ const client = new MongoClient(mongoDBtoken, {
 })
 
 
-// MongoDB connection
+// MongoDB connection 
 
 client.connect()
   .then(() => {
@@ -44,7 +45,7 @@ client.connect()
 })
 
 
-// error handlers - **ALTIJD ONDERAAN**
+// error handlers - **ALTIJD ONDERAAN HOUDEN**
 
 app.use((req, res) => {
   console.error('404 error at URL: ' + req.url)
