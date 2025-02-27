@@ -1,7 +1,7 @@
 {
   "name": "projecttech",
   "version": "1.0.0",
-  "description": "Project Tech - Team 7 Repo",
+  "description": "Project Tech - Team 5 Repo",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
