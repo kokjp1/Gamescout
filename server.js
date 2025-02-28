@@ -44,7 +44,6 @@ client.connect()
   res.render('index.ejs')
 })
 
-
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
 app.use((req, res) => {
