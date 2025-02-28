@@ -55,3 +55,42 @@ p {
     font-weight: 500;
     font-size:1em;
 }
+
+:root {
+    /* Colors */
+    --input-field-fill: rgba(217, 217, 217, 0.2);
+    --input-field-stroke: #8f8f8f;
+    --primary-gray: #23242a;
+    --link-url: #f75c87;
+    --primary-pink: #e54b75;
+    --primary-button-fill: #e54b75;
+    --primary-button-stroke: #ff6a93;
+    --secondary-button-stroke: #c71f4d;
+    --menu-active-unavailable: #696969;
+    --menu-hover: #bebebe;
+    --menu-hover-icon: #e54b75;
+    --menu-text: #23242a;
+    --menu-container: rgba(255, 255, 255, 0.4);
+  
+    /* Fonts */
+    --font-primary: "SF Pro Text", sans-serif;
+    --font-secondary: "Inter", sans-serif;
+  
+    --title-size: 4.5em;
+    --h1-size: 3em;
+    --h1-line-height: 6em;
+    --h2-size: 2em;
+    --h3-size: 1.5em;
+    --h3-line-height: 6em;
+    --subtext-size: 2em;
+    --menu-size: 2em;
+    --button-size: 2em;
+    --input-placeholder-size: 1.5em;
+    --input-label-size: 1.5em;
+    --link-url-text-size: 1.5em;
+    --test-size: 1em;
+  
+    /* Effects */
+    --menu-backdrop-blur: blur(1.5em);
+    --menu-box-shadow: 0px 0px 0.5em rgba(0, 0, 0, 0.25);
+  }
