@@ -70,7 +70,7 @@ client.connect()
       // als hij geen account kan vinden met het emailadres, dan is account waarde undefined (en dus false)
     
         if (!account) {
-          return res.render('login.ejs', { errorMessageEmail: 'We kunnen geen account vinden met dit emailadres', errorMessagePassword: '' });
+          return res.render('login.ejs', { errorMessageEmail: 'We cannot find an account with this email, please try again or register', errorMessagePassword: '' });
         }
     
         if (account.password === formUsername) {
@@ -78,7 +78,7 @@ client.connect()
         } 
     
         else {
-          return res.render('login.ejs', { errorMessageEmail: '', errorMessagePassword: 'Onjuist wachtwoord, probeer het opnieuw of klik op wachtwoord vergeten' });
+          return res.render('login.ejs', { errorMessageEmail: '', errorMessagePassword: 'False password try again or choose "forgot password"' });
         }
     } catch (error) {
       console.error(error)
@@ -114,7 +114,7 @@ client.connect()
             attempts[email].cooldown_until = Date.now() + 30000; // 30 seconds cooldown
           }
           return res.render('login.ejs', {
-            errorMessageEmail: 'We kunnen geen account vinden met dit emailadres',
+            errorMessageEmail: 'We cannot find a user with this email address. If you do not have an account, please register.',
             errorMessagePassword: '',
           });
         }
@@ -131,7 +131,23 @@ client.connect()
           }
           return res.render('login.ejs', {
             errorMessageEmail: '',
-            errorMessagePassword: 'Onjuist wachtwoord, probeer het opnieuw of klik op wachtwoord vergeten',
+            errorMessagePassword: 'False password, please try again or choose "forgot password"',
+          });
+        }
+
+        // Check if the username is correct
+        if (account.username !== username) {
+          // If the username is incorrect, increment the attempt count and set cooldown if necessary
+          if (!attempts[username]) {
+            attempts[username] = { attempts: 0, cooldown_until: 0 };
+          }
+          attempts[username].attempts++;
+          if (attempts[username].attempts >= 4) {
+            attempts[username].cooldown_until = Date.now() + 30000; // 30 seconds cooldown
+          }
+          return res.render('login.ejs', {
+            errorMessageEmail: '',
+            errorMessagePassword: 'False username, please try again or choose "forgot password"',
           });
         }
     
