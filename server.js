@@ -96,7 +96,7 @@ client.connect()
         if (attempts[email] && attempts[email].cooldown_until > Date.now()) {
           const cooldownTime = attempts[email].cooldown_until - Date.now();
           return res.render('login.ejs', {
-            errorMessageEmail: `Too many attempts. Please try again in ${cooldownTime / 1000} seconds.`,
+            errorMessageEmail: `Too many attempts. Please try again in 30 seconds.`,
             errorMessagePassword: '',
           });
         }
