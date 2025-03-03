@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/cssfiles/main.css">
+</head>
+<body>
+    <div id="registreerformulier">
+        <form action="/login" method="POST">    
+            <legend>Log in op je account</legend>
+                <fieldset id="gegevens">
+
+                    <label for="email">Emailadres</label>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <% if (!!errorMessageEmail) { %>
+                        <p class="errorMessage"><%= errorMessageEmail %></p>
+                    <% } %>
+                    <label for="password">Wachtwoord</label>
+                    <input type="password" id="password" name="password" placeholder="Wachtwoord" required>
+                    <% if (!!errorMessagePassword) { %>
+                        <p class="errorMessage"><%= errorMessagePassword %></p>
+                    <% } %>
+                    <!-- if errormessage een waarde heeft (en dus bestaat) -> volgende code uitvoeren -->
+                </fieldset>
+            <input type="submit" value="Inloggen">
+            <p>Heb je nog geen account? <a href="fakelink.html">registreer hier</a></p>
+        </form>
+    </div>  
+    <script src="./frontend.js"></script>
+</body>
+</html>
