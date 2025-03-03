@@ -55,29 +55,6 @@ client.connect()
   const activeDatabase = client.db(process.env.DB_NAME)
   const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION)   
 
-<<<<<<< HEAD
-async function authForwarding(req, res) {
-  
-  const formE = req.body.email;
-  const ingevuldePassword = req.body.password;
-
-  const account = await activeCollection.findOne({ email: ingevuldeEmailadress });
-  // checken of er een object/acc is met het emailadres, zo ja, dan slaat hij HET HELE OBJECT (inc. password) op in "account"
-  // als ie geen account kan vinden met het emailadres, dan is account waarde undefined (en dus falsy)
-
-    if (!account) {
-      return res.render('login.ejs', { errorMessageEmail: 'We kunnen geen account vinden met dit emailadres', errorMessagePassword: '' });
-    }
-
-    if (account.password === ingevuldePassword) {
-      return res.send('<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">');
-    } 
-
-    else {
-      return res.render('login.ejs', { errorMessageEmail: '', errorMessagePassword: 'Onjuist wachtwoord, probeer het opnieuw of klik op wachtwoord vergeten' });
-    }
-}
-=======
   async function authForwarding(req, res) {
 
     try {
@@ -107,7 +84,6 @@ async function authForwarding(req, res) {
     res.status(500).send('500: server error')
   }
   }
->>>>>>> 2d6cb654905c192dd77c413ae759b4b7dacc86a2
 
 
 const attempts =  {};
@@ -121,7 +97,6 @@ async function doorsturen(req, res) {
     return res.render('login.ejs', { errorMessageEmail: `Too many attempts please try again in ${cooldownTime} seconds`, errorMessagePassword: '' })
   }
   }
-
 
 
 
