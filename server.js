@@ -87,7 +87,10 @@ client.connect()
 
 function onlogin(req, res) {
   res.render('login.ejs' , { errorMessageEmail:'', errorMessagePassword:'' });	
+
 }
+
+// test
 
 app.post('/register', registerAccount);
 
