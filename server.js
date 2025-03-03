@@ -52,6 +52,8 @@ client.connect()
 
   app.post('/login', authdoorsturen)
 
+  const activeDatabase = client.db(process.env.DB_NAME)
+  const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION)   
 
 async function authdoorsturen (req, res) {
   
