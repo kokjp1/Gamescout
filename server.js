@@ -5,7 +5,6 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 
-
 app.use(express.urlencoded({extended: true})) 
 app.use(express.static('static'))             
 app.set('view engine', 'ejs')                 
@@ -28,7 +27,7 @@ const client = new MongoClient(mongoDBtoken, {
 })
 
 
-// MongoDB connection
+// MongoDB connection 
 
 client.connect()
   .then(() => {
@@ -45,8 +44,7 @@ client.connect()
   res.render('index.ejs')
 })
 
-
-// error handlers - **ALTIJD ONDERAAN**
+// error handlers - **ALTIJD ONDERAAN HOUDEN**
 
 app.use((req, res) => {
   console.error('404 error at URL: ' + req.url)
