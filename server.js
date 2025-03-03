@@ -55,9 +55,9 @@ client.connect()
   const activeDatabase = client.db(process.env.DB_NAME)
   const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION)   
 
-async function authdoorsturen (req, res) {
+async function authForwarding(req, res) {
   
-  const ingevuldeEmailadress = req.body.email;
+  const formE = req.body.email;
   const ingevuldePassword = req.body.password;
 
   const account = await activeCollection.findOne({ email: ingevuldeEmailadress });
@@ -76,6 +76,22 @@ async function authdoorsturen (req, res) {
       return res.render('login.ejs', { errorMessageEmail: '', errorMessagePassword: 'Onjuist wachtwoord, probeer het opnieuw of klik op wachtwoord vergeten' });
     }
 }
+
+
+const attempts =  {};
+
+async function doorsturen(req, res) {
+  const ingevuldeEmailadress = req.body.email
+  const ingevuldePassword = req.body.password
+
+  if (attempts[ingevuldeEmailadress] && attempts[ingevuldeEmailadress].cooldown_unit > Date.now()) {
+    const cooldownTime = attempts[ingevuldeEmailadress].cooldown_unit - Date.now()
+    return res.render('login.ejs', { errorMessageEmail: `Too many attempts please try again in ${cooldownTime} seconds`, errorMessagePassword: '' })
+  }
+  }
+
+
+
 
 function onlogin(req, res) {
   res.render('login.ejs' , { errorMessageEmail:'', errorMessagePassword:'' });	
