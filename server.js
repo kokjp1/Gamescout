@@ -63,7 +63,7 @@ client.connect()
       const formPassword = req.body.password;
       
     
-      const account = await activeCollection.findOne({ email: ingevuldeEmailadress });
+      const account = await activeCollection.findOne({ email: formEmail });
       // checken of er een object/acc is met het emailadres, zo ja, dan slaat hij HET HELE OBJECT (inc. password) op in "account"
       // als hij geen account kan vinden met het emailadres, dan is account waarde undefined (en dus falsy)
     
@@ -71,7 +71,7 @@ client.connect()
           return res.render('login.ejs', { errorMessageEmail: 'We kunnen geen account vinden met dit emailadres', errorMessagePassword: '' });
         }
     
-        if (account.password === ingevuldePassword) {
+        if (account.password === formUsername) {
           return res.send('<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">');
         } 
     
@@ -145,9 +145,6 @@ client.connect()
       }
     }
 
-
-    ///test2345424343234
-    
 
 
 
