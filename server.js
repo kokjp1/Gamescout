@@ -50,49 +50,59 @@ client.connect()
   app.get('/register', onregister);
 
 
-  app.post('/login', authdoorsturen)
+  app.post('/login', authForwarding)
 
   const activeDatabase = client.db(process.env.DB_NAME)
   const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION)   
 
-async function authdoorsturen (req, res) {
+  async function authForwarding(req, res) {
+
+    try {
   
-  const ingevuldeEmailadress = req.body.email;
-  const ingevuldePassword = req.body.password;
-
-  const account = await activeCollection.findOne({ email: ingevuldeEmailadress });
-  // checken of er een object/acc is met het emailadres, zo ja, dan slaat hij HET HELE OBJECT (inc. password) op in "account"
-  // als ie geen account kan vinden met het emailadres, dan is account waarde undefined (en dus falsy)
-
-    if (!account) {
-      return res.render('login.ejs', { errorMessageEmail: 'We kunnen geen account vinden met dit emailadres', errorMessagePassword: '' });
-    }
-
-    if (account.password === ingevuldePassword) {
-      return res.send('<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">');
-    } 
-
-    else {
-      return res.render('login.ejs', { errorMessageEmail: '', errorMessagePassword: 'Onjuist wachtwoord, probeer het opnieuw of klik op wachtwoord vergeten' });
-    }
-}
+    const formUsername = req.body.username;
+    const formEmail = req.body.email;
+    const formPassword = req.body.password;
+    
+  
+    const account = await activeCollection.findOne({ email: ingevuldeEmailadress });
+    // checken of er een object/acc is met het emailadres, zo ja, dan slaat hij HET HELE OBJECT (inc. password) op in "account"
+    // als hij geen account kan vinden met het emailadres, dan is account waarde undefined (en dus falsy)
+  
+      if (!account) {
+        return res.render('login.ejs', { errorMessageEmail: 'We kunnen geen account vinden met dit emailadres', errorMessagePassword: '' });
+      }
+  
+      if (account.password === ingevuldePassword) {
+        return res.send('<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">');
+      } 
+  
+      else {
+        return res.render('login.ejs', { errorMessageEmail: '', errorMessagePassword: 'Onjuist wachtwoord, probeer het opnieuw of klik op wachtwoord vergeten' });
+      }
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('500: server error')
+  }
+  }
 
 function onlogin(req, res) {
   res.render('login.ejs' , { errorMessageEmail:'', errorMessagePassword:'' });	
 }
 
-app.post('/register', registreertoevoegen);
+app.post('/register', registerAccount);
 
-async function registreertoevoegen(req, res) {
-  const RegisteringEmail = req.body.email;
-  const RegisteringPassword = req.body.password;
+async function registerAccount(req, res) {
+  const registeringUsername = req.body.username;
+  const registeringEmail = req.body.email;
+  const registeringPassword = req.body.password;
 
-  toegevoegdeaccount = await activeCollection.insertOne({
-    email: RegisteringEmail,
-    password: RegisteringPassword
+  registeredAccount = await activeCollection.insertOne({
+    username: registeringUsername,
+    email: registeringEmail,
+    password: registeringPassword
   })  
 
-  console.log(`added account to database with _id: ${toegevoegdeaccount.insertedId}`)
+  console.log(`added account to database with _id: ${registeredAccount.insertedId}`)
   res.send('account toegevoegd')
 
 }
