@@ -83,28 +83,68 @@ client.connect()
     }
   
 
-  const attempts =  {};
+    const attempts = {};
 
-  async function doorsturen(req, res) {
-    const ingevuldeEmailadress = req.body.email
-    const ingevuldePassword = req.body.password
-  
-    if (attempts[ingevuldeEmailadress] && attempts[ingevuldeEmailadress].cooldown_unit > Date.now()) {
-      const cooldownTime = attempts[ingevuldeEmailadress].cooldown_unit - Date.now()
-      return res.render('login.ejs', { errorMessageEmail: `Too many attempts please try again in ${cooldownTime} seconds`, errorMessagePassword: '' });
-    }
-  
-    const account = await activeCollection.findOne({ email: ingevuldeEmailadress });
-    if (!account) {
-      if (!attempts[ingevuldeEmailadress]) {
-        attempts[ingevuldeEmailadress] = { attempts: 0, cooldown_until: 0 }
+    async function authForwarding(req, res) {
+      try {
+        const { username, email, password } = req.body;
+    
+        // Check if the email has exceeded the maximum attempts and is still in cooldown
+        if (attempts[email] && attempts[email].cooldown_until > Date.now()) {
+          const cooldownTime = attempts[email].cooldown_until - Date.now();
+          return res.render('login.ejs', {
+            errorMessageEmail: `Too many attempts. Please try again in ${cooldownTime / 1000} seconds.`,
+            errorMessagePassword: '',
+          });
+        }
+    
+        // Find the account associated with the provided email
+        const account = await activeCollection.findOne({ email });
+    
+        if (!account) {
+          // If the account doesn't exist, increment the attempt count and set cooldown if necessary
+          if (!attempts[email]) {
+            attempts[email] = { attempts: 0, cooldown_until: 0 };
+          }
+          attempts[email].attempts++;
+          if (attempts[email].attempts >= 4) {
+            attempts[email].cooldown_until = Date.now() + 30000; // 30 seconds cooldown
+          }
+          return res.render('login.ejs', {
+            errorMessageEmail: 'We kunnen geen account vinden met dit emailadres',
+            errorMessagePassword: '',
+          });
+        }
+    
+        // Check if the password is correct
+        if (account.password !== password) {
+          // If the password is incorrect, increment the attempt count and set cooldown if necessary
+          if (!attempts[email]) {
+            attempts[email] = { attempts: 0, cooldown_until: 0 };
+          }
+          attempts[email].attempts++;
+          if (attempts[email].attempts >= 4) {
+            attempts[email].cooldown_until = Date.now() + 30000; // 30 seconds cooldown
+          }
+          return res.render('login.ejs', {
+            errorMessageEmail: '',
+            errorMessagePassword: 'Onjuist wachtwoord, probeer het opnieuw of klik op wachtwoord vergeten',
+          });
+        }
+    
+        // If the login is successful, reset the attempt count and cooldown
+        attempts[email] = { attempts: 0, cooldown_until: 0 };
+    
+        // Login successful, render success page
+        return res.send('<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">');
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('500: server error');
       }
-      attempts[ingevuldeEmailadress].attempts++
-      if (attempts[ingevuldeEmailadress].attempts >= 4) {
-        attempts[ingevuldeEmailadress].cooldown_until = Date.now()
-      }
     }
-  }
+
+
+    ///test2345424343234
     
 
 
