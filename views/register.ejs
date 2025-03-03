@@ -11,11 +11,13 @@
         <form action="/register" method="POST">    
             <legend>Registreer je account bij deze site</legend>
                 <fieldset id="gegevens">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Username" required>
 
-                    <label for="email">Emailadres</label>
+                    <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Email" required>
 
-                    <label for="password">Wachtwoord</label>
+                    <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Wachtwoord" required>
                     <!-- if errormessage een waarde heeft (en dus bestaat) -> volgende code uitvoeren -->
                 </fieldset>
