@@ -86,17 +86,28 @@ client.connect()
   }
 
 
-const attempts =  {};
+  const attempts =  {};
 
-async function doorsturen(req, res) {
-  const ingevuldeEmailadress = req.body.email
-  const ingevuldePassword = req.body.password
-
-  if (attempts[ingevuldeEmailadress] && attempts[ingevuldeEmailadress].cooldown_unit > Date.now()) {
-    const cooldownTime = attempts[ingevuldeEmailadress].cooldown_unit - Date.now()
-    return res.render('login.ejs', { errorMessageEmail: `Too many attempts please try again in ${cooldownTime} seconds`, errorMessagePassword: '' })
+  async function doorsturen(req, res) {
+    const ingevuldeEmailadress = req.body.email;
+    const ingevuldePassword = req.body.password;
+  
+    if (attempts[ingevuldeEmailadress] && attempts[ingevuldeEmailadress].cooldown_until > Date.now()) {
+      const cooldownTime = attempts[ingevuldeEmailadress].cooldown_until - Date.now();
+      return res.render('login.ejs', { errorMessageEmail: `Too many attempts please try again in ${cooldownTime} seconds`, errorMessagePassword: '' });
+    }
   }
-  }
+  
+    const account = await activeCollection.findOne({ email: ingevuldeEmailadress });
+    if (!account) {
+      if (!attempts[ingevuldeEmailadress]) {
+        attempts[ingevuldeEmailadress] = { attempts: 0, cooldown_until: 0 };
+      }
+      attempts[ingevuldeEmailadress].attempts++;
+      if (attempts[ingevuldeEmailadress].attempts >= 4) {
+        attempts[ingevuldeEmailadress].cooldown_until = Date.now() + 60000; // 1 minute cooldown
+      }
+    }
 
 
 
