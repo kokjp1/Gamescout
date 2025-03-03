@@ -48,7 +48,7 @@ client.connect()
   app.get('/register', onregister);
 
 
-  app.post('/login', authForwarding)
+  app.post('/login', accountLogin)
 
 
 // MongoDB database connection 
@@ -56,7 +56,7 @@ client.connect()
   const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION)   
 
 
-    async function authForwarding(req, res) {
+    async function accountLogin(req, res) {
 
       try {
     
@@ -67,7 +67,7 @@ client.connect()
     
       const account = await activeCollection.findOne({ email: formEmail });
       // checken of er een object/acc is met het emailadres, zo ja, dan slaat hij HET HELE OBJECT (inc. password) op in "account"
-      // als hij geen account kan vinden met het emailadres, dan is account waarde undefined (en dus falsy)
+      // als hij geen account kan vinden met het emailadres, dan is account waarde undefined (en dus false)
     
         if (!account) {
           return res.render('login.ejs', { errorMessageEmail: 'We kunnen geen account vinden met dit emailadres', errorMessagePassword: '' });
@@ -85,7 +85,6 @@ client.connect()
       res.status(500).send('500: server error')
     }
     }
-  
 
     const attempts = {};
 
@@ -147,15 +146,12 @@ client.connect()
       }
     }
 
-
-
-
+    
     function onlogin(req, res) {
       res.render('login.ejs' , { errorMessageEmail:'', errorMessagePassword:'' });  
     }
     
 
-// test
 
 app.post('/register', registerAccount);
 
