@@ -176,6 +176,14 @@ async function registerAccount(req, res) {
   const registeringEmail = req.body.email;
   const registeringPassword = req.body.password;
 
+    // Password validation
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(registeringPassword)) {
+      return res.render('register.ejs', { errorMessagePassword: 'Wachtwoord moet minimaal 8 tekens bevatten, incl. een hoofdletter, cijfer en speciaal teken'});
+       
+    }
+
   registeredAccount = await activeCollection.insertOne({
     username: registeringUsername,
     email: registeringEmail,
