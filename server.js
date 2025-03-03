@@ -176,13 +176,36 @@ async function registerAccount(req, res) {
   const registeringEmail = req.body.email;
   const registeringPassword = req.body.password;
 
+  const existingUser = await activeCollection.findOne({ username: registeringUsername });
+  const existingEmail = await activeCollection.findOne({ email: registeringEmail});
+
+  if (existingUser) {
+    return res.render('register.ejs', {
+      errorMessageUsername: 'This username is already in use.',
+      errorMessageEmail: '',
+      errorMessagePassword: ''
+    });
+  }
+
+  if (existingEmail) {
+    return res.render('register.ejs', {
+      errorMessageUsername: '',
+      errorMessageEmail: 'This email is already in use.',
+      errorMessagePassword: ''
+    });
+  }
+
     // Password validation
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
+    
     if (!passwordRegex.test(registeringPassword)) {
-      return res.render('register.ejs', { errorMessagePassword: 'Wachtwoord moet minimaal 8 tekens bevatten, incl. een hoofdletter, cijfer en speciaal teken'});
-       
+      return res.render('register.ejs', { 
+        errorMessagePassword: 'Password must be at least 8 characters long, including an uppercase letter, a number, and a special character.',
+        errorMessageEmail: '',
+        errorMessageUsername: ''
+      });
     }
+    
 
   registeredAccount = await activeCollection.insertOne({
     username: registeringUsername,
@@ -192,7 +215,6 @@ async function registerAccount(req, res) {
 
   console.log(`added account to database with _id: ${registeredAccount.insertedId}`)
   res.send('account toegevoegd')
-
 }
 
 function onregister(req, res) {
