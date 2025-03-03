@@ -50,6 +50,8 @@ client.connect()
 
   app.post('/login', authForwarding)
 
+
+// MongoDB database connection 
   const activeDatabase = client.db(process.env.DB_NAME)
   const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION)   
 
@@ -87,7 +89,7 @@ client.connect()
 
     const attempts = {};
 
-    async function authForwarding(req, res) {
+    async function passwordCooldown(req, res) {
       try {
         const { username, email, password } = req.body;
     
