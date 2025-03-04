@@ -18,18 +18,17 @@
                     <% } %>
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Email" required>
-                    if (!!errorMessageEmail) { %>
+                    <% if (!!errorMessageEmail) { %>
                         <p class="errorMessage"><%= errorMessageEmail %></p>
                     <% } %>
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Wachtwoord" required>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
                     <% if (!!errorMessagePassword) { %>
                         <p class="errorMessage"><%= errorMessagePassword %></p>
                     <% } %>
-                    <!-- if errormessage een waarde heeft (en dus bestaat) -> volgende code uitvoeren -->
                 </fieldset>
             <input type="submit" value="Registreren">
-            <p>Heb je al een account? <a href="fakelink.html">log hier in</a></p>
+            <p>Heb je al een account? <a href="/login">log hier in</a></p>
         </form>
     </div>  
 </body>
