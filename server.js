@@ -50,6 +50,8 @@ app.post("/login", accountLogin);
 const activeDatabase = client.db(process.env.DB_NAME);
 const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
 
+
+
 async function accountLogin(req, res) {
   try {
     const formUsername = req.body.username;
@@ -57,8 +59,6 @@ async function accountLogin(req, res) {
     const formPassword = req.body.password;
 
     const account = await activeCollection.findOne({ email: formEmail });
-    // checken of er een object/acc is met het emailadres, zo ja, dan slaat hij HET HELE OBJECT (inc. password) op in "account"
-    // als hij geen account kan vinden met het emailadres, dan is account waarde undefined (en dus false)
 
     if (!account) {
       return res.render("login.ejs", {
@@ -68,7 +68,7 @@ async function accountLogin(req, res) {
       });
     }
 
-    if (account.password === formUsername) {
+    if (account.password === formPassword && account.username === formUsername) {
       return res.send(
         '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
       );
@@ -76,7 +76,7 @@ async function accountLogin(req, res) {
       return res.render("login.ejs", {
         errorMessageEmail: "",
         errorMessagePassword:
-          'False password try again or choose "forgot password"',
+          'False password or username, please try again or choose "forgot password"',
       });
     }
   } catch (error) {
@@ -84,6 +84,8 @@ async function accountLogin(req, res) {
     res.status(500).send("500: server error");
   }
 }
+
+
 
 const attempts = {};
 
@@ -136,6 +138,7 @@ async function passwordCooldown(req, res) {
       });
     }
 
+    
     // Check if the username is correct
     if (account.username !== username) {
       // If the username is incorrect, increment the attempt count and set cooldown if necessary
@@ -154,7 +157,7 @@ async function passwordCooldown(req, res) {
     }
 
 
-    if (account.password === password) {
+    if (account.password === password && account.username === username && account.email === email) {
       // If the login is successful, reset the attempt count and cooldown
       attempts[email] = { attempts: 0, cooldown_until: 0 };
 
@@ -162,12 +165,6 @@ async function passwordCooldown(req, res) {
       return res.send(
         '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
       );
-    } else {
-      return res.render("login.ejs", {
-        errorMessageEmail: "",
-        errorMessagePassword:
-          'False password, please try again or choose "forgot password"',
-      });
     }
   } catch (error) {
     console.error(error);
