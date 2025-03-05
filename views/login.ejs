@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/cssfiles/main.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/cssfiles/main.css" />
+  </head>
+  <body>
     <div id="registreerformulier">
-        <form action="/login" method="POST">    
-            <legend>Log in op je account</legend>
-                <fieldset id="gegevens">
-                    <label for="username">Username</label>  
-                    <input type="text" id="username" name="username" placeholder="Username" required>
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Email" required>
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Password" required>
-                    <!-- if errormessage een waarde heeft (en dus bestaat) -> volgende code uitvoeren -->
-                </fieldset>
-            <input type="submit" value="Inloggen">
-            <p>Heb je nog geen account? <a href="/register">registreer hier</a></p>
-        </form>
-    </div>  
-</body>
+      <form action="/login" method="POST">
+        <legend>Log in op je account</legend>
+        <fieldset id="gegevens">
+          <!-- Combined input for username or email -->
+          <label for="usernameOrEmail">Username or Email</label>
+          <input
+            type="text"
+            id="usernameOrEmail"
+            name="usernameOrEmail"
+            placeholder="Username or Email"
+            required
+          />
+          <% if (!!errorMessageUsernameOrEmail) { %>
+          <p class="errorMessage"><%= errorMessageUsernameOrEmail %></p>
+          <% } %>
+
+          <!-- Password field -->
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <% if (!!errorMessagePassword) { %>
+          <p class="errorMessage"><%= errorMessagePassword %></p>
+          <% } %>
+        </fieldset>
+        <input type="submit" value="Inloggen" />
+        <p>Heb je nog geen account? <a href="/register">registreer hier</a></p>
+      </form>
+    </div>
+  </body>
 </html>

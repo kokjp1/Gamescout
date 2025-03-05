@@ -50,42 +50,45 @@ app.post("/login", accountLogin);
 const activeDatabase = client.db(process.env.DB_NAME);
 const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
 
-
-
 async function accountLogin(req, res) {
   try {
-    const formUsername = req.body.username;
-    const formEmail = req.body.email;
+    const formUsernameOrEmail = req.body.usernameOrEmail;
     const formPassword = req.body.password;
 
-    const account = await activeCollection.findOne({ email: formEmail });
+    // Find the account by email or username
+    const account = await activeCollection.findOne({
+      $or: [
+        { email: formUsernameOrEmail }, // Check if it matches an email
+        { username: formUsernameOrEmail }, // Check if it matches a username
+      ],
+    });
 
+    // If no account is found
     if (!account) {
       return res.render("login.ejs", {
-        errorMessageEmail:
-          "We cannot find an account with this email, please try again or register",
+        errorMessageUsernameOrEmail:
+          "We cannot find an account with this email or username, please try again or register.",
         errorMessagePassword: "",
       });
     }
 
-    if (account.password === formPassword && account.username === formUsername) {
-      return res.send(
-        '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
-      );
-    } else {
+    // If the password is incorrect
+    if (account.password !== formPassword) {
       return res.render("login.ejs", {
-        errorMessageEmail: "",
-        errorMessagePassword:
-          'False password or username, please try again or choose "forgot password"',
+        errorMessageUsernameOrEmail: "",
+        errorMessagePassword: "Incorrect password, please try again.",
       });
     }
+
+    // If everything is correct
+    return res.send(
+      '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
+    );
   } catch (error) {
     console.error(error);
     res.status(500).send("500: server error");
   }
 }
-
-
 
 const attempts = {};
 
@@ -138,7 +141,6 @@ async function passwordCooldown(req, res) {
       });
     }
 
-    
     // Check if the username is correct
     if (account.username !== username) {
       // If the username is incorrect, increment the attempt count and set cooldown if necessary
@@ -156,8 +158,11 @@ async function passwordCooldown(req, res) {
       });
     }
 
-
-    if (account.password === password && account.username === username && account.email === email) {
+    if (
+      account.password === password &&
+      account.username === username &&
+      account.email === email
+    ) {
       // If the login is successful, reset the attempt count and cooldown
       attempts[email] = { attempts: 0, cooldown_until: 0 };
 
@@ -173,11 +178,13 @@ async function passwordCooldown(req, res) {
 }
 
 function onLogin(req, res) {
-  res.render("login.ejs", { errorMessageEmail: "", errorMessagePassword: "" });
+  res.render("login.ejs", {
+    errorMessageUsernameOrEmail: "",
+    errorMessagePassword: "",
+  });
 }
 
-
-// register 
+// register
 
 app.post("/register", registerAccount);
 
