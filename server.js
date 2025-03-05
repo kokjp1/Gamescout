@@ -153,13 +153,22 @@ async function passwordCooldown(req, res) {
       });
     }
 
-    // If the login is successful, reset the attempt count and cooldown
-    attempts[email] = { attempts: 0, cooldown_until: 0 };
 
-    // Login successful, render success page
-    return res.send(
-      '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
-    );
+    if (account.password === password) {
+      // If the login is successful, reset the attempt count and cooldown
+      attempts[email] = { attempts: 0, cooldown_until: 0 };
+
+      // Login successful, render success page
+      return res.send(
+        '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
+      );
+    } else {
+      return res.render("login.ejs", {
+        errorMessageEmail: "",
+        errorMessagePassword:
+          'False password, please try again or choose "forgot password"',
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send("500: server error");
@@ -169,6 +178,9 @@ async function passwordCooldown(req, res) {
 function onLogin(req, res) {
   res.render("login.ejs", { errorMessageEmail: "", errorMessagePassword: "" });
 }
+
+
+// register 
 
 app.post("/register", registerAccount);
 
