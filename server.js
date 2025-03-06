@@ -52,111 +52,35 @@ const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
 
 async function accountLogin(req, res) {
   try {
-    const formUsername = req.body.username;
-    const formEmail = req.body.email;
+    const formUsernameOrEmail = req.body.usernameOrEmail;
     const formPassword = req.body.password;
 
-    const account = await activeCollection.findOne({ email: formEmail });
-    // checken of er een object/acc is met het emailadres, zo ja, dan slaat hij HET HELE OBJECT (inc. password) op in "account"
-    // als hij geen account kan vinden met het emailadres, dan is account waarde undefined (en dus false)
+    // Find the account by email or username
+    const account = await activeCollection.findOne({
+      $or: [
+        { email: formUsernameOrEmail }, // Check if it matches an email
+        { username: formUsernameOrEmail }, // Check if it matches a username
+      ],
+    });
 
+    // If no account is found
     if (!account) {
       return res.render("login.ejs", {
-        errorMessageEmail:
-          "We cannot find an account with this email, please try again or register",
+        errorMessageUsernameOrEmail:
+          "We cannot find an account with this email or username, please try again or register.",
         errorMessagePassword: "",
       });
     }
 
-    if (account.password === formUsername) {
-      return res.send(
-        '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
-      );
-    } else {
+    // If the password is incorrect
+    if (account.password !== formPassword) {
       return res.render("login.ejs", {
-        errorMessageEmail: "",
-        errorMessagePassword:
-          'False password try again or choose "forgot password"',
-      });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("500: server error");
-  }
-}
-
-const attempts = {};
-
-async function passwordCooldown(req, res) {
-  try {
-    const { username, email, password } = req.body;
-
-    // Check if the email has exceeded the maximum attempts and is still in cooldown
-    if (attempts[email] && attempts[email].cooldown_until > Date.now()) {
-      const cooldownTime = attempts[email].cooldown_until - Date.now();
-      return res.render("login.ejs", {
-        errorMessageEmail: `Too many attempts. Please try again in 30 seconds.`,
-        errorMessagePassword: "",
+        errorMessageUsernameOrEmail: "",
+        errorMessagePassword: "Incorrect password, please try again.",
       });
     }
 
-    // Find the account associated with the provided email
-    const account = await activeCollection.findOne({ email });
-
-    if (!account) {
-      // If the account doesn't exist, increment the attempt count and set cooldown if necessary
-      if (!attempts[email]) {
-        attempts[email] = { attempts: 0, cooldown_until: 0 };
-      }
-      attempts[email].attempts++;
-      if (attempts[email].attempts >= 4) {
-        attempts[email].cooldown_until = Date.now() + 30000; // 30 seconds cooldown
-      }
-      return res.render("login.ejs", {
-        errorMessageEmail:
-          "We cannot find a user with this email address. If you do not have an account, please register.",
-        errorMessagePassword: "",
-      });
-    }
-
-    // Check if the password is correct
-    if (account.password !== password) {
-      // If the password is incorrect, increment the attempt count and set cooldown if necessary
-      if (!attempts[email]) {
-        attempts[email] = { attempts: 0, cooldown_until: 0 };
-      }
-      attempts[email].attempts++;
-      if (attempts[email].attempts >= 4) {
-        attempts[email].cooldown_until = Date.now() + 30000; // 30 seconds cooldown
-      }
-      return res.render("login.ejs", {
-        errorMessageEmail: "",
-        errorMessagePassword:
-          'False password, please try again or choose "forgot password"',
-      });
-    }
-
-    // Check if the username is correct
-    if (account.username !== username) {
-      // If the username is incorrect, increment the attempt count and set cooldown if necessary
-      if (!attempts[username]) {
-        attempts[username] = { attempts: 0, cooldown_until: 0 };
-      }
-      attempts[username].attempts++;
-      if (attempts[username].attempts >= 4) {
-        attempts[username].cooldown_until = Date.now() + 30000; // 30 seconds cooldown
-      }
-      return res.render("login.ejs", {
-        errorMessageEmail: "",
-        errorMessagePassword:
-          'False username, please try again or choose "forgot password"',
-      });
-    }
-
-    // If the login is successful, reset the attempt count and cooldown
-    attempts[email] = { attempts: 0, cooldown_until: 0 };
-
-    // Login successful, render success page
+    // If everything is correct
     return res.send(
       '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
     );
@@ -166,9 +90,101 @@ async function passwordCooldown(req, res) {
   }
 }
 
+// const attempts = {};
+
+// async function passwordCooldown(req, res) {
+//   try {
+//     const { username, email, password } = req.body;
+
+//     // Check if the email has exceeded the maximum attempts and is still in cooldown
+//     if (attempts[email] && attempts[email].cooldown_until > Date.now()) {
+//       const cooldownTime = attempts[email].cooldown_until - Date.now();
+//       return res.render("login.ejs", {
+//         errorMessageEmail: `Too many attempts. Please try again in 30 seconds.`,
+//         errorMessagePassword: "",
+//       });
+//     }
+
+//     // Find the account associated with the provided email
+//     const account = await activeCollection.findOne({ email });
+
+//     if (!account) {
+//       // If the account doesn't exist, increment the attempt count and set cooldown if necessary
+//       if (!attempts[email]) {
+//         attempts[email] = { attempts: 0, cooldown_until: 0 };
+//       }
+//       attempts[email].attempts++;
+//       if (attempts[email].attempts >= 4) {
+//         attempts[email].cooldown_until = Date.now() + 30000; // 30 seconds cooldown
+//       }
+//       return res.render("login.ejs", {
+//         errorMessageEmail:
+//           "We cannot find a user with this email address. If you do not have an account, please register.",
+//         errorMessagePassword: "",
+//       });
+//     }
+
+//     // Check if the password is correct
+//     if (account.password !== password) {
+//       // If the password is incorrect, increment the attempt count and set cooldown if necessary
+//       if (!attempts[email]) {
+//         attempts[email] = { attempts: 0, cooldown_until: 0 };
+//       }
+//       attempts[email].attempts++;
+//       if (attempts[email].attempts >= 4) {
+//         attempts[email].cooldown_until = Date.now() + 30000; // 30 seconds cooldown
+//       }
+//       return res.render("login.ejs", {
+//         errorMessageEmail: "",
+//         errorMessagePassword:
+//           'False password, please try again or choose "forgot password"',
+//       });
+//     }
+
+//     // Check if the username is correct
+//     if (account.username !== username) {
+//       // If the username is incorrect, increment the attempt count and set cooldown if necessary
+//       if (!attempts[username]) {
+//         attempts[username] = { attempts: 0, cooldown_until: 0 };
+//       }
+//       attempts[username].attempts++;
+//       if (attempts[username].attempts >= 4) {
+//         attempts[username].cooldown_until = Date.now() + 30000; // 30 seconds cooldown
+//       }
+//       return res.render("login.ejs", {
+//         errorMessageEmail: "",
+//         errorMessagePassword:
+//           'False username, please try again or choose "forgot password"',
+//       });
+//     }
+
+//     if (
+//       account.password === password &&
+//       account.username === username &&
+//       account.email === email
+//     ) {
+//       // If the login is successful, reset the attempt count and cooldown
+//       attempts[email] = { attempts: 0, cooldown_until: 0 };
+
+//       // Login successful, render success page
+//       return res.send(
+//         '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
+//       );
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("500: server error");
+//   }
+// }
+
 function onLogin(req, res) {
-  res.render("login.ejs", { errorMessageEmail: "", errorMessagePassword: "" });
+  res.render("login.ejs", {
+    errorMessageUsernameOrEmail: "",
+    errorMessagePassword: "",
+  });
 }
+
+// register
 
 app.post("/register", registerAccount);
 
