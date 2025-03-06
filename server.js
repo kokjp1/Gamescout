@@ -3,7 +3,7 @@
 require("dotenv").config();
 const xss = require("xss");
 
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 const express = require("express");
 const app = express();
@@ -148,6 +148,8 @@ async function registerAccount(req, res) {
       });
     }
 
+    
+
     registeredAccount = await activeCollection.insertOne({
       username: registeringUsername,
       email: registeringEmail,
@@ -171,6 +173,12 @@ function onRegister(req, res) {
     errorMessagePassword: "",
   });
 }
+
+var html = xss('<script>alert("xss");</script>');
+console.log(html);
+
+
+
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
