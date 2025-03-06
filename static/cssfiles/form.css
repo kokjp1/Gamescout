@@ -1,0 +1,137 @@
+#registreerformulier {
+    /* From https://css.glass */
+        background: rgba(255, 255, 255, .75);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(6.7px);
+        -webkit-backdrop-filter: blur(6.7px);
+        border: .15em solid rgba(255, 255, 255, 0.8);    
+        width:40%;
+    }
+
+    body {
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    a {
+        color:white;
+    }
+    
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap:1em; 
+        padding:2em 0 2em 0;   
+    }
+    
+    fieldset#gegevens {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap:1em;
+        border:0;
+        width:100%;
+    }
+    
+    form fieldset#gegevens input {
+        border-radius: .45em;
+        padding:.75em;
+        background-color:transparent;
+        border:0.125em solid rgb(164, 164, 164);
+        width:80%;
+    }
+    
+    form fieldset#gegevens label {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        width:85%;
+    }
+    
+    form fieldset#gegevens input:focus {
+        outline: none;
+        border: 0.125em solid rgb(142, 55, 255);
+        box-shadow: 0em 0em .5em .05em rgb(142, 55, 255, .5);
+    }
+    
+    form fieldset#gegevens input::placeholder {
+        color: rgb(160, 157, 171);
+        font-size:1.05em;
+      }
+    
+    form legend {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+    
+    
+    fieldset#persoonlijkedingen {
+        display: flex;
+        justify-content: flex-start;
+        border:0;
+        padding:0;
+        gap:1em;
+        font-size:1.25em;
+    }
+    
+    input[type="submit"] {
+        appearance: none;
+        color: blueviolet;
+        background-color: rgb(209, 160, 255);
+        font-size:1.25em;
+        font-weight:bold;
+        width:82.5%;
+        padding:.75em;
+        border:0.1em solid blueviolet;
+        border-radius:0.25em;
+        box-shadow: 0em 0em .5em .0005em rgb(142, 55, 255, 1);
+      }    
+    
+      input[type="submit"]:hover {
+        background-color: rgb(172, 84, 255);
+        cursor: pointer;
+        transition: 0.5s ease;
+        color:rgb(89, 0, 172)
+      }    
+    
+      @keyframes shadowhoveropacity {
+        0% {
+            box-shadow: 0em 0em .5em .15em rgb(142, 55, 255, 0);
+        }
+    
+        100% {
+            box-shadow: 0em 0em .5em .15em rgb(142, 55, 255, 1);
+        }
+      }
+    
+      form a, legend{
+        color:#a100a1a9;
+        font-weight:bold;
+      }
+    
+      form p{
+        font-size:1.15em;
+      }
+    
+      form label, input {
+        font-size:1.1em;
+      }
+    
+    .hidden {
+        display: none;
+    }
+    
+    .errorMessage {
+        display:flex;
+        justify-content: center;
+        padding:1em;
+        border-radius:.35em;
+        background-color: rgb(255, 171, 171);
+        width:80%;
+        color:rgb(255, 58, 58);
+        font-weight: bold;
+        font-size:0.85em;
+    }
