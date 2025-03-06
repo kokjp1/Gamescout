@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 const express = require("express");
 const app = express();
 
+app.use(xss());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
 app.set("view engine", "ejs");
@@ -53,10 +55,11 @@ app.post("/login", accountLogin);
 const activeDatabase = client.db(process.env.DB_NAME);
 const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
 
+
 async function accountLogin(req, res) {
   try {
-    const formUsernameOrEmail = xss(req.body.usernameOrEmail);
-    const formPassword = xss(req.body.password);
+    const formUsernameOrEmail = req.body.usernameOrEmail;
+    const formPassword = req.body.password;
 
     // Find the account by email or username
     const account = await activeCollection.findOne({
@@ -85,7 +88,6 @@ async function accountLogin(req, res) {
 
     // If everything is correct
     return res.send(
-      '<h1>`welcome ${formUsernameOrEmail}`</h1>',
       '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
     );
   } catch (error) {
@@ -105,11 +107,13 @@ function onLogin(req, res) {
 
 app.post("/register", registerAccount);
 
+
 async function registerAccount(req, res) {
   try {
     const registeringUsername = req.body.username;
     const registeringEmail = req.body.email;
     const registeringPassword = hash(req.body.password);
+    const saltRounds = 10;
 
     // Check if the username or email is already in use
     const existingUser = await activeCollection.findOne({
@@ -147,6 +151,12 @@ async function registerAccount(req, res) {
         errorMessageUsername: "",
       });
     }
+
+    bcrypt.hash(registeringPassword, saltRounds, function(err, hash) {
+      // Store hash in your password DB.
+      
+      
+  });
 
     
 
