@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const express = require("express");
 const app = express();
 
-app.use(xss());
+// app.use(xss());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
@@ -153,9 +153,7 @@ async function registerAccount(req, res) {
     }
 
     bcrypt.hash(registeringPassword, saltRounds, function(err, hash) {
-      // Store hash in your password DB.
-      
-      
+      registeringPassword = hash;
   });
 
     
@@ -186,6 +184,8 @@ function onRegister(req, res) {
 
 var html = xss('<script>alert("xss");</script>');
 console.log(html);
+
+
 
 
 
