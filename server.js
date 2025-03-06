@@ -3,10 +3,12 @@
 require("dotenv").config();
 const xss = require("xss");
 
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 const express = require("express");
 const app = express();
+
+// app.use(xss());
 
 // app.use(xss());
 
@@ -44,6 +46,12 @@ client
 // app routes
 app.get("/", (req, res) => {
   res.render("index.ejs");
+
+  const userInput = req.query.name || "";
+  const safeInput = xss(userInput); // Sanitizing input
+  console.log(`nan`);
+
+  res.send(`Hello, ${safeInput}`);
 });
 
 app.get("/login", onLogin);
@@ -54,7 +62,6 @@ app.post("/login", accountLogin);
 // MongoDB database connection
 const activeDatabase = client.db(process.env.DB_NAME);
 const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
-
 
 async function accountLogin(req, res) {
   try {
@@ -78,8 +85,14 @@ async function accountLogin(req, res) {
       });
     }
 
+    const hashedPassword = await activeCollection.findOne({
+      password: formPassword,
+    });
+
+    const passwordMatch = bcrypt.compare(hashedPassword, account.password);
+
     // If the password is incorrect
-    if (account.password !== formPassword) {
+    if (!passwordMatch) {
       return res.render("login.ejs", {
         errorMessageUsernameOrEmail: "",
         errorMessagePassword: "Incorrect password, please try again.",
@@ -106,7 +119,6 @@ function onLogin(req, res) {
 // register
 
 app.post("/register", registerAccount);
-
 
 async function registerAccount(req, res) {
   try {
@@ -152,16 +164,10 @@ async function registerAccount(req, res) {
       });
     }
 
-    bcrypt.hash(registeringPassword, saltRounds, function(err, hash) {
-      registeringPassword = hash;
-  });
-
-    
-
     registeredAccount = await activeCollection.insertOne({
       username: registeringUsername,
       email: registeringEmail,
-      password: registeringPassword,
+      password: hashedPassword,
     });
 
     console.log(
@@ -181,14 +187,6 @@ function onRegister(req, res) {
     errorMessagePassword: "",
   });
 }
-
-var html = xss('<script>alert("xss");</script>');
-console.log(html);
-
-
-
-
-
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
