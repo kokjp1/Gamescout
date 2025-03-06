@@ -2,7 +2,8 @@
 
 require("dotenv").config();
 const xss = require("xss");
-const hash = require('hash')
+
+const bcrypt = require('bcryptjs');
 
 const express = require("express");
 const app = express();
@@ -108,7 +109,7 @@ async function registerAccount(req, res) {
   try {
     const registeringUsername = req.body.username;
     const registeringEmail = req.body.email;
-    const registeringPassword = req.body.password;
+    const registeringPassword = hash(req.body.password);
 
     // Check if the username or email is already in use
     const existingUser = await activeCollection.findOne({
