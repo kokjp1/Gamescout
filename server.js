@@ -2,13 +2,9 @@
 
 require("dotenv").config();
 const xss = require("xss");
-
 const bcrypt = require("bcrypt");
-
 const express = require("express");
 const app = express();
-
-// app.use(xss());
 
 // app.use(xss());
 
@@ -49,7 +45,6 @@ app.get("/", (req, res) => {
 
   const userInput = req.query.name || "";
   const safeInput = xss(userInput); // Sanitizing input
-  console.log(`nan`);
 
   res.send(`Hello, ${safeInput}`);
 });
@@ -90,7 +85,6 @@ async function accountLogin(req, res) {
     });
 
     const passwordMatch = bcrypt.compare(hashedPassword, account.password);
-
     // If the password is incorrect
     if (!passwordMatch) {
       return res.render("login.ejs", {
@@ -124,7 +118,7 @@ async function registerAccount(req, res) {
   try {
     const registeringUsername = req.body.username;
     const registeringEmail = req.body.email;
-    const registeringPassword = hash(req.body.password);
+    const registeringPassword = req.body.password;
     const saltRounds = 10;
 
     // Check if the username or email is already in use
@@ -163,6 +157,8 @@ async function registerAccount(req, res) {
         errorMessageUsername: "",
       });
     }
+
+    const hashedPassword = await bcrypt.hash(registeringPassword, saltRounds);
 
     registeredAccount = await activeCollection.insertOne({
       username: registeringUsername,
