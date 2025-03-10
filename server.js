@@ -6,6 +6,20 @@ const bcrypt = require("bcrypt");
 const helmet = require("helmet");
 const express = require("express");
 const app = express();
+const session = require("express-session");
+
+app.use(
+  session({
+    //Sla de sessie niet opnieuw op als deze onveranderd is
+    resave: false,
+
+    // Sla elke nieuwe sessie in het geheugen op, ook als deze niet gewijzigd is
+    saveUninitialized: true,
+
+    // secret key for session encryption
+    secret: process.env.SESSION_SECRET,
+  })
+);
 
 // app.use(xss());
 
@@ -94,15 +108,27 @@ async function accountLogin(req, res) {
       });
     }
 
+    req.session.userId = account._id;
+    req.session.username = account.username;
+
+    res.redirect("/dashboard");
+
     // If everything is correct
-    return res.send(
-      '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
-    );
+    // return res.send(
+    //   '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
+    // );
   } catch (error) {
     console.error(error);
     res.status(500).send("500: server error");
   }
 }
+
+app.get("/dashboard", (req, res) => {
+  if (!req.session.username) {
+    return res.send("❌ No active session. Please log in.");
+  }
+  res.send(`🎉 Session is working! Welcome, ${req.session.username}!`);
+});
 
 function onLogin(req, res) {
   res.render("login.ejs", {
