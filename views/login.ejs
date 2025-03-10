@@ -23,6 +23,23 @@
           <% if (!!errorMessagePassword) { %>
           <p class="errorMessage"><%= errorMessagePassword %></p>
           <% } %>
+          <div id="passwordShowContainer">
+            <label>show password</label>
+            <input type="checkbox" id="showPassword">
+            <script>
+              let passwordField = document.getElementById("password");
+              let passwordCheckbox = document.getElementById("showPassword")
+
+              passwordCheckbox.addEventListener("change", function() {
+                  if (passwordCheckbox.checked) {
+                    passwordField.type = "text"
+                  } 
+                  else {
+                    passwordField.type = "password";
+                  }      
+              })
+            </script>
+        </div>
         </fieldset>
         <input type="submit" value="Inloggen" />
         <p>Heb je nog geen account? <a href="/register">registreer hier</a></p>

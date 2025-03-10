@@ -3,7 +3,7 @@
 require("dotenv").config();
 const xss = require("xss");
 const bcrypt = require("bcrypt");
-const helmet = require("helmet");
+// const helmet = require("helmet");
 const express = require("express");
 const app = express();
 
@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
-app.use(helmet());
+// app.use(helmet());
 app.set("view engine", "ejs");
 app.set("views", "views");
 
@@ -48,11 +48,20 @@ app.get("/", (req, res) => {
   const userInput = req.query.name || "";
   const safeInput = xss(userInput); // Sanitizing input
 
-  res.send(`Hello, ${safeInput}`);
+});
+
+app.get("/home.ejs", (req, res) => {
+  res.render("home.ejs");
+
+  const userInput = req.query.name || "";
+  const safeInput = xss(userInput); // Sanitizing input
+
+  res.send(`Home, ${safeInput}`);
 });
 
 app.get("/login", onLogin);
 app.get("/register", onRegister);
+app.get("/home", onHome);
 
 app.post("/login", accountLogin);
 
@@ -95,9 +104,7 @@ async function accountLogin(req, res) {
     }
 
     // If everything is correct
-    return res.send(
-      '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
-    );
+    return res.redirect("/home");
   } catch (error) {
     console.error(error);
     res.status(500).send("500: server error");
@@ -109,6 +116,11 @@ function onLogin(req, res) {
     errorMessageUsernameOrEmail: "",
     errorMessagePassword: "",
   });
+}
+
+function onHome(req, res) {
+  res.render("home.ejs"); {
+  }
 }
 
 // register

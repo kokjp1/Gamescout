@@ -1,36 +1,55 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register | GameScouter</title>
-    <link rel="stylesheet" href="/cssfiles/main.css">
-    <link rel="stylesheet" href="/cssfiles/form.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/cssfiles/main.css" />
+    <link rel="stylesheet" href="/cssfiles/form.css" />
+  </head>
+  <body>
     <div id="registreerformulier">
-        <form action="/register" method="POST">    
-            <legend>Registreer je account bij deze site</legend>
-                <fieldset id="gegevens">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Username" required>
-                    <% if (!!errorMessageUsername) { %>
-                        <p class="errorMessage"><%= errorMessageUsername %></p>
-                    <% } %>
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Email" required>
-                    <% if (!!errorMessageEmail) { %>
-                        <p class="errorMessage"><%= errorMessageEmail %></p>
-                    <% } %>
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Password" required>
-                    <% if (!!errorMessagePassword) { %>
-                        <p class="errorMessage"><%= errorMessagePassword %></p>
-                    <% } %>
-                </fieldset>
-            <input type="submit" value="Registreren">
-            <p>Heb je al een account? <a href="/login">log hier in</a></p>
-        </form>
-    </div>  
-</body>
+      <div id="gamescouterLogo">Gamescout</div>
+      <form action="/register" method="POST">
+        <legend>Registreer je account bij deze site</legend>
+        <fieldset id="gegevens">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Username"
+            required
+          />
+          <% if (!!errorMessageUsername) { %>
+          <p class="errorMessage"><%= errorMessageUsername %></p>
+          <% } %>
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <% if (!!errorMessageEmail) { %>
+          <p class="errorMessage"><%= errorMessageEmail %></p>
+          <% } %>
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <% if (!!errorMessagePassword) { %>
+          <p class="errorMessage"><%= errorMessagePassword %></p>
+          <% } %>
+        </fieldset>
+        <input type="submit" value="Registreren" />
+        <p>Heb je al een account? <a href="/login">log hier in</a></p>
+      </form>
+    </div>
+  </body>
 </html>
