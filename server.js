@@ -82,11 +82,7 @@ async function accountLogin(req, res) {
       });
     }
 
-    const hashedPassword = await activeCollection.findOne({
-      password: formPassword,
-    });
-
-    const passwordMatch = bcrypt.compare(hashedPassword, account.password);
+    const passwordMatch = bcrypt.compare(account.password, formPassword);
     // If the password is incorrect
     if (!passwordMatch) {
       return res.render("login.ejs", {
