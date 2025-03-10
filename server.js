@@ -101,9 +101,7 @@ async function accountLogin(req, res) {
     }
 
     // If everything is correct
-    return res.send(
-      '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
-    );
+    return res.redirect("/home");
   } catch (error) {
     console.error(error);
     res.status(500).send("500: server error");
