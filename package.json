@@ -25,6 +25,7 @@
     "listjs": "^0.1.1",
     "mongodb": "^6.13.1",
     "nodemon": "^3.1.9",
+    "sessions": "^0.0.2-7",
     "xss": "^1.0.15"
   },
   "devDependencies": {
