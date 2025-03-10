@@ -51,8 +51,18 @@ app.get("/", (req, res) => {
   res.send(`Hello, ${safeInput}`);
 });
 
+app.get("/home.ejs", (req, res) => {
+  res.render("home.ejs");
+
+  const userInput = req.query.name || "";
+  const safeInput = xss(userInput); // Sanitizing input
+
+  res.send(`Home, ${safeInput}`);
+});
+
 app.get("/login", onLogin);
 app.get("/register", onRegister);
+app.get("/home", onHome);
 
 app.post("/login", accountLogin);
 
@@ -106,6 +116,11 @@ function onLogin(req, res) {
     errorMessageUsernameOrEmail: "",
     errorMessagePassword: "",
   });
+}
+
+function onHome(req, res) {
+  res.render("home.ejs"); {
+  }
 }
 
 // register
