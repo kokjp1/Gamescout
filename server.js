@@ -48,7 +48,6 @@ app.get("/", (req, res) => {
   const userInput = req.query.name || "";
   const safeInput = xss(userInput); // Sanitizing input
 
-  res.send(`Hello, ${safeInput}`);
 });
 
 app.get("/home.ejs", (req, res) => {
