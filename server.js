@@ -82,7 +82,7 @@ async function accountLogin(req, res) {
       });
     }
 
-    const passwordMatch = bcrypt.compare(account.password, formPassword);
+    const passwordMatch = await bcrypt.compare(formPassword, account.password);
     // If the password is incorrect
     if (!passwordMatch) {
       return res.render("login.ejs", {
