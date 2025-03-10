@@ -3,7 +3,7 @@
 require("dotenv").config();
 const xss = require("xss");
 const bcrypt = require("bcrypt");
-const helmet = require("helmet");
+// const helmet = require("helmet");
 const express = require("express");
 const app = express();
 
@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
-app.use(helmet());
+// app.use(helmet());
 app.set("view engine", "ejs");
 app.set("views", "views");
 
