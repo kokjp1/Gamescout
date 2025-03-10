@@ -17,7 +17,7 @@ app.set("views", "views");
 
 // MongoDB setup
 
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const mongoDBtoken = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
@@ -158,15 +158,12 @@ async function registerAccount(req, res) {
 
     const hashedPassword = await bcrypt.hash(registeringPassword, saltRounds);
 
-    registeredAccount = await activeCollection.insertOne({
+    await activeCollection.insertOne({
       username: registeringUsername,
       email: registeringEmail,
       password: hashedPassword,
     });
 
-    console.log(
-      `added account to database with _id: ${registeredAccount.insertedId}`
-    );
     res.send("account toegevoegd");
   } catch (error) {
     console.error(error);
