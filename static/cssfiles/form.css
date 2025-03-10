@@ -1,11 +1,8 @@
 #registreerformulier {
     /* From https://css.glass */
-        background: rgba(255, 255, 255, .75);
         border-radius: 16px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(6.7px);
         -webkit-backdrop-filter: blur(6.7px);
-        border: .15em solid rgba(255, 255, 255, 0.8);    
         width:40%;
     }
 
@@ -13,6 +10,7 @@
         display:flex;
         justify-content: center;
         align-items: center;
+        font-family: var(--font-family-primary); 
     }
     
     a {
@@ -39,7 +37,7 @@
     form fieldset#gegevens input {
         border-radius: .45em;
         padding:.75em;
-        background-color:transparent;
+        background-color: rgb(255, 255, 255, 0.15);
         border:0.125em solid rgb(164, 164, 164);
         width:80%;
     }
@@ -60,6 +58,8 @@
     form fieldset#gegevens input::placeholder {
         color: rgb(160, 157, 171);
         font-size:1.05em;
+        font-weight:600;
+
       }
     
     form legend {
@@ -83,7 +83,7 @@
         background-color: rgb(209, 160, 255);
         font-size:1.25em;
         font-weight:bold;
-        width:82.5%;
+        width:100%;
         padding:.75em;
         border:0.1em solid blueviolet;
         border-radius:0.25em;
@@ -107,8 +107,8 @@
         }
       }
     
-      form a, legend{
-        color:#a100a1a9;
+      form a{
+        color: var(--color-primary-pink);
         font-weight:bold;
       }
     
