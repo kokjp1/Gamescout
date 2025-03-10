@@ -2,14 +2,16 @@
 
 require("dotenv").config();
 const xss = require("xss");
-
-const bcrypt = require('bcryptjs');
-
+const bcrypt = require("bcrypt");
+const helmet = require("helmet");
 const express = require("express");
 const app = express();
 
+// app.use(xss());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
+app.use(helmet());
 app.set("view engine", "ejs");
 app.set("views", "views");
 
@@ -42,6 +44,11 @@ client
 // app routes
 app.get("/", (req, res) => {
   res.render("index.ejs");
+
+  const userInput = req.query.name || "";
+  const safeInput = xss(userInput); // Sanitizing input
+
+  res.send(`Hello, ${safeInput}`);
 });
 
 app.get("/login", onLogin);
@@ -55,8 +62,8 @@ const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
 
 async function accountLogin(req, res) {
   try {
-    const formUsernameOrEmail = xss(req.body.usernameOrEmail);
-    const formPassword = xss(req.body.password);
+    const formUsernameOrEmail = req.body.usernameOrEmail;
+    const formPassword = req.body.password;
 
     // Find the account by email or username
     const account = await activeCollection.findOne({
@@ -75,8 +82,9 @@ async function accountLogin(req, res) {
       });
     }
 
+    const passwordMatch = await bcrypt.compare(formPassword, account.password);
     // If the password is incorrect
-    if (account.password !== formPassword) {
+    if (!passwordMatch) {
       return res.render("login.ejs", {
         errorMessageUsernameOrEmail: "",
         errorMessagePassword: "Incorrect password, please try again.",
@@ -85,7 +93,6 @@ async function accountLogin(req, res) {
 
     // If everything is correct
     return res.send(
-      '<h1>`welcome ${formUsernameOrEmail}`</h1>',
       '<img src="https://media.tenor.com/Ex-Vvbuv2DQAAAAM/happy-birthday-celebrate.gif">'
     );
   } catch (error) {
@@ -109,7 +116,8 @@ async function registerAccount(req, res) {
   try {
     const registeringUsername = req.body.username;
     const registeringEmail = req.body.email;
-    const registeringPassword = hash(req.body.password);
+    const registeringPassword = req.body.password;
+    const saltRounds = 10;
 
     // Check if the username or email is already in use
     const existingUser = await activeCollection.findOne({
@@ -148,10 +156,12 @@ async function registerAccount(req, res) {
       });
     }
 
+    const hashedPassword = await bcrypt.hash(registeringPassword, saltRounds);
+
     registeredAccount = await activeCollection.insertOne({
       username: registeringUsername,
       email: registeringEmail,
-      password: registeringPassword,
+      password: hashedPassword,
     });
 
     console.log(
