@@ -10,7 +10,7 @@
         display:flex;
         justify-content: center;
         align-items: center;
-        font-family: var(--font-family-primary);
+        font-family: var(--font-family-primary); 
     }
     
     a {
