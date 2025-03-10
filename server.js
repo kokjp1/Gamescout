@@ -66,12 +66,15 @@ async function accountLogin(req, res) {
     const formPassword = req.body.password;
 
     // Find the account by email or username
-    const account = await activeCollection.findOne({
-      $or: [
-        { email: formUsernameOrEmail }, // Check if it matches an email
-        { username: formUsernameOrEmail }, // Check if it matches a username
-      ],
-    });
+    const account = await activeCollection.findOne(
+      {
+        $or: [
+          { email: formUsernameOrEmail },
+          { username: formUsernameOrEmail },
+        ],
+      },
+      { collation: { locale: "en", strength: 2 } } // Makes username search case-insensitive
+    );
 
     // If no account is found
     if (!account) {
