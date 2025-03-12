@@ -70,6 +70,8 @@ form fieldset#gegevens input::placeholder {
   font-weight: 600;
 }
 
+/* #region PASSWORD CHECKBOX STYLES */
+
 .toggle-password {
   display: inline-block;
   position: relative;
@@ -138,34 +140,7 @@ form fieldset#gegevens input::placeholder {
   font-family: var(--font-family-primary);
 }
 
-/* #passwordShowContainer input[type="checkbox"] {
-    position: relative;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    background-color: #1e1e1e;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-  }
-   */
-  /*
-  #passwordShowContainer input[type="checkbox"]:checked {
-    background-color: #4CAF50; 
-    border-color: #4CAF50;
-  }
-    */
-  
-  /* Adding a checkmark when checked 
-  #passwordShowContainer input[type="checkbox"]:checked::after {
-    content: 'hi';  Checkmark 
-    color: white;
-    position: absolute;
-    left: 4px;
-    top: 0px;
-    font-size: 1.2em;
-  }
-  */
+/* #endregion */
 
 form legend {
   font-size: 2em;
