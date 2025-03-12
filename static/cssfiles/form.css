@@ -70,8 +70,75 @@ form fieldset#gegevens input::placeholder {
   font-weight: 600;
 }
 
-/* Hide the default checkbox but keep it interactive */
-#passwordShowContainer input[type="checkbox"] {
+.toggle-password {
+  display: inline-block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.toggle-password input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.toggle-password input:checked ~ .toggle-password__checkmark {
+  background-color: var(--color-border-button-primary);
+}
+
+.toggle-password input:checked ~ .toggle-password__checkmark:after {
+  opacity: 1;
+}
+
+.toggle-password:hover input ~ .toggle-password__checkmark {
+  background-color: var(--color-menu-hover);
+}
+
+.toggle-password:hover input:checked ~ .toggle-password__checkmark {
+  background-color: var(--color-border-button-primary);
+}
+
+.toggle-password__checkmark {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: var(--color-primary-gray);
+  transition: background-color 0.25s ease;
+  border: 0.125em solid var(--color-border-button-primary);
+  border-radius: 4px;
+}
+
+.toggle-password__checkmark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--color-primary-gray);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.toggle-password__label {
+  color: var(--color-primary-white);
+  line-height: 1.4;
+  font-size: var(--font-size-test);
+  font-family: var(--font-family-primary);
+}
+
+/* #passwordShowContainer input[type="checkbox"] {
     position: relative;
     width: 20px;
     height: 20px;
@@ -81,23 +148,24 @@ form fieldset#gegevens input::placeholder {
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
   }
-  
-  /* Change the background when the checkbox is checked */
+   */
+  /*
   #passwordShowContainer input[type="checkbox"]:checked {
-    background-color: #4CAF50; /* Green background when checked */
+    background-color: #4CAF50; 
     border-color: #4CAF50;
   }
+    */
   
-  /* Adding a checkmark when checked */
+  /* Adding a checkmark when checked 
   #passwordShowContainer input[type="checkbox"]:checked::after {
-    content: '✔'; /* Checkmark */
+    content: 'hi';  Checkmark 
     color: white;
     position: absolute;
     left: 4px;
     top: 0px;
     font-size: 1.2em;
   }
-  
+  */
 
 form legend {
   font-size: 2em;
