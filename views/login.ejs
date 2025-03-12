@@ -24,8 +24,11 @@
           <p class="errorMessage"><%= errorMessagePassword %></p>
           <% } %>
           <div id="passwordShowContainer">
-            <label>show password</label>
-            <input type="checkbox" id="showPassword">
+            <label class="toggle-password">
+              <input type="checkbox" id="showPassword"/>
+              <div class="toggle-password__checkmark"></div>
+              <div class="toggle-password__label">Show Password</div>
+            </label>
             <script>
               let passwordField = document.getElementById("password");
               let passwordCheckbox = document.getElementById("showPassword")
@@ -39,7 +42,7 @@
                   }      
               })
             </script>
-        </div>
+          </div>
         </fieldset>
         <input type="submit" value="Inloggen" />
         <p>Heb je nog geen account? <a href="/register">registreer hier</a></p>
