@@ -8,6 +8,7 @@ const app = express();
 const session = require("express-session");
 const compression = require("compression");
 
+const { ObjectId } = require("mongodb");
 app.use(
   session({
     //Sla de sessie niet opnieuw op als deze onveranderd is
@@ -21,8 +22,8 @@ app.use(
 
     ttl: 30 * 60, //sessieduur is 30 minute
     cookie: {
-    maxAge: 30 * 60 * 1000, //sessieduur is 30 minute
-    secure: false, //true als HTTPS
+      maxAge: 30 * 60 * 1000, //sessieduur is 30 minute
+      secure: false, //true als HTTPS
     },
     sameSite: "strict", //beschermt tegen CSRF aanvallen
     rolling: true, //verlengt de sessie bij elke request
@@ -97,14 +98,6 @@ client
     console.log(`For mongoDBtoken - ${mongoDBtoken}`);
   });
 
-// app routes
-app.get("/", (req, res) => {
-  res.render("index.ejs");
-
-  const userInput = req.query.name || "";
-  const safeInput = xss(userInput); // Sanitizing input
-});
-
 app.get("/home.ejs", (req, res) => {
   res.render("home.ejs");
 
@@ -116,7 +109,6 @@ app.get("/home.ejs", (req, res) => {
 
 app.get("/login", onLogin);
 app.get("/register", onRegister);
-app.get("/home", onHome);
 
 app.post("/login", accountLogin);
 
@@ -158,6 +150,7 @@ async function accountLogin(req, res) {
       });
     }
 
+    // Store userID in session
     req.session.userId = account._id;
 
     // If everything is correct
@@ -168,15 +161,26 @@ async function accountLogin(req, res) {
   }
 }
 
-app.get("/home", (req, res) => {
+app.get("/home", async (req, res) => {
   if (!req.session.userId) {
-    res.render("login.ejs", {
+    return res.render("login.ejs", {
       errorMessageUsernameOrEmail:
         "You have been logged out, please log in again.",
       errorMessagePassword: "",
     });
-  } else {
-    res.send(`Hallo user: ${req.session.userId}`);
+  }
+
+  try {
+    // Convert the userId from the session to an ObjectId
+    const userId = ObjectId.createFromHexString(req.session.userId);
+    // Fetch the user from the database using the ObjectId
+    const user = await activeCollection.findOne({ _id: userId });
+
+    // Render the home page with the username fetched from the database
+    res.render("home.ejs", { username: user.username });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("500: server error");
   }
 });
 
@@ -185,10 +189,6 @@ function onLogin(req, res) {
     errorMessageUsernameOrEmail: "",
     errorMessagePassword: "",
   });
-}
-
-function onHome(req, res) {
-  res.render("home.ejs");
 }
 
 // register
