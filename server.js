@@ -18,12 +18,19 @@ app.use(
     // secret key for session encryption
     secret: process.env.SESSION_SECRET,
 
+    ttl: 30 * 60, //sessieduur is 30 minute
+    cookie: {
     maxAge: 30 * 60 * 1000, //sessieduur is 30 minute
     secure: false, //true als HTTPS
+    },
     sameSite: "strict", //beschermt tegen CSRF aanvallen
     rolling: true, //verlengt de sessie bij elke request
   })
 );
+
+
+
+
 
 // app.use(xss());
 
