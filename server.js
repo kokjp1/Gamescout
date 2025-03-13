@@ -133,7 +133,7 @@ app.get("/home", async (req, res) => {
   }
 
   try {
-    // Convert the userId from the session to an ObjectId
+    // Convert the userId from the session to an ObjectId (new method, not deprecated)
     const userId = new ObjectId.createFromHexString(req.session.userId);
     // Fetch the user from the database using the ObjectId
     const user = await activeCollection.findOne({ _id: userId });
