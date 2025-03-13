@@ -116,8 +116,6 @@ async function accountLogin(req, res) {
 
     req.session.userId = account._id;
 
-    res.redirect("/dashboard");
-
     // If everything is correct
     return res.redirect("/home");
   } catch (error) {
