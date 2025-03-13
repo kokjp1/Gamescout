@@ -44,20 +44,11 @@ section:nth-of-type(1) {
         }
 }
 
-/* Basic Styling */
-body {
-    font-family: 'SF Pro Text', sans-serif;
-    background-color: #1a1a1a;
-    color: white;
-    padding: 20px;
-}
-
 form {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 30px;
     border-radius: 10px;
     width: 400px;
-    margin: 0 auto;
 }
 
 h2 {

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const nextBtns = document.querySelectorAll(".next-btn");
+    const nextBtns = document.querySelectorAll(".nextButton");
     const formSteps = document.querySelectorAll(".form-step");
     let currentStep = 0;
 
@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
         releaseDateValue.textContent = rangeInput.value;
     });
 });
+
 
 
 console.log("hello from formJS");
