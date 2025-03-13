@@ -47,7 +47,6 @@ app.get("/", (req, res) => {
 
   const userInput = req.query.name || "";
   const safeInput = xss(userInput); // Sanitizing input
-
 });
 
 app.get("/home.ejs", (req, res) => {
@@ -64,6 +63,10 @@ app.get("/register", onRegister);
 app.get("/home", onHome);
 
 app.post("/login", accountLogin);
+
+app.get("/bookmark", (req, res) => {
+  res.render("bookmark.ejs");
+});
 
 // MongoDB database connection
 const activeDatabase = client.db(process.env.DB_NAME);
@@ -116,7 +119,8 @@ function onLogin(req, res) {
 }
 
 function onHome(req, res) {
-  res.render("home.ejs"); {
+  res.render("home.ejs");
+  {
   }
 }
 
