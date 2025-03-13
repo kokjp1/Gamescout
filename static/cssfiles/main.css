@@ -58,18 +58,18 @@
     --font-family-secondary: "Inter", sans-serif;
 
     --font-size-title: 9.5em;
-    --font-size-h1: 3em;
+    --font-size-h1: 2em;
     --font-line-height-h1: 6em;
-    --font-size-h2: 2em;
-    --font-size-h3: 1.5em;
+    --font-size-h2: 1.5em;
+    --font-size-h3: 1.25em;
     --font-line-height-h3: 6em;
-    --font-size-subtext: 2em;
+    --font-size-subtext: 1.15em;
     --font-size-menu: 2em;
     --font-size-button: 1.35em;
     --font-size-placeholder-input: 1.5em;
     --font-size-label-input: 1.5em;
     --font-size-text-link: 1.5em;
-    --font-size-test: 1em;
+    --font-size-regular: 1em;
 
     /* Effects */
     --effect-blur-menu-backdrop: blur(1.5em);
@@ -84,7 +84,7 @@ body,html {
     height:100%;
     background-image: url(../images/bg.jpg); ;
     background-size:cover;
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     font-family: 'SF Pro Text', sans-serif;
     font-weight: 500;
     color:white;

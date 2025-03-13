@@ -1,0 +1,104 @@
+body {
+    display:flex;
+    flex-direction:column;
+    padding-top:15%;
+    padding-left:15%;
+    box-sizing: border-box;
+    gap:10em;
+}
+
+h1 {
+    font-size: calc(var(--font-size-h1) + 2vw);
+}
+
+h2 {
+    font-size:var(--font-size-subtext)
+}
+
+@media (max-width: 500px) {
+    h1 {
+        font-size: calc(var(--font-size-h2) + 1.5vw);
+    }
+    h2 {
+        font-size:calc(var(--font-size-subtext) - 0.75vw)
+    }
+}
+
+section:nth-of-type(1) {
+    display:flex;
+    flex-direction: row;
+    gap: calc(2em - 1em);
+    
+        div{
+            display:flex;
+            flex-direction: column;
+        }
+        img {
+            margin-top:.75em;
+            width:15%;
+            max-width:5.5em;
+            height:fit-content;
+            aspect-ratio: 1 / 1;
+            object-fit:cover;
+            border-radius:100%;
+        }
+}
+
+/* Basic Styling */
+body {
+    font-family: 'SF Pro Text', sans-serif;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 20px;
+}
+
+form {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    margin: 0 auto;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+label {
+    font-size: 1.2em;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #333;
+    color: white;
+    border: 1px solid #888;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #e54b75;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #b02a4d;
+}
+
+/* Hide all form steps by default */
+.form-step {
+    display: none;
+}
+
+/* Show the first step initially */
+.step-1 {
+    display: block;
+}
+    

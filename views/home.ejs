@@ -3,12 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GameScouter | Welcome </title>
+    <link rel="stylesheet" href="/cssfiles/main.css">
+    <link rel="stylesheet" href="/cssfiles/home.css">
 </head>
 <body>
-    <img src="profilepicture.png" alt="profile picture">
+    <section>
+    <img src="/images/profilepictures/testProfilePicture3.jpeg" alt="profile picture">
+    <div>
     <h1>Welcome Justin</h1>
     <h2>Looking for new games to play?</h2>
-
+    </div>
+    </section>
+    <!-- #region FORMCODE -->
+     
+    <form class="progressive-form">
+        <div class="form-step step-1">
+            <h2>When was the game released?</h2>
+            <label for="release_date">Select release year:</label>
+            <input type="range" id="release_date" name="release_date" min="2000" max="2025" step="1" value="2018">
+            <p id="release_date_value">2018</p>
+            <button type="button" class="nextButton">Next</button>
+        </div>
+    
+        <div class="form-step step-2">
+            <h2>What is the genre of the game?</h2>
+            <label for="genre">Select genre:</label>
+            <select id="genre" name="genre">
+                <option value="action">Action</option>
+                <option value="adventure">Adventure</option>
+                <option value="rpg">RPG</option>
+                <option value="strategy">Strategy</option>
+                <option value="shooter">Shooter</option>
+            </select>
+            <button type="button" class="nextButton">Next</button>
+        </div>
+    
+        <div class="form-step step-3">
+            <h2>What platform is the game available on?</h2>
+            <label for="platform">Select platform:</label>
+            <select id="platform" name="platform">
+                <option value="pc">PC</option>
+                <option value="xbox">Xbox</option>
+                <option value="playstation">PlayStation</option>
+                <option value="switch">Switch</option>
+                <option value="mobile">Mobile</option>
+            </select>
+            <button type="button" class="nextButton">Next</button>
+        </div>
+    
+        <div class="form-step step-4"
+        >
+            <h2>Does the game support multiplayer?</h2>
+            <label for="multiplayer">Choose an option:</label>
+            <div>
+                <input type="radio" id="multiplayer" name="multiplayer" value="singleplayer">
+                <label for="multiplayer">Singleplayer</label>
+            </div>
+            <div>
+                <input type="radio" id="multiplayer" name="multiplayer" value="multiplayer">
+                <label for="multiplayer">Multiplayer</label>
+            </div>
+            <div>
+                <input type="radio" id="both" name="multiplayer" value="both">
+                <label for="both">Both</label>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </div>
+    </form>
+    
+    
+    <script>
+        // Update release date value dynamically with the slider
+        const releaseDateSlider = document.getElementById('release_date');
+        const releaseDateValue = document.getElementById('release_date_value');
+    
+        releaseDateSlider.addEventListener('input', function() {
+            releaseDateValue.textContent = releaseDateSlider.value;
+        });
+    </script>     
+    <script src="/frontendJS/formJS.js"></script>
+    <!-- #endregion
 </body>
 </html>
