@@ -3,15 +3,27 @@
 require("dotenv").config();
 const xss = require("xss");
 const bcrypt = require("bcrypt");
-// const helmet = require("helmet");
 const express = require("express");
 const app = express();
+const session = require("express-session");
+
+app.use(
+  session({
+    //Sla de sessie niet opnieuw op als deze onveranderd is
+    resave: false,
+
+    // Sla elke nieuwe sessie in het geheugen op, ook als deze niet gewijzigd is
+    saveUninitialized: true,
+
+    // secret key for session encryption
+    secret: process.env.SESSION_SECRET,
+  })
+);
 
 // app.use(xss());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
-// app.use(helmet());
 app.set("view engine", "ejs");
 app.set("views", "views");
 
@@ -47,7 +59,6 @@ app.get("/", (req, res) => {
 
   const userInput = req.query.name || "";
   const safeInput = xss(userInput); // Sanitizing input
-
 });
 
 app.get("/home.ejs", (req, res) => {
@@ -103,6 +114,10 @@ async function accountLogin(req, res) {
       });
     }
 
+    req.session.userId = account._id;
+
+    res.redirect("/dashboard");
+
     // If everything is correct
     return res.redirect("/home");
   } catch (error) {
@@ -110,6 +125,18 @@ async function accountLogin(req, res) {
     res.status(500).send("500: server error");
   }
 }
+
+app.get("/dashboard", (req, res) => {
+  if (!req.session.userId) {
+    res.render("login.ejs", {
+      errorMessageUsernameOrEmail:
+        "You have been logged out, please log in again.",
+      errorMessagePassword: "",
+    });
+  } else {
+    res.send(`Hallo user: ${req.session.userId}`);
+  }
+});
 
 function onLogin(req, res) {
   res.render("login.ejs", {
@@ -119,8 +146,7 @@ function onLogin(req, res) {
 }
 
 function onHome(req, res) {
-  res.render("home.ejs"); {
-  }
+  res.render("home.ejs");
 }
 
 // register
