@@ -1,100 +1,105 @@
 /* VARIABLES + GENERAL STYLING */
 
 @font-face {
-    font-family: 'SF Pro Text';
-    src: url('../fonts/sf-pro-text-regular.woff') format('woff');
-    font-weight: 400;
+  font-family: "SF Pro Text";
+  src: url("../fonts/sf-pro-text-regular.woff") format("woff");
+  font-weight: 400;
 }
 
 @font-face {
-    font-family: 'SF Pro Text';
-    src: url('../fonts/sf-pro-text-light.woff') format('woff');
-    font-weight: 300;
+  font-family: "SF Pro Text";
+  src: url("../fonts/sf-pro-text-light.woff") format("woff");
+  font-weight: 300;
 }
 
 @font-face {
-    font-family: 'SF Pro Text';
-    src: url('../fonts/sf-pro-text-medium.woff') format('woff');
-    font-weight: 500;
+  font-family: "SF Pro Text";
+  src: url("../fonts/sf-pro-text-medium.woff") format("woff");
+  font-weight: 500;
 }
 
 @font-face {
-    font-family: 'SF Pro Text';
-    src: url('../fonts/sf-pro-text-semibold.woff') format('woff');
-    font-weight: 600;
+  font-family: "SF Pro Text";
+  src: url("../fonts/sf-pro-text-semibold.woff") format("woff");
+  font-weight: 600;
 }
 
 @font-face {
-    font-family: 'SF Pro Text';
-    src: url('../fonts/sf-pro-text-bold.woff') format('woff');
-    font-weight: 700;
+  font-family: "SF Pro Text";
+  src: url("../fonts/sf-pro-text-bold.woff") format("woff");
+  font-weight: 700;
 }
 
 @font-face {
-    font-family: 'SF Pro Text';
-    src: url('../fonts/sf-pro-text-heavy.woff') format('woff');
-    font-weight: 800;
+  font-family: "SF Pro Text";
+  src: url("../fonts/sf-pro-text-heavy.woff") format("woff");
+  font-weight: 800;
 }
 
 :root {
-    /* Colors */
-    --color-background-input-field: rgba(217, 217, 217, 0.2);
-    --color-border-input-field: #8f8f8f;
-    --color-primary-gray: #23242a;
-    --color-text-link: #f75c87;
-    --color-primary-pink: #e54b75;
-    --color-background-button-primary: #e54b75;
-    --color-background-button-primary-hover: #b02a4d;
-    --color-border-button-primary: #ff6a93;
-    --color-border-button-secondary: #c71f4d;
-    --color-menu-inactive: #696969;
-    --color-menu-hover: #bebebe;
-    --color-menu-hover-icon: #e54b75;
-    --color-text-menu: #23242a;
-    --color-background-menu: rgba(255, 255, 255, 0.4);
+  /* Colors */
+  --color-background-input-field: rgba(217, 217, 217, 0.2);
+  --color-border-input-field: #8f8f8f;
+  --color-primary-gray: #23242a;
+  --color-text-link: #f75c87;
+  --color-primary-pink: #e54b75;
+  --color-background-button-primary: #e54b75;
+  --color-background-button-primary-hover: #b02a4d;
+  --color-border-button-primary: #ff6a93;
+  --color-border-button-secondary: #c71f4d;
+  --color-menu-inactive: #696969;
+  --color-menu-hover: #bebebe;
+  --color-menu-hover-icon: #e54b75;
+  --color-text-menu: #23242a;
+  --color-background-menu: rgba(255, 255, 255, 0.4);
+  --color-boxshadow-0: rgb(142, 55, 255, 0);
+  --color-boxshadow-1: rgb(142, 55, 255, 1);
+  --color-error: rgb(255, 58, 58);
+  --color-error-background: rgb(255, 171, 171);
+  --color-gamescout-logo: rgb(160, 157, 171);
 
-    /* Fonts */
-    --font-family-primary: "SF Pro Text", sans-serif;
-    --font-family-secondary: "Inter", sans-serif;
+  /* Fonts */
+  --font-family-primary: "SF Pro Text", sans-serif;
+  --font-family-secondary: "Inter", sans-serif;
 
-    --font-size-title: 9.5em;
-    --font-size-h1: 3em;
-    --font-line-height-h1: 6em;
-    --font-size-h2: 2em;
-    --font-size-h3: 1.5em;
-    --font-line-height-h3: 6em;
-    --font-size-subtext: 2em;
-    --font-size-menu: 2em;
-    --font-size-button: 1.35em;
-    --font-size-placeholder-input: 1.5em;
-    --font-size-label-input: 1.5em;
-    --font-size-text-link: 1.5em;
-    --font-size-test: 1em;
+  --font-size-title: 9.5em;
+  --font-size-h1: 3em;
+  --font-line-height-h1: 6em;
+  --font-size-h2: 2em;
+  --font-size-h3: 1.5em;
+  --font-line-height-h3: 6em;
+  --font-size-subtext: 2em;
+  --font-size-menu: 2em;
+  --font-size-button: 1.35em;
+  --font-size-placeholder-input: 1.5em;
+  --font-size-label-input: 1.5em;
+  --font-size-text-link: 1.5em;
+  --font-size-test: 1em;
 
-    /* Effects */
-    --effect-blur-menu-backdrop: blur(1.5em);
-    --effect-shadow-menu-box: 0px 0px 0.5em rgba(0, 0, 0, 0.25);
+  /* Effects */
+  --effect-blur-menu-backdrop: blur(1.5em);
+  --effect-shadow-menu-box: 0px 0px 0.5em rgba(0, 0, 0, 0.25);
 }
 
-body,html {
-    scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    width:100%;
-    height:100%;
-    background-image: url(../images/bg.jpg); ;
-    background-size:cover;
-    background-repeat: no-repeat;
-    font-family: 'SF Pro Text', sans-serif;
-    font-weight: 500;
-    color:white;
+body,
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  height: 100%;
+  background-image: url(../images/bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: "SF Pro Text", sans-serif;
+  font-weight: 500;
+  color: white;
 }
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
-    
 
 /* https://codepen.io/rouws/pen/ZYEyGQJ */
 /* https://www.npmjs.com/package/multer */
