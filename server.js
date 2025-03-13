@@ -17,6 +17,11 @@ app.use(
 
     // secret key for session encryption
     secret: process.env.SESSION_SECRET,
+
+    maxAge: 30 * 60 * 1000, //sessieduur is 30 minute
+    secure: false, //true als HTTPS
+    sameSite: "strict", //beschermt tegen CSRF aanvallen
+    rolling: true, //verlengt de sessie bij elke request
   })
 );
 
@@ -124,7 +129,7 @@ async function accountLogin(req, res) {
   }
 }
 
-app.get("/dashboard", (req, res) => {
+app.get("/home", (req, res) => {
   if (!req.session.userId) {
     res.render("login.ejs", {
       errorMessageUsernameOrEmail:
