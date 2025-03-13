@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const app = express();
 const session = require("express-session");
+const compression = require("compression");
 
 app.use(
   session({
@@ -27,6 +28,37 @@ app.use(
     rolling: true, //verlengt de sessie bij elke request
   })
 );
+
+
+
+
+
+
+// compress all responses
+app.use(compression());
+
+
+
+
+const shouldCompress = (req, res) => {
+  if (req.headers['x-no-compression']) {
+    // don't compress responses if this request header is present
+    return false;
+  }
+
+  // fallback to standard compression
+  return compression.filter(req, res);
+};
+
+app.use(compression({
+  // filter decides if the response should be compressed or not, 
+  // based on the `shouldCompress` function above
+  filter: shouldCompress,
+  // threshold is the byte threshold for the response body size
+  // before compression is considered, the default is 1kb
+  threshold: 0
+}));
+
 
 
 
