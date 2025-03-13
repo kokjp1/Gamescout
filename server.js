@@ -107,7 +107,6 @@ async function accountLogin(req, res) {
     }
 
     req.session.userId = account._id;
-    req.session.username = account.username;
 
     res.redirect("/dashboard");
 
@@ -122,10 +121,15 @@ async function accountLogin(req, res) {
 }
 
 app.get("/dashboard", (req, res) => {
-  if (!req.session.username) {
-    return res.send("❌ No active session. Please log in.");
+  if (!req.session.userId) {
+    res.render("login.ejs", {
+      errorMessageUsernameOrEmail:
+        "You have been logged out, please log in again.",
+      errorMessagePassword: "",
+    });
+  } else {
+    res.send(`Hallo user: ${req.session.userId}`);
   }
-  res.send(`🎉 Session is working! Welcome, ${req.session.username}!`);
 });
 
 function onLogin(req, res) {
