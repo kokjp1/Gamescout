@@ -217,10 +217,11 @@ input {
   padding: 1em;
   border-radius: 0.35em;
   background-color: rgb(255, 171, 171);
-  width: 80%;
+  width: 100%;
   color: rgb(255, 58, 58);
   font-weight: bold;
   font-size: 0.85em;
+  box-sizing: border-box;
 }
 
 #gamescouterLogo {
