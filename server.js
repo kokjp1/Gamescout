@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const app = express();
 const session = require("express-session");
-const { ObjectId } = require("mongodb");
 app.use(
   session({
     //Sla de sessie niet opnieuw op als deze onveranderd is
@@ -40,7 +39,7 @@ app.set("views", "views");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const mongoDBtoken = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
-
+const { ObjectId } = require("mongodb");
 const client = new MongoClient(mongoDBtoken, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -135,7 +134,7 @@ app.get("/home", async (req, res) => {
 
   try {
     // Convert the userId from the session to an ObjectId
-    const userId = ObjectId.createFromHexString(req.session.userId);
+    const userId = new ObjectId.createFromHexString(req.session.userId);
     // Fetch the user from the database using the ObjectId
     const user = await activeCollection.findOne({ _id: userId });
 
