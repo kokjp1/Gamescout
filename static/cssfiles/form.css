@@ -223,6 +223,7 @@ input {
   color: var(--color-error);
   font-weight: bold;
   font-size: 0.85em;
+  box-sizing: border-box;
 }
 
 #gamescouterLogo {
