@@ -7,6 +7,20 @@
   margin-left:15%;
 }
 
+@media (max-width: 922px) {
+  #registreerformulier {
+    width: 60%;
+    margin-left: 10%;
+  }
+} 
+
+@media (max-width: 616px) {
+  #registreerformulier {
+    width: 80%;
+    margin-left: 10%;
+  }
+} 
+
 html, body {
     width:100%;
     height:100%;
@@ -47,7 +61,8 @@ form fieldset#gegevens input {
   padding: 1em;
   background-color: rgb(255, 255, 255, 0.15);
   border: 0.125em solid rgb(164, 164, 164);
-  width: 90%;
+  width: 100%;
+  box-sizing: border-box;
   color:white;
 }
 
@@ -70,6 +85,13 @@ form fieldset#gegevens input::placeholder {
   font-weight: 600;
 }
 
+<<<<<<< Updated upstream
+=======
+/* #region PASSWORD CHECKBOX STYLES */
+
+/* https://codepen.io/hqdrone/pen/vYGJXZN */
+
+>>>>>>> Stashed changes
 .toggle-password {
   display: inline-block;
   position: relative;

@@ -1,8 +1,5 @@
 /* VARIABLES + GENERAL STYLING */
 
-/* https://codepen.io/rouws/pen/ZYEyGQJ */
-/* https://www.npmjs.com/package/multer */
-
 @font-face {
     font-family: 'SF Pro Text';
     src: url('../fonts/sf-pro-text-regular.woff') format('woff');
@@ -79,7 +76,8 @@
     --effect-shadow-menu-box: 0px 0px 0.5em rgba(0, 0, 0, 0.25);
 }
 
-    body,html {
+body,html {
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     width:100%;
@@ -91,3 +89,12 @@
     font-weight: 500;
     color:white;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+}
+    
+
+/* https://codepen.io/rouws/pen/ZYEyGQJ */
+/* https://www.npmjs.com/package/multer */
