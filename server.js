@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const app = express();
 const session = require("express-session");
-
 app.use(
   session({
     //Sla de sessie niet opnieuw op als deze onveranderd is
@@ -27,6 +26,8 @@ app.use(
     rolling: true, //verlengt de sessie bij elke request
   })
 );
+
+// app.use(xss());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
@@ -88,6 +89,11 @@ const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
 // Routes
 app.get("/", (req, res) => {
   res.render("index.ejs");
+
+  const userInput = req.query.name || "";
+  const safeInput = xss(userInput); // Sanitizing input
+
+  res.send(`Home, ${safeInput}`);
 });
 
 app.get("/login", onLogin);
