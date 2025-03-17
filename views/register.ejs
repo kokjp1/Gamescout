@@ -14,38 +14,52 @@
         <legend>Registreer je account bij deze site</legend>
         <fieldset id="gegevens">
           <label for="username">Username</label>
-          <input type="text" id="username" name="username" placeholder="Username" required/>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Username"
+            required />
           <% if (!!errorMessageUsername) { %>
           <p class="errorMessage"><%= errorMessageUsername %></p>
           <% } %>
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Email" required/>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            required />
           <% if (!!errorMessageEmail) { %>
           <p class="errorMessage"><%= errorMessageEmail %></p>
           <% } %>
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Password" required/>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            required />
           <% if (!!errorMessagePassword) { %>
           <p class="errorMessage"><%= errorMessagePassword %></p>
           <% } %>
           <div id="passwordShowContainer">
             <label class="toggle-password">
-              <input type="checkbox" id="showPassword"/>
+              <input type="checkbox" id="showPassword" />
               <div class="toggle-password__checkmark"></div>
               <div class="toggle-password__label">Show Password</div>
             </label>
             <script>
               let passwordField = document.getElementById("password");
-              let passwordCheckbox = document.getElementById("showPassword")
+              let passwordCheckbox = document.getElementById("showPassword");
 
-              passwordCheckbox.addEventListener("change", function() {
-                  if (passwordCheckbox.checked) {
-                    passwordField.type = "text"
-                  } 
-                  else {
-                    passwordField.type = "password";
-                  }      
-              })
+              passwordCheckbox.addEventListener("change", function () {
+                if (passwordCheckbox.checked) {
+                  passwordField.type = "text";
+                } else {
+                  passwordField.type = "password";
+                }
+              });
             </script>
           </div>
         </fieldset>
