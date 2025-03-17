@@ -1,55 +1,58 @@
 body {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 section {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-left: 15%;
-    gap: 1em;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-left: 15%;
+  gap: 1em;
 }
 
 h1 {
-    margin: 0;
-    font-size: var(--font-size-title);
-    line-height: 100%;
+  margin: 0;
+  font-size: var(--font-size-title);
+  line-height: 100%;
 }
 
 h2 {
-    margin: 0;
+  margin: 0;
 }
 
 div {
-    display: flex;
-    flex-direction: row;
-    gap: 1.25em;
+  display: flex;
+  flex-direction: row;
+  gap: 1.25em;
 }
 
-#login, #register {
-    padding: 0.5em 3em;
-    font-size: var(--font-size-button);
-    border-radius: 0.25em;
-    text-decoration: none;
-    color: white;
+#login,
+#register {
+  padding: 0.5em 3em;
+  font-size: var(--font-size-button);
+  border-radius: 0.25em;
+  text-decoration: none;
+  color: white;
 }
 
 #login {
-    background-color: var(--color-background-button-primary);
-    border: 0.15em solid var(--color-border-button-primary);
-    transition: 0.25s ease;
+  background-color: var(--color-background-button-primary);
+  border: 0.15em solid var(--color-border-button-primary);
+  transition: 0.25s ease;
 }
 
 #login:hover {
-    background-color: var(--color-background-button-primary-hover);
+  background-color: var(--color-background-button-primary-hover);
 }
 
 #register {
-    border: 0.15em solid var(--color-border-button-secondary);
-    transition: 0.25s ease;
+  border: 0.15em solid var(--color-border-button-secondary);
+  transition: 0.25s ease;
 }
 
 #register:hover {
-    background-color: var(--color-background-button-primary);
+  background-color: var(--color-background-button-primary);
 }

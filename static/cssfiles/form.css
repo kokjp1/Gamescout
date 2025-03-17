@@ -1,137 +1,213 @@
 #registreerformulier {
-    /* From https://css.glass */
-        border-radius: 16px;
-        backdrop-filter: blur(6.7px);
-        -webkit-backdrop-filter: blur(6.7px);
-        width:40%;
-    }
+  /* From https://css.glass */
+  border-radius: 16px;
+  backdrop-filter: blur(6.7px);
+  -webkit-backdrop-filter: blur(6.7px);
+  width: 40%;
+  margin-left:15%;
+}
 
-    body {
-        display:flex;
-        justify-content: center;
-        align-items: center;
-        font-family: var(--font-family-primary); 
-    }
-    
-    a {
-        color:white;
-    }
-    
-    form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap:1em; 
-        padding:2em 0 2em 0;   
-    }
-    
-    fieldset#gegevens {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap:1em;
-        border:0;
-        width:100%;
-    }
-    
-    form fieldset#gegevens input {
-        border-radius: .45em;
-        padding:.75em;
-        background-color: rgb(255, 255, 255, 0.15);
-        border:0.125em solid rgb(164, 164, 164);
-        width:80%;
-    }
-    
-    form fieldset#gegevens label {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        width:85%;
-    }
-    
-    form fieldset#gegevens input:focus {
-        outline: none;
-        border: 0.125em solid rgb(142, 55, 255);
-        box-shadow: 0em 0em .5em .05em rgb(142, 55, 255, .5);
-    }
-    
-    form fieldset#gegevens input::placeholder {
-        color: rgb(160, 157, 171);
-        font-size:1.05em;
-        font-weight:600;
+html, body {
+    width:100%;
+    height:100%;
+    overflow-x:hidden;
+    overflow-y:hidden;}
 
-      }
-    
-    form legend {
-        font-size: 1.5em;
-        font-weight: bold;
-    }
-    
-    
-    fieldset#persoonlijkedingen {
-        display: flex;
-        justify-content: flex-start;
-        border:0;
-        padding:0;
-        gap:1em;
-        font-size:1.25em;
-    }
-    
-    input[type="submit"] {
-        appearance: none;
-        color: blueviolet;
-        background-color: rgb(209, 160, 255);
-        font-size:1.25em;
-        font-weight:bold;
-        width:100%;
-        padding:.75em;
-        border:0.1em solid blueviolet;
-        border-radius:0.25em;
-        box-shadow: 0em 0em .5em .0005em rgb(142, 55, 255, 1);
-      }    
-    
-      input[type="submit"]:hover {
-        background-color: rgb(172, 84, 255);
-        cursor: pointer;
-        transition: 0.5s ease;
-        color:rgb(89, 0, 172)
-      }    
-    
-      @keyframes shadowhoveropacity {
-        0% {
-            box-shadow: 0em 0em .5em .15em rgb(142, 55, 255, 0);
-        }
-    
-        100% {
-            box-shadow: 0em 0em .5em .15em rgb(142, 55, 255, 1);
-        }
-      }
-    
-      form a{
-        color: var(--color-primary-pink);
-        font-weight:bold;
-      }
-    
-      form p{
-        font-size:1.15em;
-      }
-    
-      form label, input {
-        font-size:1.1em;
-      }
-    
-    .hidden {
-        display: none;
-    }
-    
-    .errorMessage {
-        display:flex;
-        justify-content: center;
-        padding:1em;
-        border-radius:.35em;
-        background-color: rgb(255, 171, 171);
-        width:80%;
-        color:rgb(255, 58, 58);
-        font-weight: bold;
-        font-size:0.85em;
-    }
+body {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-family: var(--font-family-primary);
+}
+
+a {
+  color: white;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1em;
+  padding: 2em 0 2em 0;
+}
+
+fieldset#gegevens {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1em;
+  border: 0;
+  width: 100%;
+  padding:0;
+}
+
+form fieldset#gegevens input {
+  border-radius: 0.45em;
+  padding: 1em;
+  background-color: rgb(255, 255, 255, 0.15);
+  border: 0.125em solid rgb(164, 164, 164);
+  width: 100%;
+  box-sizing: border-box;
+  color:white;
+}
+
+form fieldset#gegevens label {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 85%;
+}
+
+form fieldset#gegevens input:focus {
+  outline: none;
+  transition: 0.15s ease;
+  border: 0.125em solid var(--color-background-button-primary);
+}
+
+form fieldset#gegevens input::placeholder {
+  color: rgb(160, 157, 171);
+  font-size: 1em;
+  font-weight: 600;
+}
+
+/* #region PASSWORD CHECKBOX STYLES */
+
+.toggle-password {
+  display: inline-block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.toggle-password input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.toggle-password input:checked ~ .toggle-password__checkmark {
+  background-color: var(--color-border-button-primary);
+}
+
+.toggle-password input:checked ~ .toggle-password__checkmark:after {
+  opacity: 1;
+}
+
+.toggle-password:hover input ~ .toggle-password__checkmark {
+  background-color: var(--color-menu-hover);
+}
+
+.toggle-password:hover input:checked ~ .toggle-password__checkmark {
+  background-color: var(--color-border-button-primary);
+}
+
+.toggle-password__checkmark {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: var(--color-primary-gray);
+  transition: background-color 0.25s ease;
+  border: 0.125em solid var(--color-border-button-primary);
+  border-radius: 4px;
+}
+
+.toggle-password__checkmark:after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--color-primary-gray);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.toggle-password__label {
+  color: var(--color-primary-white);
+  line-height: 1.4;
+  font-size: var(--font-size-test);
+  font-family: var(--font-family-primary);
+}
+
+/* #endregion */
+
+form legend {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+input[type="submit"] {
+  appearance: none;
+  color: white;
+  background-color: var(--color-background-button-primary);
+  font-size: 1.25em;
+  font-weight: bold;
+  width: 100%;
+  padding: 0.75em;
+  border: 0.1em solid var(--color-border-button-primary);
+  border-radius: 0.25em;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--color-background-button-primary-hover);
+  cursor: pointer;
+  transition: 0.5s ease;
+  color: rgb(255, 255, 255);
+}
+
+@keyframes shadowhoveropacity {
+  0% {
+    box-shadow: 0em 0em 0.5em 0.15em rgb(142, 55, 255, 0);
+  }
+
+  100% {
+    box-shadow: 0em 0em 0.5em 0.15em rgb(142, 55, 255, 1);
+  }
+}
+
+form a {
+  color: var(--color-primary-pink);
+  font-weight: bold;
+}
+
+form p {
+  font-size: 1.15em;
+}
+
+form label,
+input {
+  font-size: 1.1em;
+}
+
+.hidden {
+  display: none;
+}
+
+.errorMessage {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+  border-radius: 0.35em;
+  background-color: rgb(255, 171, 171);
+  width: 80%;
+  color: rgb(255, 58, 58);
+  font-weight: bold;
+  font-size: 0.85em;
+}
+
+#gamescouterLogo {
+  color: rgb(160, 157, 171);
+  font-size: 1.5em;
+}
