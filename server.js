@@ -77,7 +77,7 @@ async function registerAccount(req, res) {
   try {
     const registeringUsername = xss(req.body.username);
     const registeringEmail = xss(req.body.email);
-    const registeringPassword = xss(req.body.password);
+    const registeringPassword = req.body.password;
     const saltRounds = 10;
 
     // Check if the username or email is already in use
@@ -203,7 +203,7 @@ app.get("/home", async (req, res) => {
 
   try {
     // Convert the userId from the session to an ObjectId (hexstring is new, not deprecated)
-    const userId = new ObjectId(req.session.userId);
+    const userId = ObjectId.createFromHexString(req.session.userId);
     // Fetch the user from the database using the ObjectId
     const user = await activeCollection.findOne({ _id: userId });
 
