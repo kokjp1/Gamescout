@@ -1,52 +1,58 @@
 <!DOCTYPE html>
 <html lang="nl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login | GameScouter</title>
-    <link rel="stylesheet" href="/cssfiles/main.css" />
-    <link rel="stylesheet" href="/cssfiles/form.css" />
-  </head>
-  <body>
-    <div id="registreerformulier">
-      <div id="gamescouterLogo">Gamescout</div> <!-- Div element zodat het niet zichtbaar is voor screerea-->
-      <form action="/login" method="POST">
-        <legend>Log in op je account</legend>
-        <fieldset id="gegevens">
-          <label for="usernameOrEmail">Username or Email</label>
-          <input type="text" id="usernameOrEmail" name="usernameOrEmail" placeholder="Username or Email" required>
-          <% if (!!errorMessageUsernameOrEmail) { %>
-          <p class="errorMessage"><%= errorMessageUsernameOrEmail %></p>
-          <% } %>
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Password" required>
-          <% if (!!errorMessagePassword) { %>
-          <p class="errorMessage"><%= errorMessagePassword %></p>
-          <% } %>
-          <div id="passwordShowContainer">
-            <label class="toggle-password">
-              <input type="checkbox" id="showPassword"/>
-              <div class="toggle-password__checkmark"></div>
-              <div class="toggle-password__label">Show Password</div>
-            </label>
-            <script>
-              let passwordField = document.getElementById("password");
-              let passwordCheckbox = document.getElementById("showPassword")
 
-              passwordCheckbox.addEventListener("change", function() {
-                  if (passwordCheckbox.checked) {
-                    passwordField.type = "text"
-                  } 
-                  else {
-                    passwordField.type = "password";
-                  }      
-              })
-            </script>
-          </div>
-        </fieldset>
-        <input type="submit" value="Inloggen" />
-        <p>Heb je nog geen account? <a href="/register">registreer hier</a></p>
-      </form>
-    </div>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | GameScouter</title>
+  <link rel="stylesheet" href="/cssfiles/main.css" />
+  <link rel="stylesheet" href="/cssfiles/form.css" />
+</head>
+
+<body>
+  <div id="registreerformulier">
+    <div id="gamescouterLogo">Gamescout</div> <!-- Div element zodat het niet zichtbaar is voor screerea-->
+    <form action="/login" method="POST">
+      <legend>Log in op je account</legend>
+      <fieldset id="gegevens">
+        <label for="usernameOrEmail">Username or Email</label>
+        <input type="text" id="usernameOrEmail" name="usernameOrEmail" placeholder="Username or Email" required>
+        <% if (!!errorMessageUsernameOrEmail) { %>
+          <p class="errorMessage">
+            <%= errorMessageUsernameOrEmail %>
+          </p>
+          <% } %>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <% if (!!errorMessagePassword) { %>
+              <p class="errorMessage">
+                <%= errorMessagePassword %>
+              </p>
+              <% } %>
+                <div id="passwordShowContainer">
+                  <label class="toggle-password">
+                    <input type="checkbox" id="showPassword" />
+                    <div class="toggle-password__checkmark"></div>
+                    <div class="toggle-password__label">Show Password</div>
+                  </label>
+                  <script>
+                    let passwordField = document.getElementById("password");
+                    let passwordCheckbox = document.getElementById("showPassword")
+                    passwordCheckbox.addEventListener("change", function () {
+                      if (passwordCheckbox.checked) {
+                        passwordField.type = "text"
+                      }
+                      else {
+                        passwordField.type = "password";
+                      }
+                    })
+                  </script>
+                </div>
+      </fieldset>
+      <input type="submit" value="Inloggen" />
+      <p>Heb je nog geen account? <a href="/register">registreer hier</a></p>
+    </form>
+  </div>
+</body>
+
 </html>
