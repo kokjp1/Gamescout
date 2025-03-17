@@ -100,8 +100,8 @@ client
     console.log(`For mongoDBtoken - ${mongoDBtoken}`);
   });
 
-app.get("/home.ejs", (req, res) => {
-  res.render("home.ejs");
+app.get("/", (req, res) => {
+  res.render("index.ejs");
 
   const userInput = req.query.name || "";
   const safeInput = xss(userInput); // Sanitizing input
@@ -113,6 +113,7 @@ app.get("/login", onLogin);
 app.get("/register", onRegister);
 
 app.post("/login", accountLogin);
+app.get("/results", onResults);
 
 // MongoDB database connection
 const activeDatabase = client.db(process.env.DB_NAME);
@@ -191,6 +192,10 @@ function onLogin(req, res) {
     errorMessageUsernameOrEmail: "",
     errorMessagePassword: "",
   });
+}
+
+function onResults(req, res) {
+  res.render("results.ejs");
 }
 
 // register
