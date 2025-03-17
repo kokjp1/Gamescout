@@ -77,63 +77,6 @@ app.get("/bookmark", (req, res) => {
   res.render("bookmark.ejs");
 });
 
-
-async function accountLogin(req, res) {
-  try {
-    const formUsernameOrEmail = req.body.usernameOrEmail;
-    const formPassword = req.body.password;
-
-    // Find the account by email or username
-    const account = await activeCollection.findOne({
-      $or: [
-        { email: formUsernameOrEmail }, // Check if it matches an email
-        { username: formUsernameOrEmail }, // Check if it matches a username
-      ],
-    });
-
-    // If no account is found
-    if (!account) {
-      return res.render("login.ejs", {
-        errorMessageUsernameOrEmail:
-          "We cannot find an account with this email or username, please try again or register.",
-        errorMessagePassword: "",
-      });
-    }
-
-    const passwordMatch = await bcrypt.compare(formPassword, account.password);
-    // If the password is incorrect
-    if (!passwordMatch) {
-      return res.render("login.ejs", {
-        errorMessageUsernameOrEmail: "",
-        errorMessagePassword: "Incorrect password, please try again.",
-      });
-    }
-
-    // If everything is correct
-    return res.redirect("/home");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("500: server error");
-  }
-}
-
-function onLogin(req, res) {
-  res.render("login.ejs", {
-    errorMessageUsernameOrEmail: "",
-    errorMessagePassword: "",
-  });
-}
-
-function onHome(req, res) {
-  res.render("home.ejs");
-  {
-  }
-}
-
-// register
-
-app.post("/register", registerAccount);
-
 async function registerAccount(req, res) {
   try {
     const registeringUsername = xss(req.body.username);
@@ -267,6 +210,7 @@ app.get("/home", async (req, res) => {
 
   try {
     // Convert the userId from the session to an ObjectId (hexstring is new, not deprecated)
+    // Hulp van chatGPT omdat objectId deprecated is.
     const userId = ObjectId.createFromHexString(req.session.userId);
     // Fetch the user from the database using the ObjectId
     const user = await activeCollection.findOne({ _id: userId });
@@ -305,31 +249,35 @@ app.get("/games", async (req, res) => {
   }
 });
 
-// Route to handle form submission
+// Process information from the user entering the search paramters
 app.post("/gameFinderForm", gameFormHandler);
 
-async function gameFormHandler (req, res) {
+async function gameFormHandler(req, res) {
+  const { release_date, genre, platform, multiplayer, noLimit } = req.body;
 
-    const { release_date, genre, platform, multiplayer } = req.body;
+    let gameReleaseDate;
 
-    const selectedGenres = genre;
+    if (noLimit) { 
+        gameReleaseDate = "2000-01-01,2025-12-31"; 
+    } else {
+        gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
+    }
 
-    const gameReleaseDate = release_date+"-01-01"; // Rawg.IO wilt een volledige datum niet alleen jaar
-    const gameGenres = selectedGenres.join(","); // ChatGPT uitleg over hoe je een array syntax aanpast
+    const gameGenres = genre.join(",");
     const gamePlatform = platform;
     const gameMultiplayer = multiplayer;
+    const apiKey = process.env.API_KEY;
 
-    console.log(gameReleaseDate, gameGenres, gamePlatform, gameMultiplayer);
+    console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayer);
 
-      const apiKey = process.env.API_KEY;
-      const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&release_date=${gameReleaseDate}&genre=${gameGenres}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`);
+    const response = await fetch(
+        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&tags=${gameGenres}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`
+    );
 
-      const data = await response.json();
-  
+    const data = await response.json();
+    
     res.render("results.ejs", { games: data.results });
-
-  };
-
+};
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
