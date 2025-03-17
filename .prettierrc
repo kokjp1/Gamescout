@@ -1,5 +1,5 @@
 {
-  "bracketSameLine": true, 
-  "singleAttributePerLine": false, 
-  "useTabs": false
+    "bracketSameLine": true,
+    "singleAttributePerLine": false,
+    "useTabs": false
 }
