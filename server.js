@@ -257,30 +257,35 @@ app.get("/games", async (req, res) => {
   }
 });
 
-// Route to handle form submission
+// Process information from the user entering the search paramters
 app.post("/gameFinderForm", gameFormHandler);
 
 async function gameFormHandler(req, res) {
-  const { release_date, genre, platform, multiplayer } = req.body;
+  const { release_date, genre, platform, multiplayer, noLimit } = req.body;
 
-  const selectedGenres = genre;
+    let gameReleaseDate;
 
-  const gameReleaseDate = release_date + "-01-01"; // Rawg.IO wilt een volledige datum niet alleen jaar
-  const gameGenres = selectedGenres.join(","); // ChatGPT uitleg over hoe je een array syntax aanpast
-  const gamePlatform = platform;
-  const gameMultiplayer = multiplayer;
+    if (noLimit) { 
+        gameReleaseDate = "2000-01-01,2025-12-31"; 
+    } else {
+        gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
+    }
 
-  console.log(gameReleaseDate, gameGenres, gamePlatform, gameMultiplayer);
+    const gameGenres = genre.join(",");
+    const gamePlatform = platform;
+    const gameMultiplayer = multiplayer;
+    const apiKey = process.env.API_KEY;
 
-  const apiKey = process.env.API_KEY;
-  const response = await fetch(
-    `https://api.rawg.io/api/games?key=${apiKey}&release_date=${gameReleaseDate}&genre=${gameGenres}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`
-  );
+    console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayer);
 
-  const data = await response.json();
+    const response = await fetch(
+        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&tags=${gameGenres}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`
+    );
 
-  res.render("results.ejs", { games: data.results });
-}
+    const data = await response.json();
+    
+    res.render("results.ejs", { games: data.results });
+};
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 

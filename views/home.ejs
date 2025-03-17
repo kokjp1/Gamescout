@@ -24,6 +24,8 @@
             <label for="release_date">Select release year:</label>
             <input type="range" id="release_date" name="release_date" min="2000" max="2025" step="1" value="2018">
             <p id="release_date_value">2018</p>
+            <label for="noLimit">No limit</label>
+            <input type="checkbox" id="noLimit" name="noLimit" value="2000,2025">
             <button type="button" class="nextButton">Next</button>
         </div>
     
@@ -44,8 +46,8 @@
                 <input type="checkbox" id="strategy" name="genre[]" value="strategy">
                 <label for="strategy">Strategy</label>
         
-                <input type="checkbox" id="shooter" name="genre[]" value="shooter">
-                <label for="shooter">Shooter</label>
+                <input type="checkbox" id="survival" name="genre[]" value="survival">
+                <label for="survival">Survival</label>
             </div>
         
             <button type="button" class="nextButton">Next</button>
@@ -84,7 +86,7 @@
         </div>
     </form>
        
-    <script src="/frontendJS/formJS.js"></script>
+    <script src="/frontendJS/queryParameterForm.js"></script>
     <!-- #endregion
 </body>
 </html>
