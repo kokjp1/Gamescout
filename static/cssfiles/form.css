@@ -219,7 +219,7 @@ input {
   padding: 1em;
   border-radius: 0.35em;
   background-color: var(--color-error-background);
-  width: 80%;
+  width: 100%;
   color: var(--color-error);
   font-weight: bold;
   font-size: 0.85em;

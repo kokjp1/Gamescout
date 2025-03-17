@@ -308,13 +308,28 @@ app.get("/games", async (req, res) => {
 // Route to handle form submission
 app.post("/gameFinderForm", gameFormHandler);
 
-async function gameFormHandler(req, res) {
-    const formData = req.body;
-    const collection = gameFinderFormSubmissions 
-    await collection.insertOne(formData);
-    res.redirect("/results.ejs");
-    // res.status(201).json({ message: "Data saved successfully!" });
-}
+async function gameFormHandler (req, res) {
+
+    const { release_date, genre, platform, multiplayer } = req.body;
+
+    const selectedGenres = genre;
+
+    const gameReleaseDate = release_date+"-01-01"; // Rawg.IO wilt een volledige datum niet alleen jaar
+    const gameGenres = selectedGenres.join(","); // ChatGPT uitleg over hoe je een array syntax aanpast
+    const gamePlatform = platform;
+    const gameMultiplayer = multiplayer;
+
+    console.log(gameReleaseDate, gameGenres, gamePlatform, gameMultiplayer);
+
+      const apiKey = process.env.API_KEY;
+      const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&release_date=${gameReleaseDate}&genre=${gameGenres}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`);
+
+      const data = await response.json();
+  
+    res.render("results.ejs", { games: data.results });
+
+  };
+
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
