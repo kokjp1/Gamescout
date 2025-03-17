@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const app = express();
 const session = require("express-session");
+
 app.use(
   session({
     //Sla de sessie niet opnieuw op als deze onveranderd is
