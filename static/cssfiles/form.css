@@ -4,14 +4,30 @@
   backdrop-filter: blur(6.7px);
   -webkit-backdrop-filter: blur(6.7px);
   width: 40%;
-  margin-left:15%;
+  margin-left: 15%;
 }
 
-html, body {
-    width:100%;
-    height:100%;
-    overflow-x:hidden;
-    overflow-y:hidden;}
+@media (max-width: 922px) {
+  #registreerformulier {
+    width: 60%;
+    margin-left: 10%;
+  }
+}
+
+@media (max-width: 616px) {
+  #registreerformulier {
+    width: 80%;
+    margin-left: 10%;
+  }
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
 
 body {
   display: flex;
@@ -39,7 +55,7 @@ fieldset#gegevens {
   gap: 1em;
   border: 0;
   width: 100%;
-  padding:0;
+  padding: 0;
 }
 
 form fieldset#gegevens input {
@@ -49,7 +65,7 @@ form fieldset#gegevens input {
   border: 0.125em solid rgb(164, 164, 164);
   width: 100%;
   box-sizing: border-box;
-  color:white;
+  color: white;
 }
 
 form fieldset#gegevens label {
@@ -72,6 +88,8 @@ form fieldset#gegevens input::placeholder {
 }
 
 /* #region PASSWORD CHECKBOX STYLES */
+
+/* https://codepen.io/hqdrone/pen/vYGJXZN */
 
 .toggle-password {
   display: inline-block;
@@ -115,7 +133,7 @@ form fieldset#gegevens input::placeholder {
   height: 20px;
   width: 20px;
   background-color: var(--color-primary-gray);
-  transition: background-color 0.25s ease;
+  transition: 0.25s ease;
   border: 0.125em solid var(--color-border-button-primary);
   border-radius: 4px;
 }
@@ -200,14 +218,15 @@ input {
   justify-content: center;
   padding: 1em;
   border-radius: 0.35em;
-  background-color: rgb(255, 171, 171);
-  width: 80%;
-  color: rgb(255, 58, 58);
+  background-color: var(--color-error-background);
+  width: 100%;
+  color: var(--color-error);
   font-weight: bold;
   font-size: 0.85em;
+  box-sizing: border-box;
 }
 
 #gamescouterLogo {
-  color: rgb(160, 157, 171);
+  color: var(--color-gamescout-logo);
   font-size: 1.5em;
 }

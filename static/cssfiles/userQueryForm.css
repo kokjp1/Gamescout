@@ -1,0 +1,50 @@
+
+form {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 30px;
+  border-radius: 10px;
+  width: 400px;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 1.2em;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #333;
+  color: white;
+  border: 1px solid #888;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #e54b75;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #b02a4d;
+}
+
+/* Hide all form steps by default */
+.form-step {
+  display: none;
+}
+
+/* Show the first step initially */
+.step-1 {
+  display: block;
+}

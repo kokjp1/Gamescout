@@ -66,13 +66,74 @@ app.get("/", (req, res) => {
   res.render("index.ejs");
 });
 
+app.get("/results", onResults);
+
 app.get("/login", onLogin);
 app.get("/register", onRegister);
 
 app.post("/login", accountLogin);
-app.get("/results", onResults);
 
-// Register account
+app.get("/bookmark", (req, res) => {
+  res.render("bookmark.ejs");
+});
+
+
+async function accountLogin(req, res) {
+  try {
+    const formUsernameOrEmail = req.body.usernameOrEmail;
+    const formPassword = req.body.password;
+
+    // Find the account by email or username
+    const account = await activeCollection.findOne({
+      $or: [
+        { email: formUsernameOrEmail }, // Check if it matches an email
+        { username: formUsernameOrEmail }, // Check if it matches a username
+      ],
+    });
+
+    // If no account is found
+    if (!account) {
+      return res.render("login.ejs", {
+        errorMessageUsernameOrEmail:
+          "We cannot find an account with this email or username, please try again or register.",
+        errorMessagePassword: "",
+      });
+    }
+
+    const passwordMatch = await bcrypt.compare(formPassword, account.password);
+    // If the password is incorrect
+    if (!passwordMatch) {
+      return res.render("login.ejs", {
+        errorMessageUsernameOrEmail: "",
+        errorMessagePassword: "Incorrect password, please try again.",
+      });
+    }
+
+    // If everything is correct
+    return res.redirect("/home");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("500: server error");
+  }
+}
+
+function onLogin(req, res) {
+  res.render("login.ejs", {
+    errorMessageUsernameOrEmail: "",
+    errorMessagePassword: "",
+  });
+}
+
+function onHome(req, res) {
+  res.render("home.ejs");
+  {
+  }
+}
+
+// register
+
+app.post("/register", registerAccount);
+
 async function registerAccount(req, res) {
   try {
     const registeringUsername = xss(req.body.username);
@@ -119,12 +180,15 @@ async function registerAccount(req, res) {
 
     const hashedPassword = await bcrypt.hash(registeringPassword, saltRounds);
 
-    await activeCollection.insertOne({
+    registeredAccount = await activeCollection.insertOne({
       username: registeringUsername,
       email: registeringEmail,
       password: hashedPassword,
     });
 
+    console.log(
+      `added account to database with _id: ${registeredAccount.insertedId}`
+    );
     res.send("account toegevoegd");
   } catch (error) {
     console.error(error);
@@ -240,6 +304,32 @@ app.get("/games", async (req, res) => {
     res.status(500).send("Error fetching game data");
   }
 });
+
+// Route to handle form submission
+app.post("/gameFinderForm", gameFormHandler);
+
+async function gameFormHandler (req, res) {
+
+    const { release_date, genre, platform, multiplayer } = req.body;
+
+    const selectedGenres = genre;
+
+    const gameReleaseDate = release_date+"-01-01"; // Rawg.IO wilt een volledige datum niet alleen jaar
+    const gameGenres = selectedGenres.join(","); // ChatGPT uitleg over hoe je een array syntax aanpast
+    const gamePlatform = platform;
+    const gameMultiplayer = multiplayer;
+
+    console.log(gameReleaseDate, gameGenres, gamePlatform, gameMultiplayer);
+
+      const apiKey = process.env.API_KEY;
+      const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&release_date=${gameReleaseDate}&genre=${gameGenres}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`);
+
+      const data = await response.json();
+  
+    res.render("results.ejs", { games: data.results });
+
+  };
+
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 

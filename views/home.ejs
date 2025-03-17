@@ -1,13 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <img src="profilepicture.png" alt="profile picture" />
-    <h1>Welcome, <%= username %></h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameScouter | Welcome </title>
+    <link rel="stylesheet" href="/cssfiles/main.css">
+    <link rel="stylesheet" href="/cssfiles/home.css">
+    <link rel="stylesheet" href="/cssfiles/userQueryForm.css">
+</head>
+<body>
+    <section>
+    <img src="/images/profilepictures/testProfilePicture3.jpeg" alt="profile picture">
+    <div>
+    <h1>Welcome Justin</h1>
     <h2>Looking for new games to play?</h2>
-  </body>
+    </div>
+    </section>
+    <!-- #region FORMCODE -->
+     
+    <form action="/gameFinderForm" method="POST" class="progressive-form">
+        <div class="form-step step-1">
+            <h2>When was the game released?</h2>
+            <label for="release_date">Select release year:</label>
+            <input type="range" id="release_date" name="release_date" min="2000" max="2025" step="1" value="2018">
+            <p id="release_date_value">2018</p>
+            <button type="button" class="nextButton">Next</button>
+        </div>
+    
+        <div class="form-step GenreSelector">
+            <h2>What is the genre of the game?</h2>
+            <label>Select genre:</label>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="action" name="genre[]" value="action">
+                <label for="action">Action</label>
+        
+                <input type="checkbox" id="adventure" name="genre[]" value="adventure">
+                <label for="adventure">Adventure</label>
+        
+                <input type="checkbox" id="rpg" name="genre[]" value="rpg">
+                <label for="rpg">RPG</label>
+        
+                <input type="checkbox" id="strategy" name="genre[]" value="strategy">
+                <label for="strategy">Strategy</label>
+        
+                <input type="checkbox" id="shooter" name="genre[]" value="shooter">
+                <label for="shooter">Shooter</label>
+            </div>
+        
+            <button type="button" class="nextButton">Next</button>
+        </div>
+        
+    
+        <div class="form-step step-3">
+            <h2>What platform is the game available on?</h2>
+            <label for="platform">Select platform:</label>
+            <select id="platform" name="platform">
+                <option value="pc">PC</option>
+                <option value="xbox">Xbox</option>
+                <option value="playstation">PlayStation</option>
+                <option value="switch">Switch</option>
+                <option value="mobile">Mobile</option>
+            </select>
+            <button type="button" class="nextButton">Next</button>
+        </div>
+    
+        <div class="form-step step-4">
+            <h2>Does the game support multiplayer?</h2>
+            <label for="multiplayer">Choose an option:</label>
+            <div>
+                <input type="radio" id="multiplayer" name="multiplayer" value="singleplayer">
+                <label for="multiplayer">Singleplayer</label>
+            </div>
+            <div>
+                <input type="radio" id="multiplayer" name="multiplayer" value="multiplayer">
+                <label for="multiplayer">Multiplayer</label>
+            </div>
+            <div>
+                <input type="radio" id="both" name="multiplayer" value="both">
+                <label for="both">Both</label>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </div>
+    </form>
+       
+    <script src="/frontendJS/formJS.js"></script>
+    <!-- #endregion
+</body>
 </html>
+
