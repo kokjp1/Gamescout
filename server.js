@@ -9,7 +9,6 @@ const session = require("express-session");
 
 const compression = require("compression");
 
-const { ObjectId } = require("mongodb");
 
 app.use(
   session({
@@ -101,12 +100,10 @@ client
   });
 
 app.get("/", (req, res) => {
-  res.render("index.ejs");
-
   const userInput = req.query.name || "";
   const safeInput = xss(userInput); // Sanitizing input
 
-  res.send(`Home, ${safeInput}`);
+  res.render("index.ejs", { message: `Home, ${safeInput}` });
 });
 
 app.get("/login", onLogin);
