@@ -227,6 +227,20 @@ function onResults(req, res) {
   res.render("results.ejs");
 }
 
+// games api fetch
+app.get("/games", async (req, res) => {
+  try {
+    const apiKey = process.env.API_KEY;
+    const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}`);
+    const data = await response.json();
+
+    res.render("games.ejs", { games: data.results });
+  } catch (error) {
+    console.error("Fetch error:", error);
+    res.status(500).send("Error fetching game data");
+  }
+});
+
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
 app.use((req, res) => {
