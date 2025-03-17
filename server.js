@@ -71,6 +71,7 @@ app.get("/bookmark", (req, res) => {
 // MongoDB database connection
 const activeDatabase = client.db(process.env.DB_NAME);
 const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
+const gameFinderFormSubmissions = activeDatabase.collection(process.env.DB_COLLECTION_GAMEFINDER);
 
 async function accountLogin(req, res) {
   try {
@@ -196,6 +197,17 @@ function onRegister(req, res) {
     errorMessageEmail: "",
     errorMessagePassword: "",
   });
+}
+
+// Route to handle form submission
+app.post("/gameFinderForm", gameFormHandler);
+
+async function gameFormHandler(req, res) {
+    const formData = req.body;
+    const collection = gameFinderFormSubmissions 
+    await collection.insertOne(formData);
+    res.redirect("/results.ejs");
+    // res.status(201).json({ message: "Data saved successfully!" });
 }
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
