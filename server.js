@@ -17,9 +17,9 @@ app.use(
     // secret key voor session encryption
     secret: process.env.SESSION_SECRET,
 
-    ttl: 30 * 60, //sessieduur is 30 minuten
+    ttl: 2 * 60 * 60, //sessieduur is 2 uur
     cookie: {
-      maxAge: 30 * 60 * 1000, //sessieduur is 30 minuten
+      maxAge: 2 * 60 * 60 * 1000, //sessieduur is 2 uur
       secure: false, //true als HTTPS
     },
     sameSite: "strict", //beschermt tegen CSRF aanvallen
