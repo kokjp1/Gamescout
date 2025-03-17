@@ -58,7 +58,7 @@ app.use(compression({
   filter: shouldCompress,
   // threshold is the byte threshold for the response body size
   // before compression is considered, the default is 1kb
-  threshold: 0
+  threshold: 1024
 }));
 
 
