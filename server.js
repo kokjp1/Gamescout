@@ -14,7 +14,7 @@ app.use(
     // Sla elke nieuwe sessie in het geheugen op, ook als deze niet gewijzigd is
     saveUninitialized: true,
 
-    // secret key for session encryption
+    // secret key voor session encryption
     secret: process.env.SESSION_SECRET,
 
     ttl: 30 * 60, //sessieduur is 30 minute
