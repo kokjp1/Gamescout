@@ -77,14 +77,6 @@ app.get("/bookmark", (req, res) => {
   res.render("bookmark.ejs");
 });
 
-function onHome(req, res) {
-  res.render("home.ejs");
-}
-
-// register
-
-app.post("/register", registerAccount);
-
 async function registerAccount(req, res) {
   try {
     const registeringUsername = xss(req.body.username);
