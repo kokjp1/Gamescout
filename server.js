@@ -1,4 +1,4 @@
-// express & dotenv setup
+// Project setup (express, dotenv, ejs, bcrypt, xss)
 
 require("dotenv").config();
 const xss = require("xss");
@@ -17,9 +17,9 @@ app.use(
     // secret key voor session encryption
     secret: process.env.SESSION_SECRET,
 
-    ttl: 30 * 60, //sessieduur is 30 minute
+    ttl: 30 * 60, //sessieduur is 30 minuten
     cookie: {
-      maxAge: 30 * 60 * 1000, //sessieduur is 30 minute
+      maxAge: 30 * 60 * 1000, //sessieduur is 30 minuten
       secure: false, //true als HTTPS
     },
     sameSite: "strict", //beschermt tegen CSRF aanvallen
@@ -46,7 +46,7 @@ const client = new MongoClient(mongoDBtoken, {
   },
 });
 
-// MongoDB connection
+// MongoDB connection + database connection
 
 client
   .connect()
@@ -58,6 +58,10 @@ client
     console.log(`For mongoDBtoken - ${mongoDBtoken}`);
   });
 
+const activeDatabase = client.db(process.env.DB_NAME);
+const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
+
+// Routes
 app.get("/", (req, res) => {
   res.render("index.ejs");
 });
@@ -68,93 +72,7 @@ app.get("/register", onRegister);
 app.post("/login", accountLogin);
 app.get("/results", onResults);
 
-// MongoDB database connection
-const activeDatabase = client.db(process.env.DB_NAME);
-const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
-
-async function accountLogin(req, res) {
-  try {
-    const formUsernameOrEmail = xss(req.body.usernameOrEmail);
-    const formPassword = req.body.password;
-
-    // Find the account by email or username
-    const account = await activeCollection.findOne(
-      {
-        $or: [
-          { email: formUsernameOrEmail },
-          { username: formUsernameOrEmail },
-        ],
-      },
-      { collation: { locale: "en", strength: 2 } } // Makes username search case-insensitive
-    );
-
-    // If no account is found
-    if (!account) {
-      return res.render("login.ejs", {
-        errorMessageUsernameOrEmail:
-          "We cannot find an account with this email or username, please try again or register.",
-        errorMessagePassword: "",
-      });
-    }
-
-    const passwordMatch = await bcrypt.compare(formPassword, account.password);
-    // If the password is incorrect
-    if (!passwordMatch) {
-      return res.render("login.ejs", {
-        errorMessageUsernameOrEmail: "",
-        errorMessagePassword: "Incorrect password, please try again.",
-      });
-    }
-
-    // Store userID in session
-    req.session.userId = account._id;
-
-    // If everything is correct
-    return res.redirect("/home");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("500: server error");
-  }
-}
-
-app.get("/home", async (req, res) => {
-  if (!req.session.userId) {
-    return res.render("login.ejs", {
-      errorMessageUsernameOrEmail:
-        "You have been logged out, please log in again.",
-      errorMessagePassword: "",
-    });
-  }
-
-  try {
-    // Convert the userId from the session to an ObjectId (hexstring is new, not deprecated)
-    const userId = new ObjectId(req.session.userId);
-    // Fetch the user from the database using the ObjectId
-    const user = await activeCollection.findOne({ _id: userId });
-
-    // Render the home page with the username fetched from the database
-    res.render("home.ejs", { username: user.username });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("500: server error");
-  }
-});
-
-function onLogin(req, res) {
-  res.render("login.ejs", {
-    errorMessageUsernameOrEmail: "",
-    errorMessagePassword: "",
-  });
-}
-
-function onResults(req, res) {
-  res.render("results.ejs");
-}
-
-// register
-
-app.post("/register", registerAccount);
-
+// Register account
 async function registerAccount(req, res) {
   try {
     const registeringUsername = xss(req.body.username);
@@ -214,12 +132,99 @@ async function registerAccount(req, res) {
   }
 }
 
+// Listening for post request to register an account
+app.post("/register", registerAccount);
+
+// Rendering pages
 function onRegister(req, res) {
   res.render("register.ejs", {
     errorMessageUsername: "",
     errorMessageEmail: "",
     errorMessagePassword: "",
   });
+}
+
+// Login account
+async function accountLogin(req, res) {
+  try {
+    const formUsernameOrEmail = xss(req.body.usernameOrEmail);
+    const formPassword = req.body.password;
+
+    // Find the account by email or username
+    const account = await activeCollection.findOne(
+      {
+        $or: [
+          { email: formUsernameOrEmail },
+          { username: formUsernameOrEmail },
+        ],
+      },
+      { collation: { locale: "en", strength: 2 } } // Makes username search case-insensitive
+    );
+
+    // If no account is found
+    if (!account) {
+      return res.render("login.ejs", {
+        errorMessageUsernameOrEmail:
+          "We cannot find an account with this email or username, please try again or register.",
+        errorMessagePassword: "",
+      });
+    }
+
+    const passwordMatch = await bcrypt.compare(formPassword, account.password);
+    // If the password is incorrect
+    if (!passwordMatch) {
+      return res.render("login.ejs", {
+        errorMessageUsernameOrEmail: "",
+        errorMessagePassword: "Incorrect password, please try again.",
+      });
+    }
+
+    // Store userID in session
+    req.session.userId = account._id;
+
+    // If everything is correct
+    return res.redirect("/home");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("500: server error");
+  }
+}
+
+// Home page
+app.get("/home", async (req, res) => {
+  // Check if the user is logged in
+  if (!req.session.userId) {
+    return res.render("login.ejs", {
+      errorMessageUsernameOrEmail:
+        "You have been logged out, please log in again.",
+      errorMessagePassword: "",
+    });
+  }
+
+  try {
+    // Convert the userId from the session to an ObjectId (hexstring is new, not deprecated)
+    const userId = new ObjectId(req.session.userId);
+    // Fetch the user from the database using the ObjectId
+    const user = await activeCollection.findOne({ _id: userId });
+
+    // Render the home page with the username fetched from the database
+    res.render("home.ejs", { username: user.username });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("500: server error");
+  }
+});
+
+// Rendering pages
+function onLogin(req, res) {
+  res.render("login.ejs", {
+    errorMessageUsernameOrEmail: "",
+    errorMessagePassword: "",
+  });
+}
+
+function onResults(req, res) {
+  res.render("results.ejs");
 }
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
