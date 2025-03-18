@@ -10,14 +10,34 @@
         <% games.forEach(game => { %>
         <li>
           <h2><%= game.name %></h2>
-          <img
-            src="<%= game.background_image %>"
-            alt="<%= game.name %>"
-            width="300" />
+          <img src="<%= game.background_image %>" alt="<%= game.name %>" width="300" />
           <p>Released: <%= game.released %></p>
-          <p>Platform <%= game.platforms %></p>
+          <p>Rating: <%= game.rating %></p>
+          <p>Tags:
+            <% game.tags.forEach(tag => { %>
+              <%= tag.name %><% if (game.tags.indexOf(tag) !== game.tags.length - 1) { %>, <% } %>
+            <% }); %>
+          </p>
         </li>
         <% }); %>
-      </ul>
+    </ul>
 </body>
+<body>
+  <ul>
+      <% games.forEach(game => { %>
+      <li>
+        <h2><%= game.name %></h2>
+        <img src="<%= game.background_image %>" alt="<%= game.name %>" width="300" />
+        <p>Released: <%= game.released %></p>
+        <p>Rating: <%= game.rating %></p>
+        <p>Tags:
+          <% game.tags.forEach(tag => { %>
+            <%= tag.name %><% if (game.tags.indexOf(tag) !== game.tags.length - 1) { %>, <% } %>
+          <% }); %>
+        </p>
+      </li>
+      <% }); %>
+  </ul>
+</body>
+
 </html>

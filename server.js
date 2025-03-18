@@ -271,12 +271,13 @@ async function gameFormHandler(req, res) {
     console.log("Fetching games for:", gameReleaseDate, gameTags, gamePlatform, gameMultiplayer);
 
     const response = await fetch(
-        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&tags=${gameTags}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`
+        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&tags=${gameTags}&platforms=${gamePlatform}&multiplayer=${gameMultiplayer}`
     );
 
     const data = await response.json();
     
-    console.log(gamePlatform);
+    console.log(data.results)
+    console.log(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&tags=${gameTags}&platforms=${gamePlatform}&multiplayer=${gameMultiplayer}`);
 
     res.render("results.ejs", { games: data.results });
 };
