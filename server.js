@@ -253,7 +253,7 @@ app.get("/games", async (req, res) => {
 app.post("/gameFinderForm", gameFormHandler);
 
 async function gameFormHandler(req, res) {
-  const { release_date, genre, platform, multiplayer, noLimit } = req.body;
+  const { release_date, tags, platform, multiplayer, noLimit } = req.body;
 
     let gameReleaseDate;
 
@@ -263,21 +263,27 @@ async function gameFormHandler(req, res) {
         gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
     }
 
-    const gameGenres = genre.join(",");
+    const gameTags = tags.join(",");
     const gamePlatform = platform;
     const gameMultiplayer = multiplayer;
     const apiKey = process.env.API_KEY;
 
-    console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayer);
+    console.log("Fetching games for:", gameReleaseDate, gameTags, gamePlatform, gameMultiplayer);
 
     const response = await fetch(
-        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&tags=${gameGenres}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`
+        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&tags=${gameTags}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`
     );
 
     const data = await response.json();
     
+    console.log(gamePlatform);
+
     res.render("results.ejs", { games: data.results });
 };
+// De Query Paramters moeten juist benoemd worden, "multiplayer is bijv. geen optie maar een tag net als battle-royale. Daarnaast moet ook uitgezocht worden hoe 
+// het platform nou echt in de frontend gezet moet worden zodat het in de backend werkt "
+
+
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
