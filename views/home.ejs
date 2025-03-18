@@ -22,7 +22,7 @@
         <div class="form-step step-1">
             <h2>When was the game released?</h2>
             <label for="release_date">Select release year:</label>
-            <input type="range" id="release_date" name="release_date" min="2000" max="2025" step="1" value="2018">
+            <input type="range" id="release_date" name="release_date" min="2000" max="2025" step="1" value="2018"> 
             <p id="release_date_value">2018</p>
             <label for="noLimit">No limit</label>
             <input type="checkbox" id="noLimit" name="noLimit" value="2000,2025">
@@ -34,24 +34,67 @@
             <label>Select genre:</label>
             
             <div class="checkbox-group">
-                <input type="checkbox" id="action" name="tags[]" value="action">
+                <input type="checkbox" id="action" name="genre[]" value="action">
                 <label for="action">Action</label>
-        
-                <input type="checkbox" id="adventure" name="tags[]" value="adventure">
+                
+                <input type="checkbox" id="indie" name="genre[]" value="indie">
+                <label for="indie">Indie</label>
+                
+                <input type="checkbox" id="adventure" name="genre[]" value="adventure">
                 <label for="adventure">Adventure</label>
-        
-                <input type="checkbox" id="rpg" name="tags[]" value="rpg">
+                
+                <input type="checkbox" id="rpg" name="genre[]" value="rpg">
                 <label for="rpg">RPG</label>
-        
-                <input type="checkbox" id="strategy" name="tags[]" value="horror">
-                <label for="horror">horror</label>
-        
-                <input type="checkbox" id="survival" name="tags[]" value="survival">
-                <label for="survival">Survival</label>
+                
+                <input type="checkbox" id="strategy" name="genre[]" value="strategy">
+                <label for="strategy">Strategy</label>
+                
+                <input type="checkbox" id="shooter" name="genre[]" value="shooter">
+                <label for="shooter">Shooter</label>
+                
+                <input type="checkbox" id="casual" name="genre[]" value="casual">
+                <label for="casual">Casual</label>
+                
+                <input type="checkbox" id="simulation" name="genre[]" value="simulation">
+                <label for="simulation">Simulation</label>
+                
+                <input type="checkbox" id="puzzle" name="genre[]" value="puzzle">
+                <label for="puzzle">Puzzle</label>
+                
+                <input type="checkbox" id="arcade" name="genre[]" value="arcade">
+                <label for="arcade">Arcade</label>
+                
+                <input type="checkbox" id="platformer" name="genre[]" value="platformer">
+                <label for="platformer">Platformer</label>
+                
+                <input type="checkbox" id="mmo" name="genre[]" value="massively-multiplayer">
+                <label for="mmo">Massively Multiplayer</label>
+                
+                <input type="checkbox" id="racing" name="genre[]" value="racing">
+                <label for="racing">Racing</label>
+                
+                <input type="checkbox" id="sports" name="genre[]" value="sports">
+                <label for="sports">Sports</label>
+                
+                <input type="checkbox" id="fighting" name="genre[]" value="fighting">
+                <label for="fighting">Fighting</label>
+                
+                <input type="checkbox" id="family" name="genre[]" value="family">
+                <label for="family">Family</label>
+                
+                <input type="checkbox" id="boardgames" name="genre[]" value="board-games">
+                <label for="boardgames">Board Games</label>
+                
+                <input type="checkbox" id="card" name="genre[]" value="card">
+                <label for="card">Card</label>
+                
+                <input type="checkbox" id="educational" name="genre[]" value="educational">
+                <label for="educational">Educational</label>
             </div>
-        
+            
             <button type="button" class="nextButton">Next</button>
         </div>
+        
         
     
         <div class="form-step step-3">
@@ -71,16 +114,12 @@
             <h2>Does the game support multiplayer?</h2>
             <label for="multiplayer">Choose an option:</label>
             <div>
-                <input type="radio" id="multiplayer" name="multiplayer" value="singleplayer">
+                <input type="checkbox" id="multiplayer/singleplayer" name="multiplayerSingleplayer" value="singleplayer">
                 <label for="multiplayer">Singleplayer</label>
             </div>
             <div>
-                <input type="radio" id="multiplayer" name="multiplayer" value="multiplayer">
+                <input type="checkbox" id="multiplayer/singleplayer" name="multiplayerSingleplayer" value="multiplayer">
                 <label for="multiplayer">Multiplayer</label>
-            </div>
-            <div>
-                <input type="radio" id="both" name="multiplayer" value="both">
-                <label for="both">Both</label>
             </div>
             <button type="submit" class="submit-btn">Submit</button>
         </div>
