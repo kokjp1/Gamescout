@@ -123,7 +123,7 @@ async function registerAccount(req, res) {
 
     const hashedPassword = await bcrypt.hash(registeringPassword, saltRounds);
 
-    registeredAccount = await activeCollection.insertOne({
+    const registeredAccount = await activeCollection.insertOne({
       username: registeringUsername,
       email: registeringEmail,
       password: hashedPassword,
@@ -255,29 +255,35 @@ app.post("/gameFinderForm", gameFormHandler);
 async function gameFormHandler(req, res) {
   const { release_date, genre, platform, multiplayer, noLimit } = req.body;
 
-    let gameReleaseDate;
+  let gameReleaseDate;
 
-    if (noLimit) { 
-        gameReleaseDate = "2000-01-01,2025-12-31"; 
-    } else {
-        gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
-    }
+  if (noLimit) {
+    gameReleaseDate = "2000-01-01,2025-12-31";
+  } else {
+    gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
+  }
 
-    const gameGenres = genre.join(",");
-    const gamePlatform = platform;
-    const gameMultiplayer = multiplayer;
-    const apiKey = process.env.API_KEY;
+  const gameGenres = genre.join(",");
+  const gamePlatform = platform;
+  const gameMultiplayer = multiplayer;
+  const apiKey = process.env.API_KEY;
 
-    console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayer);
+  console.log(
+    "Fetching games for:",
+    gameReleaseDate,
+    gameGenres,
+    gamePlatform,
+    gameMultiplayer
+  );
 
-    const response = await fetch(
-        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&tags=${gameGenres}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`
-    );
+  const response = await fetch(
+    `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&tags=${gameGenres}&platform=${gamePlatform}&multiplayer=${gameMultiplayer}`
+  );
 
-    const data = await response.json();
-    
-    res.render("results.ejs", { games: data.results });
-};
+  const data = await response.json();
+
+  res.render("results.ejs", { games: data.results });
+}
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
