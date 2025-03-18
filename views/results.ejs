@@ -10,14 +10,15 @@
         <% games.forEach(game => { %>
         <li>
           <h2><%= game.name %></h2>
-          <img
-            src="<%= game.background_image %>"
-            alt="<%= game.name %>"
-            width="300" />
+          <img src="<%= game.background_image %>" alt="<%= game.name %>" width="300" />
           <p>Released: <%= game.released %></p>
-          <p>Platform <%= game.platforms %></p>
+          <p>Rating: <%= game.rating %></p>
+          <p>Description: <%= game.description %></p>
+          <p>Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
+          <p>Tags (multiplayer/singleplayer): <%= game.tags.map(tag => tag.name).join(", ") %></p>
         </li>
         <% }); %>
-      </ul>
+    </ul>
 </body>
+
 </html>
