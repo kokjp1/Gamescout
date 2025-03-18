@@ -123,7 +123,7 @@ async function registerAccount(req, res) {
 
     const hashedPassword = await bcrypt.hash(registeringPassword, saltRounds);
 
-    registeredAccount = await activeCollection.insertOne({
+    const registeredAccount = await activeCollection.insertOne({
       username: registeringUsername,
       email: registeringEmail,
       password: hashedPassword,
@@ -255,13 +255,13 @@ app.post("/gameFinderForm", gameFormHandler);
 async function gameFormHandler(req, res) {
   const { release_date, tags, platform, multiplayer, noLimit } = req.body;
 
-    let gameReleaseDate;
+  let gameReleaseDate;
 
-    if (noLimit) { 
-        gameReleaseDate = "2000-01-01,2025-12-31"; 
-    } else {
-        gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
-    }
+  if (noLimit) {
+    gameReleaseDate = "2000-01-01,2025-12-31";
+  } else {
+    gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
+  }
 
     const gameTags = tags.join(",");
     const gamePlatform = platform;
@@ -282,8 +282,6 @@ async function gameFormHandler(req, res) {
 };
 // De Query Paramters moeten juist benoemd worden, "multiplayer is bijv. geen optie maar een tag net als battle-royale. Daarnaast moet ook uitgezocht worden hoe 
 // het platform nou echt in de frontend gezet moet worden zodat het in de backend werkt "
-
-
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
