@@ -66,8 +66,6 @@ app.get("/", (req, res) => {
   res.render("index.ejs");
 });
 
-app.get("/results", onResults);
-
 app.get("/login", onLogin);
 app.get("/register", onRegister);
 
@@ -76,6 +74,10 @@ app.post("/login", accountLogin);
 app.get("/bookmark", (req, res) => {
   res.render("bookmark.ejs");
 });
+
+app.get("/results", onResults);
+
+app.get("/game", onGame)
 
 async function registerAccount(req, res) {
   try {
@@ -270,7 +272,7 @@ async function gameFormHandler(req, res) {
     console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayerSingleplayer);
 
     const response = await fetch(
-        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}search_precise=true`
+        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}`
         // eventueel achteraan nog &search_precise=true zetten
     );
 
@@ -282,8 +284,9 @@ async function gameFormHandler(req, res) {
     res.render("results.ejs", { games: data.results });
 };
 
-// De Query Paramters moeten juist benoemd worden, "multiplayer is bijv. geen optie maar een tag net als battle-royale. Daarnaast moet ook uitgezocht worden hoe 
-// het platform nou echt in de frontend gezet moet worden zodat het in de backend werkt "
+function onGame (req, res) {
+  res.render("game.ejs");
+}
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
