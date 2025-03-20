@@ -1,4 +1,4 @@
-// Project setup (express, dotenv, ejs, bcrypt, xss)
+// Project setup (express, dotenv, ejs, bcrypt, xss, nodemailer)
 
 require("dotenv").config();
 const xss = require("xss");
@@ -6,6 +6,127 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const app = express();
 const session = require("express-session");
+const nodemailer = require("nodemailer");
+
+
+// Nodemailer setup
+
+
+app.get('/forget', (_, res) => {
+  res.render('forget.ejs', {
+  });
+});
+
+app.post('/forget', (_, res) => {
+  res.render('forget.ejs', {
+  });
+});
+
+
+app.get('/resetPassword', (_, res) => {
+  res.render('resetPassword.ejs');
+});
+
+app.post('/resetPassword', (_, res) => {
+  res.render('resetPassword.ejs');
+});
+
+
+
+
+try {
+  const user = await User.findOne({ email });
+  if (!user) return res.status(404).json({ message: "User doesn't exist" });
+
+  const secret = process.env.JWT + user.password;
+  const token = jwt.sign({ id: user._id, email: user.email }, secret, { expiresIn: '1h' });
+
+   const resetURL = `https://your-backend-url/resetpassword?id=${user._id}&token=${token}`;
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    to: user.email,
+    from: process.env.EMAIL,
+    subject: 'Password Reset Request',
+    text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+    Please click on the following link, or paste this into your browser to complete the process:\n\n
+    ${resetURL}\n\n
+    If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+  };
+
+  await transporter.sendMail(mailOptions);
+
+  res.status(200).json({ message: 'Password reset link sent' });
+} catch (error) {
+  res.status(500).json({ message: 'Something went wrong' });
+}
+};
+
+
+
+
+
+
+
+// export const requestPasswordReset = async (req, res, next) => {
+//   const { email } = req.body;
+
+//   try {
+//     const user = await User.findOne({ email });
+//     if (!user) return res.status(404).json({ message: "User doesn't exist" });
+
+//     const secret = process.env.JWT + user.password;
+//     const token = jwt.sign({ id: user._id, email: user.email }, secret, { expiresIn: '1h' });
+
+//      const resetURL = `https://your-backend-url/resetpassword?id=${user._id}&token=${token}`;
+
+//     const transporter = nodemailer.createTransport({
+//       service: 'gmail',
+//       auth: {
+//         user: process.env.EMAIL_USERNAME,
+//         pass: process.env.EMAIL_PASSWORD,
+//       },
+//     });
+
+//     const mailOptions = {
+//       to: user.email,
+//       from: process.env.EMAIL,
+//       subject: 'Password Reset Request',
+//       text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+//       Please click on the following link, or paste this into your browser to complete the process:\n\n
+//       ${resetURL}\n\n
+//       If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+//     };
+
+//     await transporter.sendMail(mailOptions);
+
+//     res.status(200).json({ message: 'Password reset link sent' });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Something went wrong' });
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.use(
   session({
     //Sla de sessie niet opnieuw op als deze onveranderd is
@@ -60,6 +181,7 @@ client
 
 const activeDatabase = client.db(process.env.DB_NAME);
 const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
+
 
 // Routes
 app.get("/", (req, res) => {
