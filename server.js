@@ -270,7 +270,7 @@ async function gameFormHandler(req, res) {
     console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayerSingleplayer);
 
     const response = await fetch(
-        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}&search_precise=true`
+        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}search_precise=true`
         // eventueel achteraan nog &search_precise=true zetten
     );
 

@@ -15,7 +15,11 @@
           <p>Rating: <%= game.rating %></p>
           <p>Description: <%= game.description %></p>
           <p>Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
-          <p>Tags (multiplayer/singleplayer): <%= game.tags.map(tag => tag.name).join(", ") %></p>
+          <p>Tags: <%= game.tags
+              .filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase()))
+                .map(tag => tag.name).join(", ") %>
+                <!-- Chat-GPT gevraagd om hoe ik nested arrays kan weergeven op de website-->
+            </p>
         </li>
         <% }); %>
     </ul>
