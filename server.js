@@ -77,7 +77,7 @@ app.get("/bookmark", (req, res) => {
 
 app.get("/results", onResults);
 
-app.get("/game", onGame)
+app.get("/game", onGame);
 
 async function registerAccount(req, res) {
   try {
@@ -237,25 +237,12 @@ function onResults(req, res) {
   res.render("results.ejs");
 }
 
-// games api fetch
-app.get("/games", async (req, res) => {
-  try {
-    const apiKey = process.env.API_KEY;
-    const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}`);
-    const data = await response.json();
-
-    res.render("games.ejs", { games: data.results });
-  } catch (error) {
-    console.error("Fetch error:", error);
-    res.status(500).send("Error fetching game data");
-  }
-});
-
 // Process information from the user entering the search paramters
 app.post("/gameFinderForm", gameFormHandler);
 
 async function gameFormHandler(req, res) {
-  const { release_date, genre, platform, multiplayerSingleplayer , noLimit } = req.body;
+  const { release_date, genre, platform, multiplayerSingleplayer, noLimit } =
+    req.body;
 
   let gameReleaseDate;
 
@@ -264,27 +251,35 @@ async function gameFormHandler(req, res) {
   } else {
     gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
   }
-    const gameGenres = genre.join(",");
-    const gamePlatform = platform;
-    const gameMultiplayerSingleplayer = multiplayerSingleplayer;
-    const apiKey = process.env.API_KEY;
+  const gameGenres = genre.join(",");
+  const gamePlatform = platform;
+  const gameMultiplayerSingleplayer = multiplayerSingleplayer;
+  const apiKey = process.env.API_KEY;
 
-    console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayerSingleplayer);
+  console.log(
+    "Fetching games for:",
+    gameReleaseDate,
+    gameGenres,
+    gamePlatform,
+    gameMultiplayerSingleplayer
+  );
 
-    const response = await fetch(
-        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}`
-        // eventueel achteraan nog &search_precise=true zetten
-    );
+  const response = await fetch(
+    `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}`
+    // eventueel achteraan nog &search_precise=true zetten
+  );
 
-    const data = await response.json();
-    
-    // console.log(data.results)
-    console.log(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`);
+  const data = await response.json();
 
-    res.render("results.ejs", { games: data.results });
-};
+  // console.log(data.results)
+  console.log(
+    `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`
+  );
 
-function onGame (req, res) {
+  res.render("results.ejs", { games: data.results });
+}
+
+function onGame(req, res) {
   res.render("game.ejs");
 }
 
