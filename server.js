@@ -17,14 +17,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Function to generate a 6-digit OTP
+
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
 // Update the /forget route to send OTP
 app.post('/forget', async (req, res) => {
-  const { email } = req.body; // Assuming the email is sent in the request body
+  const { email } = req.body; 
   const otp = generateOTP();
 
   const mailOptions = {
@@ -36,7 +36,6 @@ app.post('/forget', async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    // Store OTP in session or a temporary variable
     req.session.otp = otp; 
     res.render('resetPassword.ejs', { otp }); 
   } catch (error) {
