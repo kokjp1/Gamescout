@@ -66,8 +66,6 @@ app.get("/", (req, res) => {
   res.render("index.ejs");
 });
 
-app.get("/results", onResults);
-
 app.get("/login", onLogin);
 app.get("/register", onRegister);
 
@@ -76,6 +74,10 @@ app.post("/login", accountLogin);
 app.get("/bookmark", (req, res) => {
   res.render("bookmark.ejs");
 });
+
+app.get("/results", onResults);
+
+app.get("/game", onGame);
 
 async function registerAccount(req, res) {
   try {
@@ -235,25 +237,12 @@ function onResults(req, res) {
   res.render("results.ejs");
 }
 
-// games api fetch
-app.get("/games", async (req, res) => {
-  try {
-    const apiKey = process.env.API_KEY;
-    const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}`);
-    const data = await response.json();
-
-    res.render("games.ejs", { games: data.results });
-  } catch (error) {
-    console.error("Fetch error:", error);
-    res.status(500).send("Error fetching game data");
-  }
-});
-
 // Process information from the user entering the search paramters
 app.post("/gameFinderForm", gameFormHandler);
 
 async function gameFormHandler(req, res) {
-  const { release_date, genre, platform, multiplayerSingleplayer , noLimit } = req.body;
+  const { release_date, genre, platform, multiplayerSingleplayer, noLimit } =
+    req.body;
 
   let gameReleaseDate;
 
@@ -262,28 +251,56 @@ async function gameFormHandler(req, res) {
   } else {
     gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
   }
-    const gameGenres = genre.join(",");
-    const gamePlatform = platform;
-    const gameMultiplayerSingleplayer = multiplayerSingleplayer;
-    const apiKey = process.env.API_KEY;
+  const gameGenres = genre.join(",");
+  const gamePlatform = platform;
+  const gameMultiplayerSingleplayer = multiplayerSingleplayer;
+  const apiKey = process.env.API_KEY;
 
-    console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayerSingleplayer);
+  console.log(
+    "Fetching games for:",
+    gameReleaseDate,
+    gameGenres,
+    gamePlatform,
+    gameMultiplayerSingleplayer
+  );
 
-    const response = await fetch(
-        `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}search_precise=true`
-        // eventueel achteraan nog &search_precise=true zetten
-    );
+  const response = await fetch(
+    `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}`
+    // eventueel achteraan nog &search_precise=true zetten
+  );
 
-    const data = await response.json();
-    
-    // console.log(data.results)
-    console.log(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`);
+  const data = await response.json();
 
-    res.render("results.ejs", { games: data.results });
-};
+  // console.log(data.results)
+  console.log(
+    `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`
+  );
 
-// De Query Paramters moeten juist benoemd worden, "multiplayer is bijv. geen optie maar een tag net als battle-royale. Daarnaast moet ook uitgezocht worden hoe 
-// het platform nou echt in de frontend gezet moet worden zodat het in de backend werkt "
+  res.render("results.ejs", { games: data.results });
+  function fetchGameId() {
+    const gameIDResults = data.results.map((game) => game.id);
+
+    // // Log all game IDs
+    // gameIDResults.forEach((game) => {
+    //   console.log(game);
+    // });
+
+    // Fetch details of the first game using the correct URL structure
+    fetch(`https://api.rawg.io/api/games/${gameIDResults[0]}?key=${apiKey}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.error("Error fetching game details:", error));
+
+    console.log("TEST TEST TEST", data.description);
+  }
+  fetchGameId();
+}
+
+function onGame(req, res) {
+  res.render("game.ejs");
+}
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
