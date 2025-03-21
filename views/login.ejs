@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login | GameScouter</title>
+    <title>GameScouter | Login</title>
+    <link rel="icon" type="image/x-icon" href="/images/controllerfavico.png">
     <link rel="stylesheet" href="/cssfiles/main.css" />
     <link rel="stylesheet" href="/cssfiles/form.css" />
   </head>
@@ -11,27 +12,17 @@
   <body>
     <div id="registreerformulier">
       <div id="gamescouterLogo">Gamescout</div>
-      <!-- Div element zodat het niet zichtbaar is voor screerea-->
+      <!-- Div element zodat het niet zichtbaar is voor screereaders-->
       <form action="/login" method="POST">
         <legend>Log in op je account</legend>
         <fieldset id="gegevens">
           <label for="usernameOrEmail">Username or Email</label>
-          <input
-            type="text"
-            id="usernameOrEmail"
-            name="usernameOrEmail"
-            placeholder="Username or Email"
-            required />
+          <input type="text" id="usernameOrEmail" name="usernameOrEmail" placeholder="Username or Email" required />
           <% if (!!errorMessageUsernameOrEmail) { %>
           <p class="errorMessage"><%= errorMessageUsernameOrEmail %></p>
           <% } %>
           <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            required />
+          <input type="password" id="password" name="password" placeholder="Password" required />
           <% if (!!errorMessagePassword) { %>
           <p class="errorMessage"><%= errorMessagePassword %></p>
           <% } %>

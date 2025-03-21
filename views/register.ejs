@@ -3,10 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register | GameScouter</title>
+    <title>GameScouter | Register</title>
+    <link rel="icon" type="image/x-icon" href="/images/controllerfavico.png">
     <link rel="stylesheet" href="/cssfiles/main.css" />
     <link rel="stylesheet" href="/cssfiles/form.css" />
   </head>
+
   <body>
     <div id="registreerformulier">
       <div id="gamescouterLogo">Gamescout</div>
@@ -14,32 +16,17 @@
         <legend>Registreer je account bij deze site</legend>
         <fieldset id="gegevens">
           <label for="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Username"
-            required />
+          <input type="text" id="username" name="username" placeholder="Username" required />
           <% if (!!errorMessageUsername) { %>
           <p class="errorMessage"><%= errorMessageUsername %></p>
           <% } %>
           <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Email"
-            required />
+          <input type="email" id="email" name="email" placeholder="Email" required />
           <% if (!!errorMessageEmail) { %>
           <p class="errorMessage"><%= errorMessageEmail %></p>
           <% } %>
           <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            required />
+          <input type="password" id="password" name="password" placeholder="Password" required />
           <% if (!!errorMessagePassword) { %>
           <p class="errorMessage"><%= errorMessagePassword %></p>
           <% } %>

@@ -16,6 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", handleNextButtonClick);
     });
 
+
+    // Release date range input code
+
     const rangeInput = document.getElementById("release_date");
     const releaseDateValue = document.getElementById("release_date_value");
     const noLimitCheckbox = document.getElementById("noLimit");
@@ -37,5 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const articles = document.querySelectorAll("#checkboxes article");
+    articles.forEach((article, index) => {
+        article.style.animationDelay = `${index * 0.1}s`;
+    });
+});
+// code van Copilot, anders moest ik 19 nth-of-type selectoren schrijven voor elke checkbox 
 
 console.log("hello from formJS");
