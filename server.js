@@ -277,6 +277,25 @@ async function gameFormHandler(req, res) {
   );
 
   res.render("results.ejs", { games: data.results });
+  function fetchGameId() {
+    const gameIDResults = data.results.map((game) => game.id);
+
+    // // Log all game IDs
+    // gameIDResults.forEach((game) => {
+    //   console.log(game);
+    // });
+
+    // Fetch details of the first game using the correct URL structure
+    fetch(`https://api.rawg.io/api/games/${gameIDResults[0]}?key=${apiKey}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.error("Error fetching game details:", error));
+
+    console.log("TEST TEST TEST", data.description);
+  }
+  fetchGameId();
 }
 
 function onGame(req, res) {
