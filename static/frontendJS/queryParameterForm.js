@@ -42,11 +42,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    const articles = document.querySelectorAll("#checkboxes article");
-    articles.forEach((article, index) => {
-        article.style.animationDelay = `${index * 0.1}s`;
+    const genreTiles = document.querySelectorAll("#checkboxes article");
+    genreTiles.forEach((genreTile, index) => {
+        genreTile.style.animationDelay = `${index * 0.1}s`;
     });
 });
-// code van Copilot, anders moest ik 19 nth-of-type selectoren schrijven voor elke checkbox 
-
-console.log("hello from formJS");
+// code van Copilot, anders moest ik 19 nth-of-type selectoren schrijven voor elke checkbox op de genre selector
