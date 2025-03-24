@@ -1,93 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameScouter | Welcome </title>
-    <link rel="stylesheet" href="/cssfiles/main.css">
-    <link rel="stylesheet" href="/cssfiles/home.css">
-    <link rel="stylesheet" href="/cssfiles/userQueryForm.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameScouter | Home</title>
+    <link rel="icon" type="image/x-icon" href="/images/controllerfavico.png" />
+    <link rel="stylesheet" href="/cssfiles/main.css" />
+    <link rel="stylesheet" href="/cssfiles/home.css" />
+    <link rel="stylesheet" href="/cssfiles/userQueryForm.css" />
+  </head>
+  <body>
     <section>
-    <img src="/images/profilepictures/testProfilePicture3.jpeg" alt="profile picture">
-    <div>
-    <h1>Welcome Justin</h1>
-    <h2>Looking for new games to play?</h2>
-    </div>
+      <img src="/images/profilepictures/anonprofile.jpg" alt="profile picture" />
+      <div>
+        <h1>Welcome <%= username %></h1>
+        <h2>Looking for new games to play?</h2>
+      </div>
     </section>
-    <!-- #region FORMCODE -->
-     
-    <form action="/gameFinderForm" method="POST" class="progressive-form">
-        <div class="form-step step-1">
-            <h2>When was the game released?</h2>
-            <label for="release_date">Select release year:</label>
-            <input type="range" id="release_date" name="release_date" min="2000" max="2025" step="1" value="2018">
-            <p id="release_date_value">2018</p>
-            <label for="noLimit">No limit</label>
-            <input type="checkbox" id="noLimit" name="noLimit" value="2000,2025">
-            <button type="button" class="nextButton">Next</button>
-        </div>
-    
-        <div class="form-step GenreSelector">
-            <h2>What is the genre of the game?</h2>
-            <label>Select genre:</label>
-            
-            <div class="checkbox-group">
-                <input type="checkbox" id="action" name="tags[]" value="action">
-                <label for="action">Action</label>
-        
-                <input type="checkbox" id="adventure" name="tags[]" value="adventure">
-                <label for="adventure">Adventure</label>
-        
-                <input type="checkbox" id="rpg" name="tags[]" value="rpg">
-                <label for="rpg">RPG</label>
-        
-                <input type="checkbox" id="strategy" name="tags[]" value="strategy">
-                <label for="strategy">Strategy</label>
-        
-                <input type="checkbox" id="survival" name="tags[]" value="survival">
-                <label for="survival">Survival</label>
-            </div>
-        
-            <button type="button" class="nextButton">Next</button>
-        </div>
-        
-    
-        <div class="form-step step-3">
-            <h2>What platform is the game available on?</h2>
-            <label for="platform">Select platform:</label>
-            <select id="platform" name="platform">
-                <option value="pc">PC</option>
-                <option value="playstation5">playstation5</option>
-                <option value="playstion4">PlayStation 4</option>
-                <option value="xbox-series-x">Xbox Series (X/S)</option>
-                <option value="nintendo-switch">Nintendo-Switch</option>
-            </select>
-            <button type="button" class="nextButton">Next</button>
-        </div>
-    
-        <div class="form-step step-4">
-            <h2>Does the game support multiplayer?</h2>
-            <label for="multiplayer">Choose an option:</label>
-            <div>
-                <input type="radio" id="multiplayer" name="multiplayer" value="singleplayer">
-                <label for="multiplayer">Singleplayer</label>
-            </div>
-            <div>
-                <input type="radio" id="multiplayer" name="multiplayer" value="multiplayer">
-                <label for="multiplayer">Multiplayer</label>
-            </div>
-            <div>
-                <input type="radio" id="both" name="multiplayer" value="both">
-                <label for="both">Both</label>
-            </div>
-            <button type="submit" class="submit-btn">Submit</button>
-        </div>
-    </form>
-       
-    <script src="/frontendJS/queryParameterForm.js"></script>
-    <!-- #endregion
-</body>
-</html>
 
+    <!-- #region FORM CODE -->
+
+    <!-- STAP 1 RELEASEYEAR -->
+
+    <form action="/gameFinderForm" method="POST" class="progressive-form">
+      <div class="form-step dateRange">
+        <h2>What year of games are you searching for?</h2>
+        <label class="checkbox-option">
+          any year
+          <input type="checkbox" id="noLimit" name="noLimit" value="2000,2025" />
+          <span class="checkbox-option__checkmark"></span>
+        </label>
+        <input type="range" id="release_date" name="release_date" min="2000" max="2025" step="1" value="2018"/>
+        <div>
+          <div>
+            <img src="/images/tagicon.svg" />
+            <p id="release_date_value">2018</p>
+          </div>
+          <button type="button" class="nextButton">Next</button>
+        </div>
+      </div>
+
+      <!-- STAP 2 GENRE SELECTOR -->
+
+      <div class="form-step genreSelector">
+        <h2>What genre of games are you interested in?</h2>
+        <div id="checkboxes">
+          <article>
+            <label class="checkbox-option-genre">
+              Action <input type="checkbox" name="genre[]" value="action" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Grand Theft Auto V</li>
+              <li>Spider-Man: Miles Morales</li>
+              <li>DOOM Eternal</li>
+              <li>Devil May Cry 5</li>
+              <li>Red Dead Redemption 2</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Indie <input type="checkbox" name="genre[]" value="indie" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Hades</li>
+              <li>Celeste</li>
+              <li>Stardew Valley</li>
+              <li>Hollow Knight</li>
+              <li>Undertale</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Adventure <input type="checkbox" name="genre[]" value="adventure" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>The Legend of Zelda: Breath of the Wild</li>
+              <li>Uncharted 4: A Thief’s End</li>
+              <li>The Last of Us Part II</li>
+              <li>Tomb Raider (2013)</li>
+              <li>Grim Fandango Remastered</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              RPG <input type="checkbox" name="genre[]" value="rpg" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>The Witcher 3: Wild Hunt</li>
+              <li>Persona 5</li>
+              <li>Final Fantasy XV</li>
+              <li>Cyberpunk 2077</li>
+              <li>Elder Scrolls V: Skyrim</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Strategy <input type="checkbox" name="genre[]" value="strategy" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Civilization VI</li>
+              <li>XCOM 2</li>
+              <li>Starcraft II</li>
+              <li>Total War: Warhammer II</li>
+              <li>Age of Empires IV</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Shooter <input type="checkbox" name="genre[]" value="shooter" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Call of Duty: Warzone</li>
+              <li>Apex Legends</li>
+              <li>Overwatch</li>
+              <li>Fortnite</li>
+              <li>Counter-Strike: Global Offensive</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Casual <input type="checkbox" name="genre[]" value="casual" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Animal Crossing: New Horizons</li>
+              <li>The Sims 4</li>
+              <li>Stardew Valley</li>
+              <li>Untitled Goose Game</li>
+              <li>Minecraft</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Simulation <input type="checkbox" name="genre[]" value="simulation" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>The Sims 4</li>
+              <li>Cities: Skylines</li>
+              <li>Microsoft Flight Simulator</li>
+              <li>Planet Coaster</li>
+              <li>Euro Truck Simulator 2</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Puzzle <input type="checkbox" name="genre[]" value="puzzle" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Portal 2</li>
+              <li>The Witness</li>
+              <li>Tetris Effect</li>
+              <li>Baba Is You</li>
+              <li>The Talos Principle</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Arcade <input type="checkbox" name="genre[]" value="arcade" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Pac-Man Championship Edition 2</li>
+              <li>Space Invaders Extreme</li>
+              <li>Frogger</li>
+              <li>Galaga</li>
+              <li>Centipede: Recharged</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Platformer <input type="checkbox" name="genre[]" value="platformer" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Super Mario Odyssey</li>
+              <li>Celeste</li>
+              <li>Rayman Legends</li>
+              <li>Shovel Knight</li>
+              <li>Ori and the Blind Forest</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Massively Multiplayer <input type="checkbox" name="genre[]" value="massively-multiplayer" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>World of Warcraft</li>
+              <li>Final Fantasy XIV</li>
+              <li>Guild Wars 2</li>
+              <li>Elder Scrolls Online</li>
+              <li>Black Desert Online</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Racing <input type="checkbox" name="genre[]" value="racing" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Forza Horizon 5</li>
+              <li>Mario Kart 8 Deluxe</li>
+              <li>Gran Turismo 7</li>
+              <li>Need for Speed Heat</li>
+              <li>F1 2021</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Sports <input type="checkbox" name="genre[]" value="sports" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>FIFA 22</li>
+              <li>NBA 2K21</li>
+              <li>Madden NFL 21</li>
+              <li>WWE 2K Battlegrounds</li>
+              <li>Pro Evolution Soccer 2021</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Fighting <input type="checkbox" name="genre[]" value="fighting" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Street Fighter V</li>
+              <li>Tekken 7</li>
+              <li>Mortal Kombat 11</li>
+              <li>Super Smash Bros. Ultimate</li>
+              <li>Dragon Ball FighterZ</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Family <input type="checkbox" name="genre[]" value="family" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Super Mario Party</li>
+              <li>Minecraft</li>
+              <li>Lego Marvel Super Heroes 2</li>
+              <li>Luigi’s Mansion 3</li>
+              <li>Animal Crossing: New Horizons</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Board Games <input type="checkbox" name="genre[]" value="board-games" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Catan</li>
+              <li>Ticket to Ride</li>
+              <li>Monopoly Plus</li>
+              <li>Scrabble</li>
+              <li>Carcassonne</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Card <input type="checkbox" name="genre[]" value="card" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Hearthstone</li>
+              <li>Magic: The Gathering Arena</li>
+              <li>Slay the Spire</li>
+              <li>Gwent</li>
+              <li>Yu-Gi-Oh! Duel Links</li>
+            </ul>
+          </article>
+          <article>
+            <label class="checkbox-option-genre">
+              Educational <input type="checkbox" name="genre[]" value="educational" />
+              <span class="checkbox-option-genre__checkmark"></span>
+            </label>
+            <hr />
+            <ul>
+              <li>Portal 2</li>
+              <li>The Talos Principle</li>
+              <li>The Witness</li>
+              <li>Human Resource Machine</li>
+              <li>Turing Test</li>
+            </ul>
+          </article>
+        </div>
+        <button type="button" class="nextButton">Next</button>
+      </div>
+
+      <!-- STAP 3 PLATFORM SELECTOR -->
+
+      <div class="form-step platformPicker">
+        <h2>What platform is the game available on?</h2>
+        <label for="platform">Look for games on:</label>
+        <select id="platform" name="platform">
+          <option value="4">PC</option>
+          <option value="187">PlayStation 5</option>
+          <option value="18">PlayStation 4</option>
+          <option value="186">Xbox Series (X/S)</option>
+          <option value="7">Nintendo Switch</option>
+        </select>
+        <button type="button" class="nextButton">Next</button>
+      </div>
+
+      <!-- STAP 4 MULTI/SINGLEPLAYER SELECTOR-->
+
+      <div class="form-step multiSingleplayer">
+        <h2>Are you looking for multiplayer or singleplayer games?</h2>
+        <div>
+          <label class="checkbox-option">
+            <input type="checkbox" name="multiplayerSingleplayer" value="singleplayer" />
+            <span class="checkbox-option__checkmark"></span>
+            Singleplayer
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="multiplayerSingleplayer" value="multiplayer" />
+            <span class="checkbox-option__checkmark"></span>
+            Multiplayer
+          </label>
+        </div>
+        <button type="submit" class="nextButton">See Results</button>
+      </div>
+    </form>
+
+    <script src="/frontendJS/queryParameterForm.js"></script>
+    <!-- #endregion -->
+  </body>
+</html>

@@ -1,50 +1,372 @@
+/* GENERAL FORM STYLING 
+################################################################
+===============================================================*/
 
 form {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 30px;
+  background-color: var(--color-menu-hover);
+  padding: 2em;
+  color: var(--color-primary-gray);
   border-radius: 10px;
-  width: 400px;
+  width: calc(60% + 2vw);
+  max-width: 800px; /* Set your desired maximum width */
+  animation: formFadeIn 1s ease forwards;
+  margin-left:7.25%;}
+
+form h2 {
+  color: var(--color-primary-gray);
 }
 
 h2 {
   font-size: 1.5em;
-  margin-bottom: 10px;
+  margin-bottom: 0.625em;
 }
 
 label {
   font-size: 1.2em;
 }
 
-input,
-select {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  background-color: #333;
-  color: white;
-  border: 1px solid #888;
-  border-radius: 5px;
-}
 
-button {
-  background-color: #e54b75;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
+
+/* CHECKBOX STYLING https://codepen.io/hqdrone/pen/vYGJXZN
+################################################################
+===============================================================*/
+/* #region CHECKBOXES STYLES */
+
+.checkbox-option {
+  display: inline-block;
+  position: relative;
+  padding-left: 1.875em;
   cursor: pointer;
+  user-select: none;
 }
 
-button:hover {
-  background-color: #b02a4d;
+.checkbox-option input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
-/* Hide all form steps by default */
+.checkbox-option input:checked ~ .checkbox-option__checkmark {
+  background-color: var(--color-border-button-primary);
+}
+
+.checkbox-option input:checked ~ .checkbox-option__checkmark:after {
+  opacity: 1;
+}
+
+.checkbox-option:hover input ~ .checkbox-option__checkmark {
+  background-color: var(--color-menu-hover);
+}
+
+.checkbox-option:hover input:checked ~ .checkbox-option__checkmark {
+  background-color: var(--color-border-button-primary);
+}
+
+.checkbox-option__checkmark {
+  position: absolute;
+  top: 0.125em;
+  left: 0;
+  height: 1.25em;
+  width: 1.25em;
+  background-color: var(--color-menu-hover);
+  transition: 0.25s ease;
+  border: 0.125em solid var(--color-border-button-primary);
+  border-radius: 0.25em;
+}
+
+.checkbox-option__checkmark:after {
+  content: "";
+  position: absolute;
+  left: 0.375em;
+  top: 0.188em;
+  width: 0.313em;
+  height: 0.625em;
+  border: solid var(--color-primary-gray);
+  border-width: 0 0.188em 0.188em 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.checkbox-option__label {
+  color: var(--color-primary-white);
+  line-height: 1.4;
+  font-size: var(--font-size-test);
+  font-family: var(--font-family-primary);
+}
+
+label.checkbox-option {
+  color: var(--color-primary-gray);
+}
+
+/* #endregion */
+
+/* FORM STEP 1 STYLING
+################################################################
+===============================================================*/
+
+.dateRange div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.dateRange div:nth-of-type(2) {
+  display: flex;
+}
+
+p#release_date_value {
+  font-size: 1.75em;
+  color: var(--color-primary-pink);
+  font-weight: 700;
+  width:17vw;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: .5em;
+  width: 100%;
+  background: var(--color-border-button-primary);
+  box-sizing: border-box;
+  margin: 3em 0 3em 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2em;
+  height: 2em;
+  background: var(--color-primary-pink);
+  border-radius: 25%;
+  cursor: pointer;
+  box-shadow: 0 0 0.85em 0.25em var(--color-border-button-secondary);
+  border: 0.225em solid var(--color-border-button-secondary);
+}
+
+input[type="range"]:disabled {
+  background-color:grey;
+}
+
+input[type="range"]:disabled::-webkit-slider-thumb {
+  background-color:grey;
+  border: 0.225em solid var(--color-primary-gray);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+/* ChatGPT gevraagd hoe ik range inputs kan stylen */
+
+
+
+/* FORM STEP 2 GENRESELECTOR CHECKBOX STYLING https://codepen.io/hqdrone/pen/vYGJXZN
+################################################################
+===============================================================*/
+/* #region genreSelector CHECKBOXES STYLES */
+
+/* Specific styling for genreSelector */
+.genreSelector .nextButton {
+  position: absolute;
+  right: 0; /* Adjust to your desired distance from the right */
+  bottom: -3em;; /* Adjust based on where you want the button placed vertically */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+#checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-bottom:1.5em;
+}
+
+hr {
+  margin: 1em 0 1em 0;
+  border: 0.1em rgba(221, 221, 221, 1) solid;
+}
+
+#checkboxes article {
+  padding: 1.5em;
+  border-radius: 10px;
+  border: 0.175em rgba(221, 221, 221, 0.75) solid;
+  background-color: rgba(255, 255, 255, 0.675);
+  opacity: 0;
+  animation: formFadeIn 3s ease forwards;
+}
+
+#checkboxes article li {
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--color-primary-gray);
+  background-color: var(--color-border-button-primary);
+  padding: 0.25em 0.5em 0.25em 0.5em;
+  border-radius: 1em;
+  display: inline-block;
+}
+
+.checkbox-option-genre {
+  display: inline-block;
+  position: relative;
+  padding-left: 1.875em;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-option-genre input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-option-genre input:checked ~ .checkbox-option-genre__checkmark {
+  background-color: var(--color-border-button-primary);
+}
+
+.checkbox-option-genre input:checked ~ .checkbox-option-genre__checkmark:after {
+  opacity: 1;
+}
+
+.checkbox-option-genre:hover input ~ .checkbox-option-genre__checkmark {
+  background-color: var(--color-menu-hover);
+}
+
+.checkbox-option-genre:hover input:checked ~ .checkbox-option-genre__checkmark {
+  background-color: var(--color-border-button-primary);
+}
+
+.checkbox-option-genre__checkmark {
+  position: absolute;
+  left: 0;
+  height: 1.25em;
+  width: 1.25em;
+  background-color: var(--color-menu-hover);
+  transition: 0.25s ease;
+  border: 0.125em solid var(--color-border-button-primary);
+  border-radius: 0.25em;
+}
+
+.checkbox-option-genre__checkmark:after {
+  content: "";
+  position: absolute;
+  left: 0.375em;
+  top: 0.188em;
+  width: 0.313em;
+  height: 0.625em;
+  border: solid var(--color-primary-gray);
+  border-width: 0 0.188em 0.188em 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.checkbox-option-genre__label {
+  color: var(--color-primary-gray);
+  line-height: 1.4;
+  font-family: var(--font-family-primary);
+}
+
+label.checkbox-option-genre {
+  color: var(--color-primary-gray);
+  font-size: var(--font-size-h3);
+}
+
+/* #endregion */
+
+/* alle form stappen verbergen */
 .form-step {
   display: none;
+  animation: formFadeIn 1s ease forwards;
 }
 
-/* Show the first step initially */
-.step-1 {
+/* eerste wel tonen */
+.dateRange {
   display: block;
+}
+
+@keyframes formFadeIn {
+  0% {
+    scale: 95%;
+    opacity: 0;
+  }
+  100% {
+    scale: 100%;
+    opacity: 1;
+  }
+}
+
+/* FORM STEP 3 DROPDOWN STYLING
+################################################################
+===============================================================*/
+
+
+#platform {
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-family: var(--font-family-primary);
+  font-weight: 600;
+  font-size:1.25em;
+  background-color: var(--color-background-input-field);
+  border: 0.125em solid var(--color-border-input-field);
+  border-radius: .35em;
+  color: var(--color-primary-gray);
+  padding: .25em 2em .25em .25em;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  background-image: url('/images/dropdownarrow.svg');
+  background-repeat: no-repeat;
+  background-position: right .8em center;
+  background-size: 1.25em;  
+  margin-right:.5em;
+}
+
+#platform:hover {
+  border-color: var(--color-border-button-primary);
+}
+
+#platform:focus {
+  border-color: #007bff;
+}
+
+select option {
+  background: rgba(220, 220, 220);
+  color: var(--color-primary-gray);
+  font-weight: 500;
+  padding:1em;
+}
+
+/* FORM STEP 4 MULTI/SINGLEPLAYER STYLING
+################################################################
+===============================================================*/
+
+.multiSingleplayer div {
+  display: flex;
+  flex-direction: column;
+  margin: 1em 0 1em 0;
+  gap:1em;
+  font-size: 1.15em;
+}
+
+
+
+
+.nextButton {
+  background-color: var(--color-border-button-primary);
+  border: 0.125em solid var(--color-border-button-secondary);
+  padding:0.5em 2em 0.5em 2em;
+  border-radius:0.25em;
+  font-size:1em;
+  color:white;
+  font-family: var(--font-family-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.nextButton:hover {
+  background-color: var(--color-border-button-secondary);
 }
