@@ -15,19 +15,19 @@
       <!-- 3 want 0, 1, 2 -->
       <li>
         <article class="bestResult">
-          <img src="<%= game.background_image %>" alt="<%= game.name %>" class="coverImg"  />
+          <img src="<%= game.background_image %>" alt="<%= game.name %>" class="coverImg" />
           <div>
-          <h2 class="name"><%= game.name %></h2>
-          <p><img src="images/releasedTag.svg" class="inlineIcon">Released:<%= game.released %></p>
-          <p><img src="images/ratingTag.svg" class="inlineIcon">Rating: <%= game.rating %></p>
-          <p><img src="images/genreTag.svg" class="inlineIcon">Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
-          <p><img src="images/playerTag.svg" class="inlineIcon">Tags: <%= game.tags.filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase())) .map(tag => tag.name).join(", ") %></p>
+            <h2 class="name"><%= game.name %></h2>
+            <p><img src="images/releasedTag.svg" class="inlineIcon" />Released:<%= game.released %></p>
+            <p><img src="images/ratingTag.svg" class="inlineIcon" />Rating: <%= game.rating %></p>
+            <p><img src="images/genreTag.svg" class="inlineIcon" />Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
+            <p><img src="images/playerTag.svg" class="inlineIcon" />Tags: <%= game.tags.filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase())) .map(tag => tag.name).join(", ") %></p>
           </div>
         </article>
       </li>
       <% } }); %>
     </div>
-    
+
     <div id="game-list">
       <input type="text" class="search" placeholder="Search games..." />
       <button id="sort-ascending">Sort A-Z</button>
@@ -38,11 +38,11 @@
           <article class="gametile">
             <img src="<%= game.background_image %>" alt="<%= game.name %>" class="coverImg" />
             <div>
-            <h2 class="name"><%= game.name %></h2>
-              <p><img src="images/releasedTag.svg" class="inlineIcon">Released: <%= game.released %></p>
-              <p><img src="images/ratingTag.svg" class="inlineIcon">Rating: <%= game.rating %></p>
-              <p><img src="images/genreTag.svg" class="inlineIcon">Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
-              <p><img src="images/playerTag.svg" class="inlineIcon">Tags: <%= game.tags.filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase())).map(tag => tag.name).join(", ") %></p>
+              <h2 class="name"><%= game.name %></h2>
+              <p><img src="images/releasedTag.svg" class="inlineIcon" />Released: <%= game.released %></p>
+              <p><img src="images/ratingTag.svg" class="inlineIcon" />Rating: <%= game.rating %></p>
+              <p><img src="images/genreTag.svg" class="inlineIcon" />Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
+              <p><img src="images/playerTag.svg" class="inlineIcon" />Tags: <%= game.tags.filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase())).map(tag => tag.name).join(", ") %></p>
             </div>
           </article>
         </li>

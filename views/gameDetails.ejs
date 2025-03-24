@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= game.name %> Details</title>
+  </head>
+  <body>
+    <h1><%= game.name %></h1>
+    <img src="<%= game.background_image %>" width="100%" style="max-width: 800px; border-radius: 8px" />
+
+    <div class="game-info">
+      <!-- Hulp van chatgpt, HTML tags strippen, HTML apostrof omzetten naar normale apostrof & quotes omzetten -->
+      <%= game.description.replace(/<[^>]*>/g, '').replace(/&#39;/g, "'").replace(/&quot;/g, '"') %>
+      <p>Released: <%= game.released %></p>
+      <p>Rating: <%= game.rating %></p>
+      <p>Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
+      <p>Metacritic score: <%= game.metacritic || 'Geen metacritic score.' %></p>
+    </div>
+
+    <% if (screenshots && screenshots.length) { %>
+    <h2 class="section-title">Screenshots</h2>
+    <div class="media-gallery">
+      <% screenshots.forEach(screenshot => { %>
+      <div class="media-item">
+        <img src="<%= screenshot.image %>" alt="<%= game.name %> screenshot" />
+      </div>
+      <% }); %>
+    </div>
+    <% } %>
+  </body>
+</html>
