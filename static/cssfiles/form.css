@@ -1,3 +1,7 @@
+/* LOGIN & REGISTER FORM STYLING
+################################################################
+===============================================================*/
+
 #registreerformulier {
   /* From https://css.glass */
   border-radius: 16px;
@@ -87,9 +91,11 @@ form fieldset#gegevens input::placeholder {
   font-weight: 600;
 }
 
-/* #region PASSWORD CHECKBOX STYLES */
+/* SHOW PASSWORD CHECKBOX STYLING https://codepen.io/hqdrone/pen/vYGJXZN
+################################################################
+===============================================================*/
 
-/* https://codepen.io/hqdrone/pen/vYGJXZN */
+/* #region PASSWORD CHECKBOX STYLES */
 
 .toggle-password {
   display: inline-block;

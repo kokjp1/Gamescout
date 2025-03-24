@@ -1,10 +1,14 @@
+/* GENERAL STYLING
+################################################################
+===============================================================*/
+
 body {
   display: flex;
   flex-direction: column;
   padding-top: 15%;
   padding-left: 15%;
   box-sizing: border-box;
-  gap: 10em;
+  gap: 5em;
 }
 
 h1 {
