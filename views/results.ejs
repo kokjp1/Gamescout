@@ -19,6 +19,7 @@
         <li>
           <h2 class="name"><%= game.name %></h2>
           <article class="gametile">
+            <a href="/game/<%= game.id %>">
             <img src="<%= game.background_image %>" alt="<%= game.name %>" width="300" />
             <p>Released: <span class="released"><%= game.released %></span></p>
             <p>Rating: <span class="rating"><%= game.rating %></span></p>
