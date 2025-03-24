@@ -11,6 +11,7 @@
         <% games.forEach(game => { %>
         <li>
           <h2><%= game.name %></h2>
+          <article class="gametile">
           <img src="<%= game.background_image %>" alt="<%= game.name %>" width="300" />
           <p>Released: <%= game.released %></p>
           <p>Rating: <%= game.rating %></p>
@@ -21,6 +22,7 @@
                 .map(tag => tag.name).join(", ") %>
                 <!-- Chat-GPT gevraagd om hoe ik nested arrays kan weergeven op de website-->
             </p>
+            </article>
         </li>
         <% }); %>
     </ul>
