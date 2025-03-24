@@ -114,13 +114,14 @@ label.checkbox-option {
 }
 
 .dateRange div:nth-of-type(2) {
-  display: flex;;
+  display: flex;
 }
 
 p#release_date_value {
   font-size: 1.75em;
   color: var(--color-primary-pink);
   font-weight: 700;
+  width:17vw;
 }
 
 input[type="range"] {
