@@ -242,12 +242,12 @@ async function gameFormHandler(req, res) {
 
   res.render("results.ejs", { games: data.results });
 
-  // Store game IDs in session
-  // Hulp van chatGPT bij het opzetten van de detail pagina.
-  req.session.gameResults = data.results.map((game) => ({
-    id: game.id,
-    name: game.name,
-  }));
+  // // Store game IDs in session
+  // // Hulp van chatGPT bij het opzetten van de detail pagina.
+  // req.session.gameResults = data.results.map((game) => ({
+  //   id: game.id,
+  //   name: game.name,
+  // }));
 }
 
 function onGame(req, res) {
