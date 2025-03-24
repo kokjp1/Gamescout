@@ -87,10 +87,7 @@ app.get('/forget', (_, res) => {
   });
 });
 
-app.post('/forget', (_, res) => {
-  res.render('forget.ejs', {
-  });
-});
+
 
 
 app.get('/resetPassword', (_, res) => {
