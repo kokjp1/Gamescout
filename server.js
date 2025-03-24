@@ -16,208 +16,6 @@ const nodemailer = require("nodemailer");
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// const transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: process.env.EMAIL_USERNAME,
-//     pass: process.env.EMAIL_PASSWORD,
-//   },
-// });
-
-
-// function generateOTP() {
-//   return Math.floor(100000 + Math.random() * 900000).toString();
-// }
-
-// app.post('/forget', async (req, res) => {
-//   const { email } = req.body; 
-//   const otp = generateOTP();
-
-//   const mailOptions = {
-//     to: email,
-//     from: process.env.EMAIL,
-//     subject: 'Your OTP for Password Reset',
-//     text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
-//   };
-
-//   try {
-//     await transporter.sendMail(mailOptions);
-//     req.session.otp = otp; 
-//     res.render('resetPassword.ejs', { otp }); 
-//   } catch (error) {
-//     console.error('Error sending OTP:', error);
-//     res.status(500).json({ message: 'Failed to send OTP. Please try again.' });
-//   }
-// });
-
-
-
-// app.get('/forget', (_, res) => {
-//   res.render('forget.ejs', {
-//   });
-// });
-
-// app.post('/forget', (_, res) => {
-//   res.render('forget.ejs', {
-//   });
-// });
-
-
-// app.get('/resetPassword', (_, res) => {
-//   res.render('resetPassword.ejs');
-// });
-
-// app.post('/resetPassword', async (req, res) => {
-//   const { newPassword, confirmPassword, otp } = req.body;
-
-//   // Check if the OTP matches
-//   if (otp !== req.session.otp) {
-//     return res.status(400).json({ message: 'Invalid OTP. Please try again.' });
-//   }
-
-//   // Proceed with password update logic
-//   if (newPassword !== confirmPassword) {
-//     return res.status(400).json({ message: 'Passwords do not match.' });
-//   }
-
-//   const hashedPassword = await bcrypt.hash(newPassword, 10);
-//   // Update the user's password in the database (assuming user ID is stored in session)
-//   await activeCollection.updateOne(
-//     { _id: ObjectId(req.session.userId) },
-//     { $set: { password: hashedPassword } }
-//   );
-
-//   // Clear the OTP from the session
-//   delete req.session.otp;
-
-//   res.status(200).json({ message: 'Password has been reset successfully.' });
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// try {
-//   const user = await User.findOne({ email });
-//   if (!user) return res.status(404).json({ message: "User doesn't exist" });
-
-//   const secret = process.env.JWT + user.password;
-//   const token = jwt.sign({ id: user._id, email: user.email }, secret, { expiresIn: '1h' });
-
-//    const resetURL = `https://your-backend-url/resetpassword?id=${user._id}&token=${token}`;
-
-//   const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//       user: process.env.EMAIL_USERNAME,
-//       pass: process.env.EMAIL_PASSWORD,
-//     },
-//   });
-
-//   const mailOptions = {
-//     to: user.email,
-//     from: process.env.EMAIL,
-//     subject: 'Password Reset Request',
-//     text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
-//     Please click on the following link, or paste this into your browser to complete the process:\n\n
-//     ${resetURL}\n\n
-//     If you did not request this, please ignore this email and your password will remain unchanged.\n`,
-//   };
-
-//   await transporter.sendMail(mailOptions);
-
-//   res.status(200).json({ message: 'Password reset link sent' });
-// } catch (error) {
-//   res.status(500).json({ message: 'Something went wrong' });
-// }
-// };
-
-
-
-
-
-
-
-// export const requestPasswordReset = async (req, res, next) => {
-//   const { email } = req.body;
-
-//   try {
-//     const user = await User.findOne({ email });
-//     if (!user) return res.status(404).json({ message: "User doesn't exist" });
-
-//     const secret = process.env.JWT + user.password;
-//     const token = jwt.sign({ id: user._id, email: user.email }, secret, { expiresIn: '1h' });
-
-//      const resetURL = `https://your-backend-url/resetpassword?id=${user._id}&token=${token}`;
-
-//     const transporter = nodemailer.createTransport({
-//       service: 'gmail',
-//       auth: {
-//         user: process.env.EMAIL_USERNAME,
-//         pass: process.env.EMAIL_PASSWORD,
-//       },
-//     });
-
-//     const mailOptions = {
-//       to: user.email,
-//       from: process.env.EMAIL,
-//       subject: 'Password Reset Request',
-//       text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
-//       Please click on the following link, or paste this into your browser to complete the process:\n\n
-//       ${resetURL}\n\n
-//       If you did not request this, please ignore this email and your password will remain unchanged.\n`,
-//     };
-
-//     await transporter.sendMail(mailOptions);
-
-//     res.status(200).json({ message: 'Password reset link sent' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Something went wrong' });
-//   }
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.use(
   session({
     //Sla de sessie niet opnieuw op als deze onveranderd is
@@ -239,6 +37,8 @@ app.use(
   })
 );
 
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
 app.set("view engine", "ejs");
@@ -246,42 +46,84 @@ app.set("views", "views");
 
 
 
-
-
-app.get('/forget', (req, res) => {
-  res.render('forget.ejs');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD,
+  },
 });
 
-app.get('/resetPassword', (req, res) => {
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+app.post('/forget', async (req, res) => {
+  const { email } = req.body; 
+  const otp = generateOTP();
+
+  const mailOptions = {
+    to: email,
+    from: process.env.EMAIL,
+    subject: 'Your OTP for Password Reset',
+    text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    req.session.otp = otp; 
+    res.render('resetPassword.ejs', { otp }); 
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    res.status(500).json({ message: 'Failed to send OTP. Please try again.' });
+  }
+});
+
+
+
+app.get('/forget', (_, res) => {
+  res.render('forget.ejs', {
+  });
+});
+
+app.post('/forget', (_, res) => {
+  res.render('forget.ejs', {
+  });
+});
+
+
+app.get('/resetPassword', (_, res) => {
   res.render('resetPassword.ejs');
 });
 
+app.post('/resetPassword', async (req, res) => {
+  const { newPassword, confirmPassword, otp } = req.body;
 
-app.post('/forget', async (req, res) => {
-  const { email } = req.body;
+  // Check if the OTP matches
+  if (otp !== req.session.otp) {
+    return res.status(400).json({ message: 'Invalid OTP. Please try again.' });
+  }
 
-  user.findOne({ email }, (err, user) => {
+  // Proceed with password update logic
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ message: 'Passwords do not match.' });
+  }
 
-    if (err || !user) {
-      return res.status(400).json({ message: 'User with this email does not exist' });
-    }
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  // Update the user's password in the database (assuming user ID is stored in session)
+  await activeCollection.updateOne(
+    { _id: ObjectId(req.session.userId) },
+    { $set: { password: hashedPassword } }
+  );
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT, { expiresIn: '20m' });
-    const data = {
-      from: 'process.env.EMAIL_USERNAME',
-      to: email,
-      subject: 'Account Reset Link',
-      html: `
-      <h2>Please click on given link to reset your password</h2>
-      <p>${process.env.CLIENT_URL}/resetPassword/${token}</p>
-      `
-    };
+  // Clear the OTP from the session
+  delete req.session.otp;
 
-    // Add logic to send the email using nodemailer or another service here
-
-  });
-
+  res.status(200).json({ message: 'Password has been reset successfully.' });
 });
+
+
 
 
 
