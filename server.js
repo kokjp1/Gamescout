@@ -216,6 +216,7 @@ function onResults(req, res) {
 // Process information from the user entering the search paramters
 app.post("/gameFinderForm", gameFormHandler);
 
+// Hulp van chatGPT bij het schrijven van deze functie.
 async function gameFormHandler(req, res) {
   const { release_date, genre, platform, multiplayerSingleplayer, noLimit } = req.body;
 
@@ -233,7 +234,7 @@ async function gameFormHandler(req, res) {
 
   console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayerSingleplayer);
 
-  const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}`);
+  const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}&page_size=40`);
 
   const data = await response.json();
 
@@ -242,6 +243,7 @@ async function gameFormHandler(req, res) {
   res.render("results.ejs", { games: data.results });
 
   // Store game IDs in session
+  // Hulp van chatGPT bij het opzetten van de detail pagina.
   req.session.gameResults = data.results.map((game) => ({
     id: game.id,
     name: game.name,
@@ -252,7 +254,7 @@ function onGame(req, res) {
   res.render("game.ejs");
 }
 
-// game id to fetch game details
+// check url to get game id
 app.get("/game/:id", async (req, res) => {
   const gameId = req.params.id;
   const apiKey = process.env.API_KEY;

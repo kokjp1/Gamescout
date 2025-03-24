@@ -8,10 +8,12 @@
     <img src="<%= game.background_image %>" width="100%" style="max-width: 800px; border-radius: 8px" />
 
     <div class="game-info">
-      <p><%= game.description %></p>
+      <!-- Hulp van chatgpt, HTML tags strippen, HTML apostrof omzetten naar normale apostrof & quotes omzetten -->
+      <%= game.description.replace(/<[^>]*>/g, '').replace(/&#39;/g, "'").replace(/&quot;/g, '"') %>
       <p>Released: <%= game.released %></p>
       <p>Rating: <%= game.rating %></p>
       <p>Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
+      <p>Metacritic score: <%= game.metacritic || 'Geen metacritic score.' %></p>
     </div>
 
     <% if (screenshots && screenshots.length) { %>

@@ -18,15 +18,16 @@
         <% games.forEach(game => { %>
         <li>
           <h2 class="name"><%= game.name %></h2>
-          <article class="gametile">
-            <a href="/game/<%= game.id %>">
-            <img src="<%= game.background_image %>" alt="<%= game.name %>" width="300" />
-            <p>Released: <span class="released"><%= game.released %></span></p>
-            <p>Rating: <span class="rating"><%= game.rating %></span></p>
-            <p>Description: <%= game.description %></p>
-            <p>Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
-            <p>Tags: <%= game.tags .filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase())) .map(tag => tag.name).join(", ") %></p>
-          </article>
+          <a href="/game/<%= game.id %>">
+            <article class="gametile">
+              <img src="<%= game.background_image %>" alt="<%= game.name %>" width="300" />
+              <p>Released: <span class="released"><%= game.released %></span></p>
+              <p>Rating: <span class="rating"><%= game.rating %></span></p>
+              <p>Description: <%= game.description %></p>
+              <p>Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
+              <p>Tags: <%= game.tags .filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase())) .map(tag => tag.name).join(", ") %></p>
+            </article>
+          </a>
         </li>
         <% }); %>
       </ul>
