@@ -5,29 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gamescout | Results</title>
     <link rel="icon" type="image/x-icon" href="/images/controllerfavico.png" />
+    <link rel="stylesheet" href="/cssfiles/results.css" />
+    <link rel="stylesheet" href="/cssfiles/main.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
   </head>
   <body>
+    <div class="bestResults">
+      <% games.forEach((game, index) => { if (index < 3) { %>
+      <!-- 3 want 0, 1, 2 -->
+      <li>
+        <article class="bestResult">
+          <img src="<%= game.background_image %>" alt="<%= game.name %>" class="coverImg"  />
+          <div>
+          <h2 class="name"><%= game.name %></h2>
+          <p><img src="images/releasedTag.svg" class="inlineIcon">Released:<%= game.released %></p>
+          <p><img src="images/ratingTag.svg" class="inlineIcon">Rating: <%= game.rating %></p>
+          <p><img src="images/genreTag.svg" class="inlineIcon">Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
+          <p><img src="images/playerTag.svg" class="inlineIcon">Tags: <%= game.tags.filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase())) .map(tag => tag.name).join(", ") %></p>
+          </div>
+        </article>
+      </li>
+      <% } }); %>
+    </div>
+    
     <div id="game-list">
       <input type="text" class="search" placeholder="Search games..." />
-
-      <button onclick="gameList.sort('name', { order: 'asc' })">Sort A-Z</button>
-      <button onclick="gameList.sort('name', { order: 'desc' })">Sort Z-A</button>
-
+      <button id="sort-ascending">Sort A-Z</button>
+      <button id="sort-descending">Sort Z-A</button>
       <ul class="list">
-        <% games.forEach(game => { %>
+        <% games.forEach((game, index) => { if (index >= 3) { %>
         <li>
-          <h2 class="name"><%= game.name %></h2>
           <article class="gametile">
-            <img src="<%= game.background_image %>" alt="<%= game.name %>" width="300" />
-            <p>Released: <span class="released"><%= game.released %></span></p>
-            <p>Rating: <span class="rating"><%= game.rating %></span></p>
-            <p>Description: <%= game.description %></p>
-            <p>Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
-            <p>Tags: <%= game.tags .filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase())) .map(tag => tag.name).join(", ") %></p>
+            <img src="<%= game.background_image %>" alt="<%= game.name %>" class="coverImg" />
+            <div>
+            <h2 class="name"><%= game.name %></h2>
+              <p><img src="images/releasedTag.svg" class="inlineIcon">Released: <%= game.released %></p>
+              <p><img src="images/ratingTag.svg" class="inlineIcon">Rating: <%= game.rating %></p>
+              <p><img src="images/genreTag.svg" class="inlineIcon">Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
+              <p><img src="images/playerTag.svg" class="inlineIcon">Tags: <%= game.tags.filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase())).map(tag => tag.name).join(", ") %></p>
+            </div>
           </article>
         </li>
-        <% }); %>
+        <% } }); %>
       </ul>
     </div>
 

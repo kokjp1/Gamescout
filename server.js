@@ -111,13 +111,11 @@ async function registerAccount(req, res) {
     }
 
     // Password validation
-    const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!passwordRegex.test(registeringPassword)) {
       return res.render("register.ejs", {
-        errorMessagePassword:
-          "Password must be at least 8 characters long, including an uppercase letter, a number, and a special character.",
+        errorMessagePassword: "Password must be at least 8 characters long, including an uppercase letter, a number, and a special character.",
         errorMessageEmail: "",
         errorMessageUsername: "",
       });
@@ -131,9 +129,7 @@ async function registerAccount(req, res) {
       password: hashedPassword,
     });
 
-    console.log(
-      `added account to database with _id: ${registeredAccount.insertedId}`
-    );
+    console.log(`added account to database with _id: ${registeredAccount.insertedId}`);
     res.send("account toegevoegd");
   } catch (error) {
     console.error(error);
@@ -162,10 +158,7 @@ async function accountLogin(req, res) {
     // Find the account by email or username
     const account = await activeCollection.findOne(
       {
-        $or: [
-          { email: formUsernameOrEmail },
-          { username: formUsernameOrEmail },
-        ],
+        $or: [{ email: formUsernameOrEmail }, { username: formUsernameOrEmail }],
       },
       { collation: { locale: "en", strength: 2 } } // Makes username search case-insensitive
     );
@@ -173,8 +166,7 @@ async function accountLogin(req, res) {
     // If no account is found
     if (!account) {
       return res.render("login.ejs", {
-        errorMessageUsernameOrEmail:
-          "We cannot find an account with this email or username, please try again or register.",
+        errorMessageUsernameOrEmail: "We cannot find an account with this email or username, please try again or register.",
         errorMessagePassword: "",
       });
     }
@@ -204,8 +196,7 @@ app.get("/home", async (req, res) => {
   // Check if the user is logged in
   if (!req.session.userId) {
     return res.render("login.ejs", {
-      errorMessageUsernameOrEmail:
-        "You have been logged out, please log in again.",
+      errorMessageUsernameOrEmail: "You have been logged out, please log in again.",
       errorMessagePassword: "",
     });
   }
@@ -241,8 +232,7 @@ function onResults(req, res) {
 app.post("/gameFinderForm", gameFormHandler);
 
 async function gameFormHandler(req, res) {
-  const { release_date, genre, platform, multiplayerSingleplayer, noLimit } =
-    req.body;
+  const { release_date, genre, platform, multiplayerSingleplayer, noLimit } = req.body;
 
   let gameReleaseDate;
 
@@ -256,13 +246,7 @@ async function gameFormHandler(req, res) {
   const gameMultiplayerSingleplayer = multiplayerSingleplayer;
   const apiKey = process.env.API_KEY;
 
-  console.log(
-    "Fetching games for:",
-    gameReleaseDate,
-    gameGenres,
-    gamePlatform,
-    gameMultiplayerSingleplayer
-  );
+  console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayerSingleplayer);
 
   const response = await fetch(
     `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}`
@@ -272,11 +256,13 @@ async function gameFormHandler(req, res) {
   const data = await response.json();
 
   // console.log(data.results)
-  console.log(
-    `https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`
-  );
+  console.log(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`);
+
+  console.log(data.next);
+  console.log;
 
   res.render("results.ejs", { games: data.results });
+
   function fetchGameId() {
     const gameIDResults = data.results.map((game) => game.id);
 
@@ -289,7 +275,7 @@ async function gameFormHandler(req, res) {
     fetch(`https://api.rawg.io/api/games/${gameIDResults[0]}?key=${apiKey}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
       })
       .catch((error) => console.error("Error fetching game details:", error));
 
@@ -317,7 +303,5 @@ app.use((err, req, res) => {
 // Start server **ALTIJD ONDERAAN**
 app.listen(process.env.PORT, () => {
   console.log("✅ Server gestart en online ✅");
-  console.log(
-    `🌐 beschikbaar op port: http://localhost:${process.env.PORT} 🌐`
-  );
+  console.log(`🌐 beschikbaar op port: http://localhost:${process.env.PORT} 🌐`);
 });

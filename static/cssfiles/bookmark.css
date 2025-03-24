@@ -30,6 +30,30 @@ body {
   background-color: transparent;
 }
 
+.menu-button {
+  background: var(--color-background-button-primary);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border: 0.15em solid var(--color-border-button-primary);
+  padding: 12px 24px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+  background: var(--color-background-button-primary-hover);
+}
+
+.menu-icon {
+  font-size: 20px;
+}
+
 @media (max-width: 900px) {
   .grid-container {
     grid-template-columns: repeat(3, minmax(80px, 1fr));
