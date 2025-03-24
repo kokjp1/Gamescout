@@ -13,7 +13,7 @@
     <section>
       <img src="/images/profilepictures/anonprofile.jpg" alt="profile picture" />
       <div>
-        <h1>Welcome Justin</h1>
+        <h1>Welcome <%= username %></h1>
         <h2>Looking for new games to play?</h2>
       </div>
     </section>
@@ -335,17 +335,17 @@
       <div class="form-step multiSingleplayer">
         <h2>Are you looking for multiplayer or singleplayer games?</h2>
         <div>
-        <label class="checkbox-option">
-          <input type="checkbox" name="multiplayerSingleplayer" value="singleplayer" />
-          <span class="checkbox-option__checkmark"></span>
-          Singleplayer
-        </label>
-        <label class="checkbox-option">
-          <input type="checkbox" name="multiplayerSingleplayer" value="multiplayer" />
-          <span class="checkbox-option__checkmark"></span>
-          Multiplayer
-        </label>
-      </div>
+          <label class="checkbox-option">
+            <input type="checkbox" name="multiplayerSingleplayer" value="singleplayer" />
+            <span class="checkbox-option__checkmark"></span>
+            Singleplayer
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="multiplayerSingleplayer" value="multiplayer" />
+            <span class="checkbox-option__checkmark"></span>
+            Multiplayer
+          </label>
+        </div>
         <button type="submit" class="nextButton">See Results</button>
       </div>
     </form>
