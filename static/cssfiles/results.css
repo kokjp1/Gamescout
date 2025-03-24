@@ -9,6 +9,11 @@ ul {
   flex-direction: column;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .bestResults {
   display: flex;
   flex-direction: row;
@@ -34,42 +39,41 @@ ul {
 }
 
 @media (max-width: 1500px) {
-
   .bestResults {
     flex-direction: column;
     gap: 2em;
     width: 100%;
   }
-  
+
   .bestResults article.bestResult {
     display: flex;
     flex-direction: row;
-    width: auto; 
-    max-width: 100%; 
+    width: auto;
+    max-width: 100%;
   }
 
-  .bestResults article.bestResult img.coverImg { 
+  .bestResults article.bestResult img.coverImg {
     width: 25%;
     max-width: 25em;
-    margin-right:2em;
+    margin-right: 2em;
   }
 
   .bestResults article.bestResult h2 {
-    font-size: calc(var(--font-size-regular) + .25vw);
+    font-size: calc(var(--font-size-regular) + 0.25vw);
   }
-   
+
   #game-list {
-    width: 100vw;;
+    width: 100vw;
   }
 }
 
 img.inlineIcon {
   width: 1.5em;
-  margin: 0em 1em -.5em 0;
+  margin: 0em 1em -0.5em 0;
 }
 
 p {
-  margin-top: .5em;
+  margin-top: 0.5em;
 }
 
 ul.list {
@@ -77,12 +81,12 @@ ul.list {
   gap: 1.5em;
   margin-top: 2em;
   min-width: auto;
-  width: 100%; 
+  width: 100%;
 }
 
 ul.list article {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 1em;
   padding: 1.5em;
   background-color: gray;
@@ -94,8 +98,8 @@ ul.list article {
 }
 
 ul.list article img.coverImg {
-  width: 100%; 
-  max-width: 12.5em; 
+  width: 100%;
+  max-width: 12.5em;
   height: auto;
   aspect-ratio: 1 / 1;
   object-fit: cover;
@@ -106,8 +110,8 @@ ul.list article img.coverImg {
 @media (min-width: 768px) {
   ul.list article {
     flex-direction: row;
-  ul.list article img.coverImg {
-    width: 25%; 
+    ul.list article img.coverImg {
+      width: 25%;
+    }
   }
-}
 }
