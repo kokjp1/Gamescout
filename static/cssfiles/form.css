@@ -182,23 +182,14 @@ input[type="submit"] {
   padding: 0.75em;
   border: 0.1em solid var(--color-border-button-primary);
   border-radius: 0.25em;
+  transition: box-shadow 0.25s ease;
 }
 
 input[type="submit"]:hover {
   background-color: var(--color-background-button-primary-hover);
   cursor: pointer;
-  transition: 0.5s ease;
+  box-shadow: 0em 0em 1em 0.05em #262626;
   color: rgb(255, 255, 255);
-}
-
-@keyframes shadowhoveropacity {
-  0% {
-    box-shadow: 0em 0em 0.5em 0.15em rgb(142, 55, 255, 0);
-  }
-
-  100% {
-    box-shadow: 0em 0em 0.5em 0.15em rgb(142, 55, 255, 1);
-  }
 }
 
 form a {

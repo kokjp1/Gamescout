@@ -13,3 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
     gameList.sort("name", { order: "desc" });
   });
 });
+
+const gameResult = document.querySelectorAll("article");
+    gameResult.forEach((genreTile, index) => {
+        genreTile.style.animationDelay = `${index * 0.1}s`;
+    });

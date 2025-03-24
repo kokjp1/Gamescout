@@ -1,20 +1,113 @@
+@import url(animations.css);
+
+* {
+  list-style-type: none;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+}
+
 .bestResults {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  margin: 0 auto 0 auto;
   gap: 5em;
+
+  article.bestResult {
+    background-color: pink;
+    padding: 2em;
+    border-radius: 0.5em;
+  }
+
+  article.bestResult img.coverImg {
+    width: 100%;
+    max-width: 25em;
+    height: fit-content;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 0.375em;
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.25);
+  }
 }
 
-.bestResults article.bestResult {
-  background-color: pink;
-  padding: 2em;
-  border-radius: 0.5em;
+@media (max-width: 1500px) {
+
+  .bestResults {
+    flex-direction: column;
+    gap: 2em;
+    width: 100%;
+  }
+  
+  .bestResults article.bestResult {
+    display: flex;
+    flex-direction: row;
+    width: auto; 
+    max-width: 100%; 
+  }
+
+  .bestResults article.bestResult img.coverImg { 
+    width: 25%;
+    max-width: 25em;
+    margin-right:2em;
+  }
+
+  .bestResults article.bestResult h2 {
+    font-size: calc(var(--font-size-regular) + .25vw);
+  }
+   
+  #game-list {
+    width: 100vw;;
+  }
 }
 
-#gameList ul {
-  list-style-type: none;
+img.inlineIcon {
+  width: 1.5em;
+  margin: 0em 1em -.5em 0;
+}
+
+p {
+  margin-top: .5em;
+}
+
+ul.list {
   padding: 0;
+  gap: 1.5em;
+  margin-top: 2em;
+  min-width: auto;
+  width: 100%; 
 }
 
-#gamelist ul img {
-  border-radius: 100%;
+ul.list article {
+  display: flex;
+  flex-direction: column; 
+  gap: 1em;
+  padding: 1.5em;
+  background-color: gray;
+  border-radius: 0.75em;
+  border: 0.225em solid darkgray;
+  opacity: 0;
+  animation: formFadeIn 1.5s forwards;
+  font-size: 1em;
+}
+
+ul.list article img.coverImg {
+  width: 100%; 
+  max-width: 12.5em; 
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 0.375em;
+  box-shadow: 0px 0px 0.5em rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+  ul.list article {
+    flex-direction: row;
+  ul.list article img.coverImg {
+    width: 25%; 
+  }
+}
 }
