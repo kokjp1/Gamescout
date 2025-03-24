@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GameScouter | Home</title>
-    <link rel="icon" type="image/x-icon" href="/images/controllerfavico.png">
+    <link rel="icon" type="image/x-icon" href="/images/controllerfavico.png" />
     <link rel="stylesheet" href="/cssfiles/main.css" />
     <link rel="stylesheet" href="/cssfiles/home.css" />
     <link rel="stylesheet" href="/cssfiles/userQueryForm.css" />
@@ -13,7 +13,7 @@
     <section>
       <img src="/images/profilepictures/anonprofile.jpg" alt="profile picture" />
       <div>
-        <h1>Welcome Justin</h1>
+        <h1>Welcome <%= username %></h1>
         <h2>Looking for new games to play?</h2>
       </div>
     </section>
@@ -30,12 +30,12 @@
           <input type="checkbox" id="noLimit" name="noLimit" value="2000,2025" />
           <span class="checkbox-option__checkmark"></span>
         </label>
-        <input type="range" id="release_date" name="release_date" min="2000" max="2025" step="1" value="2018" />
+        <input type="range" id="release_date" name="release_date" min="2000" max="2025" step="1" value="2018"/>
         <div>
           <div>
-            <img src="/images/tagicon.svg">
+            <img src="/images/tagicon.svg" />
             <p id="release_date_value">2018</p>
-          </div>  
+          </div>
           <button type="button" class="nextButton">Next</button>
         </div>
       </div>
@@ -319,7 +319,7 @@
 
       <div class="form-step platformPicker">
         <h2>What platform is the game available on?</h2>
-        <label for="platform">Select platform:</label>
+        <label for="platform">Look for games on:</label>
         <select id="platform" name="platform">
           <option value="4">PC</option>
           <option value="187">PlayStation 5</option>
@@ -332,22 +332,21 @@
 
       <!-- STAP 4 MULTI/SINGLEPLAYER SELECTOR-->
 
-      <div class="form-step multi/Singleplayer">
-        <h2>Does the game support multiplayer?</h2>
-        <label>Choose an option:</label>
-
-        <label class="checkbox-option">
-          <input type="checkbox" name="multiplayerSingleplayer" value="singleplayer" />
-          <span class="checkbox-option__checkmark"></span>
-          Singleplayer
-        </label>
-        <label class="checkbox-option">
-          <input type="checkbox" name="multiplayerSingleplayer" value="multiplayer" />
-          <span class="checkbox-option__checkmark"></span>
-          Multiplayer
-        </label>
-
-        <button type="submit" class="submit-btn">Submit</button>
+      <div class="form-step multiSingleplayer">
+        <h2>Are you looking for multiplayer or singleplayer games?</h2>
+        <div>
+          <label class="checkbox-option">
+            <input type="checkbox" name="multiplayerSingleplayer" value="singleplayer" />
+            <span class="checkbox-option__checkmark"></span>
+            Singleplayer
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="multiplayerSingleplayer" value="multiplayer" />
+            <span class="checkbox-option__checkmark"></span>
+            Multiplayer
+          </label>
+        </div>
+        <button type="submit" class="nextButton">See Results</button>
       </div>
     </form>
 

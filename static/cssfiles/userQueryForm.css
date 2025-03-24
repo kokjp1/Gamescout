@@ -5,6 +5,7 @@
 form {
   background-color: var(--color-menu-hover);
   padding: 2em;
+  color: var(--color-primary-gray);
   border-radius: 10px;
   width: calc(60% + 2vw);
   max-width: 800px; /* Set your desired maximum width */
@@ -24,29 +25,7 @@ label {
   font-size: 1.2em;
 }
 
-input,
-select {
-  width: 100%;
-  padding: 0.625em;
-  margin: 0.625em 0;
-  background-color: #333;
-  color: white;
-  border: 0.063em solid #888;
-  border-radius: 0.313em;
-}
 
-button {
-  background-color: #e54b75;
-  color: white;
-  padding: 0.625em 3.25em;
-  border: none;
-  border-radius: 0.313em;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #b02a4d;
-}
 
 /* CHECKBOX STYLING https://codepen.io/hqdrone/pen/vYGJXZN
 ################################################################
@@ -124,15 +103,83 @@ label.checkbox-option {
 
 /* #endregion */
 
-/* GENRESELECTOR CHECKBOX STYLING https://codepen.io/hqdrone/pen/vYGJXZN
+/* FORM STEP 1 STYLING
+################################################################
+===============================================================*/
+
+.dateRange div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.dateRange div:nth-of-type(2) {
+  display: flex;
+}
+
+p#release_date_value {
+  font-size: 1.75em;
+  color: var(--color-primary-pink);
+  font-weight: 700;
+  width:17vw;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: .5em;
+  width: 100%;
+  background: var(--color-border-button-primary);
+  box-sizing: border-box;
+  margin: 3em 0 3em 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2em;
+  height: 2em;
+  background: var(--color-primary-pink);
+  border-radius: 25%;
+  cursor: pointer;
+  box-shadow: 0 0 0.85em 0.25em var(--color-border-button-secondary);
+  border: 0.225em solid var(--color-border-button-secondary);
+}
+
+input[type="range"]:disabled {
+  background-color:grey;
+}
+
+input[type="range"]:disabled::-webkit-slider-thumb {
+  background-color:grey;
+  border: 0.225em solid var(--color-primary-gray);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+/* ChatGPT gevraagd hoe ik range inputs kan stylen */
+
+
+
+/* FORM STEP 2 GENRESELECTOR CHECKBOX STYLING https://codepen.io/hqdrone/pen/vYGJXZN
 ################################################################
 ===============================================================*/
 /* #region genreSelector CHECKBOXES STYLES */
+
+/* Specific styling for genreSelector */
+.genreSelector .nextButton {
+  position: absolute;
+  right: 0; /* Adjust to your desired distance from the right */
+  bottom: -3em;; /* Adjust based on where you want the button placed vertically */
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 #checkboxes {
   display: flex;
   flex-direction: column;
   gap: 1em;
+  margin-bottom:1.5em;
 }
 
 hr {
@@ -251,57 +298,75 @@ label.checkbox-option-genre {
   }
 }
 
-
-/* FORM STEP 1 STYLING
+/* FORM STEP 3 DROPDOWN STYLING
 ################################################################
 ===============================================================*/
 
-.dateRange div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
 
-.dateRange div:nth-of-type(2) {
-  display: flex;;
-}
-
-p#release_date_value {
-  font-size: 1.75em;
-  color: var(--color-primary-pink);
-  font-weight: 700;
-}
-
-input[type="range"] {
+#platform {
+  appearance: none; 
   -webkit-appearance: none;
-  appearance: none;
-  height: 0.01em;
-  width: 100%;
-  background: var(--color-border-button-primary);
-  box-sizing: border-box;
-  margin: 3em 0 3em 0;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 3em;
-  height: 3em;
-  background: var(--color-primary-pink);
-  border-radius: 25%;
+  -moz-appearance: none;
+  font-family: var(--font-family-primary);
+  font-weight: 600;
+  font-size:1.25em;
+  background-color: var(--color-background-input-field);
+  border: 0.125em solid var(--color-border-input-field);
+  border-radius: .35em;
+  color: var(--color-primary-gray);
+  padding: .25em 2em .25em .25em;
   cursor: pointer;
-  box-shadow: 0 0 0.85em 0.25em var(--color-border-button-secondary);
-  border: 0.225em solid var(--color-border-button-secondary);
+  transition: 0.3s ease-in-out;
+  background-image: url('/images/dropdownarrow.svg');
+  background-repeat: no-repeat;
+  background-position: right .8em center;
+  background-size: 1.25em;  
+  margin-right:.5em;
 }
 
-input[type="range"]:disabled {
-  background-color:grey;
+#platform:hover {
+  border-color: var(--color-border-button-primary);
 }
 
-input[type="range"]:disabled::-webkit-slider-thumb {
-  background-color:grey;
-  border: 0.225em solid var(--color-primary-gray);
-  box-shadow: none;
-  cursor: not-allowed;
+#platform:focus {
+  border-color: #007bff;
 }
-/* ChatGPT gevraagd hoe ik range inputs kan stylen */
+
+select option {
+  background: rgba(220, 220, 220);
+  color: var(--color-primary-gray);
+  font-weight: 500;
+  padding:1em;
+}
+
+/* FORM STEP 4 MULTI/SINGLEPLAYER STYLING
+################################################################
+===============================================================*/
+
+.multiSingleplayer div {
+  display: flex;
+  flex-direction: column;
+  margin: 1em 0 1em 0;
+  gap:1em;
+  font-size: 1.15em;
+}
+
+
+
+
+.nextButton {
+  background-color: var(--color-border-button-primary);
+  border: 0.125em solid var(--color-border-button-secondary);
+  padding:0.5em 2em 0.5em 2em;
+  border-radius:0.25em;
+  font-size:1em;
+  color:white;
+  font-family: var(--font-family-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.nextButton:hover {
+  background-color: var(--color-border-button-secondary);
+}
