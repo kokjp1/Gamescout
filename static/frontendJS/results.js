@@ -4,17 +4,22 @@ document.addEventListener("DOMContentLoaded", function () {
   };
   var gameList = new List("game-list", options);
 
-  // Sort buttons
+  function smoothAnimationDelays() {
+    const gameResult = document.querySelectorAll("article");
+    gameResult.forEach((gameTile, index) => {
+      gameTile.style.animationDelay = `${index * 0.1}s`;
+    });
+  }
+
+  smoothAnimationDelays();
+
   document.getElementById("sort-ascending").addEventListener("click", function () {
     gameList.sort("name", { order: "asc" });
+    smoothAnimationDelays();
   });
 
   document.getElementById("sort-descending").addEventListener("click", function () {
     gameList.sort("name", { order: "desc" });
+    smoothAnimationDelays(); 
   });
 });
-
-const gameResult = document.querySelectorAll("article");
-    gameResult.forEach((genreTile, index) => {
-        genreTile.style.animationDelay = `${index * 0.1}s`;
-    });

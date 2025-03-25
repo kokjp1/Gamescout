@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
   </head>
   <body>
+    <h1>Best Results</h1>
     <div class="bestResults">
       <% games.forEach((game, index) => { if (index < 3) { %>
       <!-- 3 want 0, 1, 2 -->
@@ -29,11 +30,14 @@
       </li>
       <% } }); %>
     </div>
+    <h2>More Results</h2>
 
     <div id="game-list">
-      <input type="text" class="search" placeholder="Search games..." />
-      <button id="sort-ascending">Sort A-Z</button>
-      <button id="sort-descending">Sort Z-A</button>
+      <div class="search-controls">
+        <input type="text" class="search" placeholder="Search games..." />
+        <button id="sort-ascending">Sort A-Z</button>
+        <button id="sort-descending">Sort Z-A</button>
+      </div>
       <ul class="list">
         <% games.forEach((game, index) => { if (index >= 3) { %>
         <li>
