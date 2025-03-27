@@ -2,5 +2,5 @@
     "bracketSameLine": true,
     "singleAttributePerLine": false,
     "useTabs": false,
-    "printWidth": 600
+    "printWidth": 600000
 }

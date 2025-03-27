@@ -1,0 +1,10 @@
+@keyframes formFadeIn {
+  0% {
+    scale: 95%;
+    opacity: 0;
+  }
+  100% {
+    scale: 100%;
+    opacity: 1;
+  }
+}

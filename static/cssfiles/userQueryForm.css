@@ -1,6 +1,7 @@
 /* GENERAL FORM STYLING 
 ################################################################
 ===============================================================*/
+@import url(animations.css);
 
 form {
   background-color: var(--color-menu-hover);
@@ -285,17 +286,6 @@ label.checkbox-option-genre {
 /* eerste wel tonen */
 .dateRange {
   display: block;
-}
-
-@keyframes formFadeIn {
-  0% {
-    scale: 95%;
-    opacity: 0;
-  }
-  100% {
-    scale: 100%;
-    opacity: 1;
-  }
 }
 
 /* FORM STEP 3 DROPDOWN STYLING
