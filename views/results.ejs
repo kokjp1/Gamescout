@@ -35,12 +35,18 @@
     <div id="game-list">
       <div class="search-controls">
         <input type="text" class="search" placeholder="Search games..." />
-        <button id="sort-A-Z-ascending">Sort A-Z</button>
-        <button id="sort-Z-A-descending">Sort Z-A</button>
-        <button id="sort-Rating-ascending">Sort Rating ascending</button>
-        <button id="sort-Rating-descending">Sort Rating descending</button>
-        <button id="sort-Released-ascending">Sort Released ascending</button>
-        <button id="sort-Released-descending">Sort Released  descending</button>
+        
+        <div class="sort-dropdown">
+          <button class="sort-button">Sort by...</button>
+          <div class="dropdown-content">
+            <a href="#" id="sort-A-Z-ascending">Sort A-Z</a>
+            <a href="#" id="sort-Z-A-descending">Sort Z-A</a>
+            <a href="#" id="sort-Rating-ascending">Sort Rating ascending</a>
+            <a href="#" id="sort-Rating-descending">Sort Rating descending</a>
+            <a href="#" id="sort-Released-ascending">Sort Released ascending</a>
+            <a href="#" id="sort-Released-descending">Sort Released descending</a>
+          </div>
+        </div>
       </div>
       <ul class="list">
         <% games.forEach((game, index) => { if (index >= 3) { %>

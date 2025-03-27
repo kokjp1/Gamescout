@@ -86,11 +86,66 @@ p {
     gap: 1em;
     margin-bottom: 2em;
     width: 100%;
+    max-width: 800px;
 
-    .search,
-    button {
+    .search {
       padding: 0.5em 1em;
       font-size: 1em;
+      width: 100%;
+    }
+
+    .sort-dropdown {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+
+      .sort-button {
+        background-color: var(--color-primary-pink);
+        color: white;
+        padding: 1em 1em;
+        font-size: 1em;
+        border: none;
+        border-radius: 0.25em;
+        cursor: pointer;
+        width: 100%;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &:after {
+          content: "▼";
+          font-size: 0.8em;
+          margin-left: 0.5em;
+        }
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 100%;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 0.25em;
+        overflow: hidden;
+
+        a {
+          color: black;
+          padding: 0.75em 1em;
+          text-decoration: none;
+          display: block;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: #ddd;
+          }
+        }
+      }
+
+      &:hover .dropdown-content {
+        display: block;
+      }
     }
   }
 
@@ -114,7 +169,6 @@ p {
         padding: 1.5em;
         background: rgb(169, 169, 169, 0.75);
         background: linear-gradient(90deg, rgba(169, 169, 169, 0.75) 0%, rgba(200, 120, 142, 0.75) 70%, rgba(233, 116, 148, 0.75) 100%);
-        /* https://cssgradient.io/ */
         backdrop-filter: blur(6.7px);
         -webkit-backdrop-filter: blur(6.7px);
         border-radius: 0.75em;
@@ -147,7 +201,6 @@ p {
 
 @media (max-width: 1500px) {
   .bestResults {
-    /* flex-direction: column; */
     align-items: center;
     gap: 2em;
 
@@ -193,7 +246,7 @@ p {
     align-items: center;
 
     .search,
-    button {
+    .sort-dropdown {
       width: 100%;
       max-width: 300px;
     }
