@@ -13,13 +13,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   smoothAnimationDelays();
 
-  document.getElementById("sort-ascending").addEventListener("click", function () {
+  document.getElementById("sort-A-Z-ascending").addEventListener("click", function () {
     gameList.sort("name", { order: "asc" });
     smoothAnimationDelays();
   });
 
-  document.getElementById("sort-descending").addEventListener("click", function () {
+  document.getElementById("sort-Z-A-descending").addEventListener("click", function () {
     gameList.sort("name", { order: "desc" });
-    smoothAnimationDelays(); 
+    smoothAnimationDelays();
+  });
+
+  document.getElementById("sort-Rating-ascending").addEventListener("click", function () {
+    gameList.sort("rating", { order: "asc" });
+    smoothAnimationDelays();
+  });
+
+  document.getElementById("sort-Rating-descending").addEventListener("click", function () {
+    gameList.sort("rating", { order: "desc" });
+    smoothAnimationDelays();
+  });
+
+  document.getElementById("sort-Released-ascending").addEventListener("click", function () {
+    gameList.sort("released", { order: "asc" });
+    smoothAnimationDelays();
+  });
+
+  document.getElementById("sort-Released-descending").addEventListener("click", function () {
+    gameList.sort("released", { order: "desc" });
+    smoothAnimationDelays();
   });
 });

@@ -25,7 +25,8 @@ img.inlineIcon {
   margin: 0 1em -0.5em 0;
 }
 
-body > h1, body > h2 {
+body > h1,
+body > h2 {
   margin: 4em 0 1em 0;
 }
 
@@ -44,9 +45,9 @@ p {
   margin: 0 auto;
 
   article.bestResult {
-    background: rgb(233,116,148);
-    background: radial-gradient(circle, rgba(233,116,148,1) 40%, rgba(169,169,169,1) 100%); 
-    border: .2em solid var(--color-primary-pink);
+    background: rgb(233, 116, 148);
+    background: radial-gradient(circle, rgba(233, 116, 148, 1) 40%, rgba(169, 169, 169, 1) 100%);
+    border: 0.2em solid var(--color-primary-pink);
     padding: 2em;
     border-radius: 0.5em;
     width: 100%;
@@ -146,7 +147,7 @@ p {
 
 @media (max-width: 1500px) {
   .bestResults {
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
     gap: 2em;
 
@@ -166,6 +167,7 @@ p {
 
 @media (max-width: 768px) {
   .bestResults {
+    flex-direction: column;
     article.bestResult {
       flex-direction: column;
 
@@ -180,7 +182,7 @@ p {
   #game-list ul.list {
     li {
       article {
-        display:flex;
+        display: flex;
         flex-direction: column;
       }
     }
