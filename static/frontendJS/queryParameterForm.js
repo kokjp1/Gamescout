@@ -40,10 +40,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    const genreTiles = document.querySelectorAll("#checkboxes article");
-    genreTiles.forEach((genreTile, index) => {
-        genreTile.style.animationDelay = `${index * 0.1}s`;
-    });
-
 });
-// code van Copilot, anders moest ik 19 nth-of-type selectoren schrijven voor elke checkbox op de genre selector

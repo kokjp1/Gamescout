@@ -12,19 +12,19 @@ body {
 }
 
 h1 {
-  font-size: calc(var(--font-size-h1) + 2vw);
+  font-size: calc(var(--font-size-xxxl) + 2vw);
 }
 
 h2 {
-  font-size: var(--font-size-subtext);
+  font-size: var(--font-size-md);
 }
 
 @media (max-width: 500px) {
   h1 {
-    font-size: calc(var(--font-size-h2) + 1.5vw);
+    font-size: calc(var(--font-size-xxl) + 1.5vw);
   }
   h2 {
-    font-size: calc(var(--font-size-subtext) - 0.75vw);
+    font-size: calc(var(--font-size-md) - 0.75vw);
   }
 }
 
