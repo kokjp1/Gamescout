@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
   </head>
   <body>
+    <h1>Best Results</h1>
     <div class="bestResults">
       <% games.forEach((game, index) => { if (index < 3) { %>
       <!-- 3 want 0, 1, 2 -->
@@ -29,11 +30,18 @@
       </li>
       <% } }); %>
     </div>
+    <h2>More Results</h2>
 
     <div id="game-list">
-      <input type="text" class="search" placeholder="Search games..." />
-      <button id="sort-ascending">Sort A-Z</button>
-      <button id="sort-descending">Sort Z-A</button>
+      <div class="search-controls">
+        <input type="text" class="search" placeholder="Search games..." />
+        <button id="sort-A-Z-ascending">Sort A-Z</button>
+        <button id="sort-Z-A-descending">Sort Z-A</button>
+        <button id="sort-Rating-ascending">Sort Rating ascending</button>
+        <button id="sort-Rating-descending">Sort Rating descending</button>
+        <button id="sort-Released-ascending">Sort Released ascending</button>
+        <button id="sort-Released-descending">Sort Released  descending</button>
+      </div>
       <ul class="list">
         <% games.forEach((game, index) => { if (index >= 3) { %>
         <li>
@@ -42,8 +50,8 @@
               <img src="<%= game.background_image %>" alt="<%= game.name %>" class="coverImg" />
               <div>
                 <h2 class="name"><%= game.name %></h2>
-                <p><img src="images/releasedTag.svg" class="inlineIcon" />Released: <%= game.released %></p>
-                <p><img src="images/ratingTag.svg" class="inlineIcon" />Rating: <%= game.rating %></p>
+                <p class="released"><img src="images/releasedTag.svg" class="inlineIcon" />Released: <%= game.released %></p>
+                <p class="rating"><img src="images/ratingTag.svg" class="inlineIcon" />Rating: <%= game.rating %></p>
                 <p><img src="images/genreTag.svg" class="inlineIcon" />Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
                 <p><img src="images/playerTag.svg" class="inlineIcon" />Tags: <%= game.tags.filter(tag => ["multiplayer", "singleplayer"].includes(tag.name.toLowerCase())).map(tag => tag.name).join(", ") %></p>
               </div>
