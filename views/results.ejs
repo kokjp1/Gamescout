@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="/images/controllerfavico.png" />
     <link rel="stylesheet" href="/cssfiles/results.css" />
     <link rel="stylesheet" href="/cssfiles/main.css" />
+    <link rel="stylesheet" href="/cssfiles/animations.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
   </head>
   <body>
@@ -41,10 +42,10 @@
           <div class="dropdown-content">
             <a href="#" id="sort-A-Z-ascending">Sort A-Z</a>
             <a href="#" id="sort-Z-A-descending">Sort Z-A</a>
-            <a href="#" id="sort-Rating-ascending">Sort Rating ascending</a>
-            <a href="#" id="sort-Rating-descending">Sort Rating descending</a>
-            <a href="#" id="sort-Released-ascending">Sort Released ascending</a>
-            <a href="#" id="sort-Released-descending">Sort Released descending</a>
+            <a href="#" id="sort-Rating-ascending">Sort Rating (Lowest First)</a>
+            <a href="#" id="sort-Rating-descending">Sort Rating (Highest First)</a>
+            <a href="#" id="sort-Released-ascending">Sort Released (Oldest First)</a>
+            <a href="#" id="sort-Released-descending">Sort Released (Newest Fist)</a>
           </div>
         </div>
       </div>
@@ -68,6 +69,7 @@
       </ul>
     </div>
 
-    <script src="/frontendJS/results.js"></script>
+    <script src="/frontendJS/sort.js"></script>
+    <script src="/frontendJS/intersectionObserver.js"></script>
   </body>
 </html>
