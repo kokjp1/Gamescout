@@ -6,7 +6,7 @@
   <body>
     <h1><%= game.name %></h1>
     <img src="<%= game.background_image %>" width="100%" style="max-width: 800px; border-radius: 8px" />
-
+    <button>Bookmark this game</button>
     <div class="game-info">
       <!-- Hulp van chatgpt, HTML tags strippen, HTML apostrof omzetten naar normale apostrof & quotes omzetten -->
       <%= game.description.replace(/<[^>]*>/g, '').replace(/&#39;/g, "'").replace(/&quot;/g, '"') %>
