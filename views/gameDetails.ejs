@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameScouter | Login</title>
+    <link rel="icon" type="image/x-icon" href="/images/controllerfavico.png" />
+    <link rel="stylesheet" href="/cssfiles/main.css" />
+    <link rel="stylesheet" href="/cssfiles/swiper.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <title><%= game.name %> Details</title>
   </head>
   <body>
@@ -17,15 +24,34 @@
       <p>Metacritic score: <%= game.metacritic || 'Geen metacritic score.' %></p>
     </div>
 
+    <section>
     <% if (screenshots && screenshots.length) { %>
-    <h2 class="section-title">Screenshots</h2>
-    <div class="media-gallery">
-      <% screenshots.forEach(screenshot => { %>
-      <div class="media-item">
-        <img src="<%= screenshot.image %>" alt="<%= game.name %> screenshot" />
+      <h2 class="section-title">Screenshots</h2>
+      
+      <div class="swiper mySwiper2">
+        <div class="swiper-wrapper">
+          <% screenshots.forEach(screenshot => { %>
+            <div class="swiper-slide">
+              <img src="<%= screenshot.image %>" alt="<%= game.name %> screenshot" />
+            </div>
+          <% }); %>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
       </div>
-      <% }); %>
-    </div>
+      
+      <div thumbsSlider="" class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <% screenshots.forEach(screenshot => { %>
+            <div class="swiper-slide">
+              <img src="<%= screenshot.image %>" alt="<%= game.name %> screenshot thumbnail" />
+            </div>
+          <% }); %>
+        </div>
+      </div>
     <% } %>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/frontendJS/swiper.js"></script>
   </body>
 </html>
