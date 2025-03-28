@@ -46,82 +46,7 @@ app.set("views", "views");
 
 
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: process.env.EMAIL_USERNAME,
-    pass: process.env.APP_PASSWORD,
-  },
-});
 
-
-function generateOTP() {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-}
-
-app.post('/forget', async (req, res) => {
-  const { email } = req.body; 
-  const otp = generateOTP();
-
-  const mailOptions = {
-    to: email,
-    from: process.env.EMAIL,
-    subject: 'Your OTP for Password Reset',
-    text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    req.session.otp = otp; 
-    res.render('resetPassword.ejs', { otp }); 
-  } catch (error) {
-    console.error('Error sending OTP:', error);
-    res.status(500).json({ message: 'Failed to send OTP. Please try again.' });
-  }
-});
-
-
-
-app.get('/forget', (_, res) => {
-  res.render('forget.ejs', {
-  });
-});
-
-
-
-
-app.get('/resetPassword', (_, res) => {
-  res.render('resetPassword.ejs');
-});
-
-app.post('/resetPassword', async (req, res) => {
-  const { newPassword, confirmPassword, otp } = req.body;
-
-  // Check if the OTP matches
-  if (otp !== req.session.otp) {
-    return res.status(400).json({ message: 'Invalid OTP. Please try again.' });
-  }
-
-  // Proceed with password update logic
-  if (newPassword !== confirmPassword) {
-    return res.status(400).json({ message: 'Passwords do not match.' });
-  }
-
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
-  // Update the user's password in the database (assuming user ID is stored in session)
-  await activeCollection.updateOne(
-    { _id: ObjectId(req.session.userId) },
-    { $set: { password: hashedPassword } }
-  );
-
-  // Clear the OTP from the session
-  delete req.session.otp;
-
-  res.status(200).json({ message: 'Password has been reset successfully.' });
-});
 
 
 
@@ -407,6 +332,103 @@ async function gameFormHandler(req, res) {
 function onGame(req, res) {
   res.render("game.ejs");
 }
+
+
+
+
+
+
+
+
+
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  requireTLS: true,
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.APP_PASSWORD,
+  },
+});
+
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+app.post('/forget', async (req, res) => {
+  const { email } = req.body; 
+  const otp = generateOTP();
+
+  const mailOptions = {
+    to: email,
+    from: process.env.EMAIL,
+    subject: 'Your OTP for Password Reset',
+    text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    req.session.otp = otp; 
+    res.render('resetPassword.ejs', { otp }); 
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    res.status(500).json({ message: 'Failed to send OTP. Please try again.' });
+  }
+});
+
+
+
+app.get('/forget', (_, res) => {
+  res.render('forget.ejs', {
+  });
+});
+
+
+
+
+app.get('/resetPassword', (_, res) => {
+  res.render('resetPassword.ejs');
+});
+
+app.post('/resetPassword', async (req, res) => {
+  const { newPassword, confirmPassword, otp } = req.body;
+
+  // Check if the OTP matches
+  if (otp !== req.session.otp) {
+    return res.status(400).json({ message: 'Invalid OTP. Please try again.' });
+  }
+
+  // Proceed with password update logic
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ message: 'Passwords do not match.' });
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  // Update the user's password in the database (assuming user ID is stored in session)
+  await activeCollection.updateOne(
+    { _id: new ObjectId(req.session.userId) },
+    { $set: { password: hashedPassword } }
+  );
+
+  // Clear the OTP from the session
+  delete req.session.otp;
+
+  res.status(200).json({ message: 'Password has been reset successfully.' });
+});
+
+
+
+
+
+
+
+
+
+
+
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
