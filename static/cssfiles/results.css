@@ -24,7 +24,8 @@ img.inlineIcon {
   margin: 0 1em -0.5em 0;
 }
 
-body > h1, body > h2 {
+body > h1,
+body > h2 {
   margin: 2em 0 1em 0;
 }
 
@@ -33,7 +34,7 @@ h1 {
 }
 
 h2 {
-  font-size: var(--font-size-xxl)
+  font-size: var(--font-size-xxl);
 }
 
 p {
@@ -51,7 +52,6 @@ p {
   margin: 0 auto;
 
   article.bestResult {
-    
     background: var(--gradient-radial);
     border: var(--border-width-xthick) solid var(--color-primary);
     padding: 2em;
@@ -78,13 +78,13 @@ p {
     }
   }
   li:nth-child(2) article.bestResult {
-    opacity: 0; 
-    animation-delay: .2s;
+    opacity: 0;
+    animation-delay: 0.2s;
   }
 
-  li:nth-child(3) article.bestResult{
-    opacity:0;
-    animation-delay: .4s;
+  li:nth-child(3) article.bestResult {
+    opacity: 0;
+    animation-delay: 0.4s;
   }
 }
 
