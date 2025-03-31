@@ -408,15 +408,22 @@ app.post('/resetPassword', async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
-  // Update the user's password in the database (assuming user ID is stored in session)
-  await activeCollection.updateOne(
-    { _id: ObjectId.createFromHexString(req.session.userId) },
+  console.log(`Attempting to update password for user ID: ${req.session.userId}`);
+  
+  const updateResult = await activeCollection.updateOne(
+    { _id: new ObjectId(req.session.userId) },
     { $set: { password: hashedPassword } }
   );
 
   // Clear the OTP from the session
   delete req.session.otp;
 
+  if (updateResult.modifiedCount === 0) {
+    console.error(`Failed to update password for user ID: ${req.session.userId}`);
+    return res.status(500).json({ message: 'Failed to update password. Please try again.' });
+  }
+
+  console.log(`Password updated successfully for user ID: ${req.session.userId}`);
   res.status(200).json({ message: 'Password has been reset successfully.' });
 });
 
