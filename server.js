@@ -286,21 +286,35 @@ app.post('/forget', async (req, res) => {
   const { email, username } = req.body; 
   const otp = generateOTP();
 
-  const mailOptions = {
-    to: email,
-    from: `"NoReply - ProjectTech" <${process.env.EMAIL}>`,
-    subject: 'Your verification code for Password Reset',
-    text: `Your verification is: ${otp}. It is valid for 5 minutes.`,
-  };
-
   try {
-    await transporter.sendMail(mailOptions);
-    req.session.otp = otp; 
-    req.session.otpExpiration = Date.now() + 5 * 60 * 1000; // Set OTP expiration to 5 minutes
-    res.render('resetPassword.ejs', { otp }); 
+    // Find the user by email or username
+    const user = await activeCollection.findOne({
+      $or: [{ email }, { username }],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'No account found with the provided email or username.' });
+    }
+
+    const mailOptions = {
+      to: user.email,
+      from: `"NoReply - ProjectTech" <${process.env.EMAIL}>`,
+      subject: 'Your verification code for Password Reset',
+      text: `Your verification is: ${otp}. It is valid for 5 minutes.`,
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      req.session.otp = otp; 
+      req.session.otpExpiration = Date.now() + 5 * 60 * 1000; // Set OTP expiration to 5 minutes
+      res.render('resetPassword.ejs', { otp }); 
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      res.status(500).json({ message: 'Failed to send OTP. Please try again.' });
+    }
   } catch (error) {
-    console.error('Error sending OTP:', error);
-    res.status(500).json({ message: 'Failed to send OTP. Please try again.' });
+    console.error('Error processing forget password request:', error);
+    res.status(500).json({ message: 'An error occurred. Please try again later.' });
   }
 });
 
