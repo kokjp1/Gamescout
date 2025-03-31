@@ -48,10 +48,12 @@
       <!-- Hulp van chatgpt, HTML tags strippen, HTML apostrof omzetten naar normale apostrof & quotes omzetten -->
       <h2><%= game.name %></h2>
       <%= game.description.replace(/<[^>]*>/g, '').replace(/&#39;/g, "'").replace(/&quot;/g, '"') %>
-      <p>Released: <%= game.released %></p>
-      <p>Rating: <%= game.rating %></p>
-      <p>Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
-      <p>Metacritic score: <%= game.metacritic || 'Geen metacritic score.' %></p>
+      <div id="tags">
+      <p>Released: <br><%= game.released %></p>
+      <p>Rating: <br><%= game.rating %></p>
+      <p>Genres: <br><%= game.genres.map(genre => genre.name).join(", ") %></p>
+      <p>Metacritic score: <br><%= game.metacritic || 'Geen metacritic score.' %></p>
+      </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

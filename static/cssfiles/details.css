@@ -2,6 +2,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 0;
+  align-content: flex-start;
 }
 
 section#hero {
@@ -41,5 +42,37 @@ section#hero {
 
 section:nth-of-type(2),
 section:nth-of-type(3) {
+  margin: 2em;
   flex: 1;
+
+  h2 {
+    font-size: var(--font-size-xxl);
+    margin: 1em 0 1em 0;
+  }
+}
+
+section:nth-of-type(3) {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  div#tags {
+    display: flex;
+    flex-direction: row;
+    gap:1em;
+
+    p {
+      background-color: pink;
+      text-align:center;
+      padding:1em;
+      border-radius:0.5em;
+    }
+  }
+}
+
+@media (max-width: 1140px) {
+  section:nth-of-type(2),
+  section:nth-of-type(3) {
+    flex-basis: 100%;
+  }
 }
