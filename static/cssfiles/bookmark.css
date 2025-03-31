@@ -25,8 +25,8 @@ li article {
   width: 100%;
   color: var(--color-text);
   align-items: center;
+  animation: formFadeIn 1.5s forwards;
   transition: all 0.4s ease-out;
-  opacity: 1;
 }
 
 li article img {
@@ -50,6 +50,12 @@ li article h2 {
 li article p {
   margin: 0.25em 0;
   font-size: var(--font-size-sm);
+}
+
+li article:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+  background: var(--gradient-primary-hover);
 }
 
 h1 {
