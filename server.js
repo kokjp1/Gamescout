@@ -10,12 +10,6 @@ const nodemailer = require("nodemailer");
 
 
 
-
-
-
-
-
-
 app.use(
   session({
     //Sla de sessie niet opnieuw op als deze onveranderd is
@@ -38,26 +32,10 @@ app.use(
 );
 
 
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
 app.set("view engine", "ejs");
 app.set("views", "views");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -286,14 +264,7 @@ function onGame(req, res) {
 }
 
 
-
-
-
-
-
-
-
-
+// Nodemailer setup
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -341,8 +312,6 @@ app.get('/forget', (_, res) => {
 });
 
 
-
-
 app.get('/resetPassword', (_, res) => {
   res.render('resetPassword.ejs');
 });
@@ -379,15 +348,6 @@ app.post('/resetPassword', async (req, res) => {
   console.log(`Password updated successfully for user ID: ${req.session.userId}`);
   res.status(200).json({ message: 'Password has been reset successfully.' });
 });
-
-
-
-
-
-
-
-
-
 
 
 
