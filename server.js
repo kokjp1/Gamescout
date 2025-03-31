@@ -283,14 +283,14 @@ function generateOTP() {
 }
 
 app.post('/forget', async (req, res) => {
-  const { email } = req.body; 
+  const { email, username } = req.body; 
   const otp = generateOTP();
 
   const mailOptions = {
     to: email,
     from: `"NoReply - ProjectTech" <${process.env.EMAIL}>`,
-    subject: 'Your OTP for Password Reset',
-    text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
+    subject: 'Your verification code for Password Reset',
+    text: `Your verification is: ${otp}. It is valid for 5 minutes.`,
   };
 
   try {
