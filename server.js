@@ -317,7 +317,7 @@ app.post('/forget', async (req, res) => {
 
   const mailOptions = {
     to: email,
-    from: process.env.EMAIL,
+    from: `"NoReply - ProjectTech" <${process.env.EMAIL}>`,
     subject: 'Your OTP for Password Reset',
     text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
   };
