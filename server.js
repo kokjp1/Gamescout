@@ -372,6 +372,7 @@ app.post('/forget', async (req, res) => {
   try {
     await transporter.sendMail(mailOptions);
     req.session.otp = otp; 
+    req.session.otpExpiration = Date.now() + 5 * 60 * 1000; // Set OTP expiration to 5 minutes
     res.render('resetPassword.ejs', { otp }); 
   } catch (error) {
     console.error('Error sending OTP:', error);
@@ -409,7 +410,7 @@ app.post('/resetPassword', async (req, res) => {
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   // Update the user's password in the database (assuming user ID is stored in session)
   await activeCollection.updateOne(
-    { _id: new ObjectId(req.session.userId) },
+    { _id: ObjectId.createFromHexString(req.session.userId) },
     { $set: { password: hashedPassword } }
   );
 
@@ -418,6 +419,7 @@ app.post('/resetPassword', async (req, res) => {
 
   res.status(200).json({ message: 'Password has been reset successfully.' });
 });
+
 
 
 
