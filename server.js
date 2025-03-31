@@ -80,8 +80,8 @@ app.get("/register", onRegister);
 
 app.post("/login", accountLogin);
 
-app.get("/bookmark", (req, res) => {
-  res.render("bookmark.ejs");
+app.get("/bookmarks", (req, res) => {
+  res.render("bookmarks.ejs");
 });
 
 app.get("/results", onResults);
