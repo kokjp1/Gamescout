@@ -41,7 +41,9 @@ section {
 .mySwiper2 {
   height: 80%;
   width: 100%;
-  border-radius: 0.75em;
+  border-radius: 1.25em;
+  border: 0.25em solid var(--color-gray-medium)
+
 }
 
 .mySwiper {
@@ -49,6 +51,7 @@ section {
   box-sizing: border-box;
   padding: 10px 0;
   border-radius: 0.75em;
+  
 }
 
 .mySwiper .swiper-slide {
@@ -57,10 +60,13 @@ section {
   filter: brightness(0.35);
   border-radius: 0.75em;
   margin-top: 1em;
+  border: 0.25em solid var(--color-gray-medium)
 }
 
 .mySwiper .swiper-slide-thumb-active {
   filter: brightness(1);
+  box-shadow: var(--shadow-lg);
+  border: 0.25em solid var(--color-primary-light);
 }
 
 .swiper-slide img {
@@ -69,8 +75,12 @@ section {
   height: 100%;
   object-fit: cover;
   cursor: pointer;
-  border-radius: 0.75em;
+  border-radius: 0.5em;
 }
+
+.swiper-button-next::after, .swiper-button-prev::after {
+  color: var(--color-primary-light)
+  }
 
 @media (max-width: 1140px) {
   section {

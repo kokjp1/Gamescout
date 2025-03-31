@@ -363,7 +363,7 @@ app.get("/game/:id", async (req, res) => {
   console.log(response)
 
   // Fetch screenshots
-  const screenshotsResponse = await fetch(`https://api.rawg.io/api/games/${gameId}/screenshots?key=${apiKey}`);
+  const screenshotsResponse = await fetch(`https://api.rawg.io/api/games/${gameId}/screenshots?key=${apiKey}&page_size=16`);
   const screenshots = await screenshotsResponse.json();
 
   res.render("gameDetails", {
