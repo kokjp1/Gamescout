@@ -1,4 +1,4 @@
-// Project setup (express, dotenv, ejs, bcrypt, xss)
+// Project setup (express, dotenv, ejs, bcrypt, xss, nodemailer)
 
 require("dotenv").config();
 const xss = require("xss");
@@ -6,6 +6,10 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const app = express();
 const session = require("express-session");
+const nodemailer = require("nodemailer");
+
+
+
 app.use(
   session({
     //Sla de sessie niet opnieuw op als deze onveranderd is
@@ -27,10 +31,14 @@ app.use(
   })
 );
 
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
 app.set("view engine", "ejs");
 app.set("views", "views");
+
+
+
 
 // MongoDB setup
 
@@ -60,6 +68,7 @@ client
 
 const activeDatabase = client.db(process.env.DB_NAME);
 const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
+
 
 // Routes
 app.get("/", (req, res) => {
@@ -254,6 +263,96 @@ function onGame(req, res) {
   res.render("game.ejs");
 }
 
+
+// Nodemailer setup
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  requireTLS: true,
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.APP_PASSWORD,
+  },
+});
+
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+app.post('/forget', async (req, res) => {
+  const { email } = req.body; 
+  const otp = generateOTP();
+
+  const mailOptions = {
+    to: email,
+    from: `"NoReply - ProjectTech" <${process.env.EMAIL}>`,
+    subject: 'Your OTP for Password Reset',
+    text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    req.session.otp = otp; 
+    req.session.otpExpiration = Date.now() + 5 * 60 * 1000; // Set OTP expiration to 5 minutes
+    res.render('resetPassword.ejs', { otp }); 
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    res.status(500).json({ message: 'Failed to send OTP. Please try again.' });
+  }
+});
+
+
+
+app.get('/forget', (_, res) => {
+  res.render('forget.ejs', {
+  });
+});
+
+
+app.get('/resetPassword', (_, res) => {
+  res.render('resetPassword.ejs');
+});
+
+app.post('/resetPassword', async (req, res) => {
+  const { newPassword, confirmPassword, otp } = req.body;
+
+  // Check if the OTP matches
+  if (otp !== req.session.otp) {
+    return res.status(400).json({ message: 'Invalid OTP. Please try again.' });
+  }
+
+  // Proceed with password update logic
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ message: 'Passwords do not match.' });
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  console.log(`Attempting to update password for user ID: ${req.session.userId}`);
+  
+  const updateResult = await activeCollection.updateOne(
+    { _id: new ObjectId(req.session.userId) },
+    { $set: { password: hashedPassword } }
+  );
+
+  // Clear the OTP from the session
+  delete req.session.otp;
+
+  if (updateResult.modifiedCount === 0) {
+    console.error(`Failed to update password for user ID: ${req.session.userId}`);
+    return res.status(500).json({ message: 'Failed to update password. Please try again.' });
+  }
+
+  console.log(`Password updated successfully for user ID: ${req.session.userId}`);
+  res.status(200).json({ message: 'Password has been reset successfully.' });
+});
+
+
+
+
+
 // check url to get game id
 app.get("/game/:id", async (req, res) => {
   const gameId = req.params.id;
@@ -272,6 +371,7 @@ app.get("/game/:id", async (req, res) => {
     screenshots: screenshots.results,
   });
 });
+
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
