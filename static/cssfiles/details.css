@@ -71,8 +71,17 @@ section:nth-of-type(3) {
 }
 
 @media (max-width: 1140px) {
+  
+  body {
+    gap:2em;
+  }
   section:nth-of-type(2),
   section:nth-of-type(3) {
     flex-basis: 100%;
+
+    h2 {
+      margin-top:0;
+    }
+
   }
 }
