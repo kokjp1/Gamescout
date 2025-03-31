@@ -1,49 +1,53 @@
-/* BOOKMARK PAGE STYLING
-################################################################
-===============================================================*/
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+ul {
+  list-style: none;
+  padding: 0;
   margin: 0;
-  padding: 20px;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  align-items: center;
+}
+
+ul li {
+  width: 50%;
+}
+
+li article {
+  display: flex;
+  gap: 1em;
+  padding: 1.5em;
+  background: var(--gradient-primary);
+  backdrop-filter: var(--blur-amount);
+  -webkit-backdrop-filter: var(--blur-amount);
+  border-radius: var(--border-radius-xl);
+  border: var(--border-width-xxthick) solid var(--color-gray-light);
+  font-size: var(--font-size-sm);
   width: 100%;
+  color: var(--color-text);
+  align-items: center;
+  transition: all 0.4s ease-out;
+  opacity: 1;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(100px, 1fr));
-  grid-template-rows: auto;
-  gap: 15px;
-  max-width: 800px;
-  width: 100%;
+li article img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--border-radius-lg);
 }
 
-.grid-item {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  border: 2px solid white;
-  border-radius: 10px;
-  background-color: transparent;
+li article div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-@media (max-width: 900px) {
-  .grid-container {
-    grid-template-columns: repeat(3, minmax(80px, 1fr));
-  }
+li article h2 {
+  margin: 0 0 0.5em 0;
+  font-size: var(--font-size-md);
 }
 
-@media (max-width: 600px) {
-  .grid-container {
-    grid-template-columns: repeat(2, minmax(70px, 1fr));
-  }
-}
-
-@media (max-width: 400px) {
-  .grid-container {
-    grid-template-columns: repeat(1, minmax(60px, 1fr));
-  }
+li article p {
+  margin: 0.25em 0;
+  font-size: var(--font-size-sm);
 }

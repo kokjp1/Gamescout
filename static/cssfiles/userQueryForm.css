@@ -1,36 +1,28 @@
-/* GENERAL FORM STYLING 
-################################################################
-===============================================================*/
+@import url(animations.css);
 
 form {
-  background-color: var(--color-menu-hover);
+  background-color: var(--color-gray-light);
   padding: 2em;
-  color: var(--color-primary-gray);
+  color: var(--color-gray-dark);
   border-radius: 10px;
   width: calc(60% + 2vw);
-  max-width: 800px; /* Set your desired maximum width */
+  max-width: 800px;
   animation: formFadeIn 1s ease forwards;
-  margin-left:7.25%;}
+  margin-left:7.25%;
+}
 
 form h2 {
-  color: var(--color-primary-gray);
+  color: var(--color-gray-dark);
 }
 
 h2 {
-  font-size: 1.5em;
+  font-size: var(--font-size-lg);
   margin-bottom: 0.625em;
 }
 
 label {
-  font-size: 1.2em;
+  font-size: var(--font-size-md);
 }
-
-
-
-/* CHECKBOX STYLING https://codepen.io/hqdrone/pen/vYGJXZN
-################################################################
-===============================================================*/
-/* #region CHECKBOXES STYLES */
 
 .checkbox-option {
   display: inline-block;
@@ -49,7 +41,7 @@ label {
 }
 
 .checkbox-option input:checked ~ .checkbox-option__checkmark {
-  background-color: var(--color-border-button-primary);
+  background-color: var(--color-primary-light);
 }
 
 .checkbox-option input:checked ~ .checkbox-option__checkmark:after {
@@ -57,11 +49,11 @@ label {
 }
 
 .checkbox-option:hover input ~ .checkbox-option__checkmark {
-  background-color: var(--color-menu-hover);
+  background-color: var(--color-gray-light);
 }
 
 .checkbox-option:hover input:checked ~ .checkbox-option__checkmark {
-  background-color: var(--color-border-button-primary);
+  background-color: var(--color-primary-light);
 }
 
 .checkbox-option__checkmark {
@@ -70,10 +62,10 @@ label {
   left: 0;
   height: 1.25em;
   width: 1.25em;
-  background-color: var(--color-menu-hover);
+  background-color: var(--color-gray-light);
   transition: 0.25s ease;
-  border: 0.125em solid var(--color-border-button-primary);
-  border-radius: 0.25em;
+  border: var(--border-width-regular) solid var(--color-primary-light);
+  border-radius: var(--border-radius-sm);
 }
 
 .checkbox-option__checkmark:after {
@@ -83,7 +75,7 @@ label {
   top: 0.188em;
   width: 0.313em;
   height: 0.625em;
-  border: solid var(--color-primary-gray);
+  border: solid var(--color-gray-dark);
   border-width: 0 0.188em 0.188em 0;
   transform: rotate(45deg);
   opacity: 0;
@@ -91,21 +83,15 @@ label {
 }
 
 .checkbox-option__label {
-  color: var(--color-primary-white);
-  line-height: 1.4;
-  font-size: var(--font-size-test);
-  font-family: var(--font-family-primary);
+  color: var(--color-text);
+  line-height: var(--line-height-normal);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family);
 }
 
 label.checkbox-option {
-  color: var(--color-primary-gray);
+  color: var(--color-gray-dark);
 }
-
-/* #endregion */
-
-/* FORM STEP 1 STYLING
-################################################################
-===============================================================*/
 
 .dateRange div {
   display: flex;
@@ -118,9 +104,9 @@ label.checkbox-option {
 }
 
 p#release_date_value {
-  font-size: 1.75em;
-  color: var(--color-primary-pink);
-  font-weight: 700;
+  font-size: var(--font-size-xl);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
   width:17vw;
 }
 
@@ -129,7 +115,7 @@ input[type="range"] {
   appearance: none;
   height: .5em;
   width: 100%;
-  background: var(--color-border-button-primary);
+  background: var(--color-primary-light);
   box-sizing: border-box;
   margin: 3em 0 3em 0;
 }
@@ -139,41 +125,31 @@ input[type="range"]::-webkit-slider-thumb {
   appearance: none;
   width: 2em;
   height: 2em;
-  background: var(--color-primary-pink);
+  background: var(--color-primary);
   border-radius: 25%;
   cursor: pointer;
-  box-shadow: 0 0 0.85em 0.25em var(--color-border-button-secondary);
-  border: 0.225em solid var(--color-border-button-secondary);
+  box-shadow: var(--shadow-input-thumb);
+  border: var(--border-width-xxthick) solid var(--color-primary-dark);
 }
 
 input[type="range"]:disabled {
-  background-color:grey;
+  background-color: var(--color-gray-medium);
 }
 
 input[type="range"]:disabled::-webkit-slider-thumb {
-  background-color:grey;
-  border: 0.225em solid var(--color-primary-gray);
+  background-color: var(--color-gray-medium);
+  border: var(--border-width-xxthick) solid var(--color-gray-dark);
   box-shadow: none;
   cursor: not-allowed;
 }
-/* ChatGPT gevraagd hoe ik range inputs kan stylen */
 
-
-
-/* FORM STEP 2 GENRESELECTOR CHECKBOX STYLING https://codepen.io/hqdrone/pen/vYGJXZN
-################################################################
-===============================================================*/
-/* #region genreSelector CHECKBOXES STYLES */
-
-/* Specific styling for genreSelector */
 .genreSelector .nextButton {
   position: absolute;
-  right: 0; /* Adjust to your desired distance from the right */
-  bottom: -3em;; /* Adjust based on where you want the button placed vertically */
+  right: 0;
+  bottom: -3em;
   margin-left: auto;
   margin-right: auto;
 }
-
 
 #checkboxes {
   display: flex;
@@ -183,25 +159,25 @@ input[type="range"]:disabled::-webkit-slider-thumb {
 }
 
 hr {
-  margin: 1em 0 1em 0;
-  border: 0.1em rgba(221, 221, 221, 1) solid;
+  margin: 1em 0;
+  border: var(--border-width-thin) solid var(--color-gray-very-light);
 }
 
 #checkboxes article {
   padding: 1.5em;
   border-radius: 10px;
-  border: 0.175em rgba(221, 221, 221, 0.75) solid;
-  background-color: rgba(255, 255, 255, 0.675);
+  border: 0.175em solid rgba(221, 221, 221, 0.75);
+  background-color: var(--color-background-semi-transparent);
   opacity: 0;
   animation: formFadeIn 3s ease forwards;
 }
 
 #checkboxes article li {
-  font-size: 0.8em;
-  font-weight: 600;
-  color: var(--color-primary-gray);
-  background-color: var(--color-border-button-primary);
-  padding: 0.25em 0.5em 0.25em 0.5em;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-dark);
+  background-color: var(--color-primary-light);
+  padding: 0.25em 0.5em;
   border-radius: 1em;
   display: inline-block;
 }
@@ -223,7 +199,7 @@ hr {
 }
 
 .checkbox-option-genre input:checked ~ .checkbox-option-genre__checkmark {
-  background-color: var(--color-border-button-primary);
+  background-color: var(--color-primary-light);
 }
 
 .checkbox-option-genre input:checked ~ .checkbox-option-genre__checkmark:after {
@@ -231,11 +207,11 @@ hr {
 }
 
 .checkbox-option-genre:hover input ~ .checkbox-option-genre__checkmark {
-  background-color: var(--color-menu-hover);
+  background-color: var(--color-gray-light);
 }
 
 .checkbox-option-genre:hover input:checked ~ .checkbox-option-genre__checkmark {
-  background-color: var(--color-border-button-primary);
+  background-color: var(--color-primary-light);
 }
 
 .checkbox-option-genre__checkmark {
@@ -243,10 +219,10 @@ hr {
   left: 0;
   height: 1.25em;
   width: 1.25em;
-  background-color: var(--color-menu-hover);
+  background-color: var(--color-gray-light);
   transition: 0.25s ease;
-  border: 0.125em solid var(--color-border-button-primary);
-  border-radius: 0.25em;
+  border: var(--border-width-regular) solid var(--color-primary-light);
+  border-radius: var(--border-radius-sm);
 }
 
 .checkbox-option-genre__checkmark:after {
@@ -256,7 +232,7 @@ hr {
   top: 0.188em;
   width: 0.313em;
   height: 0.625em;
-  border: solid var(--color-primary-gray);
+  border: solid var(--color-gray-dark);
   border-width: 0 0.188em 0.188em 0;
   transform: rotate(45deg);
   opacity: 0;
@@ -264,56 +240,36 @@ hr {
 }
 
 .checkbox-option-genre__label {
-  color: var(--color-primary-gray);
-  line-height: 1.4;
-  font-family: var(--font-family-primary);
+  color: var(--color-gray-dark);
+  line-height: var(--line-height-normal);
+  font-family: var(--font-family);
 }
 
 label.checkbox-option-genre {
-  color: var(--color-primary-gray);
-  font-size: var(--font-size-h3);
+  color: var(--color-gray-dark);
+  font-size: var(--font-size-lg);
 }
 
-/* #endregion */
-
-/* alle form stappen verbergen */
 .form-step {
   display: none;
   animation: formFadeIn 1s ease forwards;
 }
 
-/* eerste wel tonen */
 .dateRange {
   display: block;
 }
-
-@keyframes formFadeIn {
-  0% {
-    scale: 95%;
-    opacity: 0;
-  }
-  100% {
-    scale: 100%;
-    opacity: 1;
-  }
-}
-
-/* FORM STEP 3 DROPDOWN STYLING
-################################################################
-===============================================================*/
-
 
 #platform {
   appearance: none; 
   -webkit-appearance: none;
   -moz-appearance: none;
-  font-family: var(--font-family-primary);
-  font-weight: 600;
-  font-size:1.25em;
-  background-color: var(--color-background-input-field);
-  border: 0.125em solid var(--color-border-input-field);
-  border-radius: .35em;
-  color: var(--color-primary-gray);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+  background-color: var(--color-background-transparent);
+  border: var(--border-width-regular) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  color: var(--color-gray-dark);
   padding: .25em 2em .25em .25em;
   cursor: pointer;
   transition: 0.3s ease-in-out;
@@ -325,7 +281,7 @@ label.checkbox-option-genre {
 }
 
 #platform:hover {
-  border-color: var(--color-border-button-primary);
+  border-color: var(--color-primary-light);
 }
 
 #platform:focus {
@@ -333,40 +289,33 @@ label.checkbox-option-genre {
 }
 
 select option {
-  background: rgba(220, 220, 220);
-  color: var(--color-primary-gray);
-  font-weight: 500;
+  background: var(--color-gray-very-light);
+  color: var(--color-gray-dark);
+  font-weight: var(--font-weight-medium);
   padding:1em;
 }
-
-/* FORM STEP 4 MULTI/SINGLEPLAYER STYLING
-################################################################
-===============================================================*/
 
 .multiSingleplayer div {
   display: flex;
   flex-direction: column;
-  margin: 1em 0 1em 0;
+  margin: 1em 0;
   gap:1em;
-  font-size: 1.15em;
+  font-size: var(--font-size-md);
 }
 
-
-
-
 .nextButton {
-  background-color: var(--color-border-button-primary);
-  border: 0.125em solid var(--color-border-button-secondary);
-  padding:0.5em 2em 0.5em 2em;
-  border-radius:0.25em;
-  font-size:1em;
-  color:white;
-  font-family: var(--font-family-primary);
-  font-weight: 500;
+  background-color: var(--color-primary-light);
+  border: var(--border-width-regular) solid var(--color-primary-dark);
+  padding:0.5em 2em;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition: .3s ease;
 }
 
 .nextButton:hover {
-  background-color: var(--color-border-button-secondary);
+  background-color: var(--color-primary-dark);
 }

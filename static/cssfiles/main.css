@@ -43,63 +43,108 @@
 ===============================================================*/
 
 :root {
-  /* Colors */
-  --color-background-input-field: rgba(217, 217, 217, 0.2);
-  --color-border-input-field: #8f8f8f;
-  --color-primary-gray: #23242a;
-  --color-text-link: #f75c87;
-  --color-primary-pink: #e54b75;
-  --color-background-button-primary: #e54b75;
-  --color-background-button-primary-hover: #b02a4d;
-  --color-border-button-primary: #ff6a93;
-  --color-border-button-secondary: #c71f4d;
-  --color-menu-inactive: #696969;
-  --color-menu-hover: #bebebe;
-  --color-menu-hover-icon: #e54b75;
-  --color-text-menu: #23242a;
-  --color-background-menu: rgba(255, 255, 255, 0.4);
-  --color-boxshadow-0: rgb(142, 55, 255, 0);
-  --color-boxshadow-1: rgb(142, 55, 255, 1);
-  --color-error: rgb(255, 58, 58);
-  --color-error-background: rgb(255, 171, 171);
-  --color-gamescout-logo: rgb(160, 157, 171);
+  /* ==================== */
+  /* Color Palette */
+  /* ==================== */
+  --color-primary: #e54b75;
+  --color-primary-dark: #b02a4d;
+  --color-primary-light: #ff6a93;
+  --color-secondary: #ce6f89;
+  --color-accent: #ef9cb2;
+  
+  --color-gray-dark: #23242a;
+  --color-gray-medium: #696969;
+  --color-gray-light: #bebebe;
+  --color-gray-very-light: #dcdcdc;
+  
+  --color-text: white;
+  --color-text-muted: #a09dab;
+  --color-text-dark: var(--color-gray-dark);
+  
+  --color-border: #8f8f8f;
+  --color-border-light: #a4a4a4;
+  
+  --color-error: #ff3a3a;
+  --color-error-light: #ffabab;
+  
+  --color-background-transparent: rgba(255, 255, 255, 0.15);
+  --color-background-semi-transparent: rgba(255, 255, 255, 0.675);
+  --color-background-blur: rgba(169, 169, 169, 0.75);
 
-  /* Fonts */
-  --font-family-primary: "SF Pro Text", sans-serif;
-  --font-family-secondary: "Inter", sans-serif;
+  /* ==================== */
+  /* Gradients */
+  /* ==================== */
+  --gradient-primary: linear-gradient(
+    90deg, 
+    rgba(169, 169, 169, 0.85) 0%, 
+    rgba(200, 120, 142, 0.85) 70%, 
+    rgba(233, 116, 148, 0.85) 100%
+  );
+  
+  --gradient-primary-hover: linear-gradient(
+    90deg, 
+    rgba(169, 169, 169, 0.9) 0%, 
+    rgba(200, 120, 142, 0.9) 70%, 
+    rgba(233, 116, 148, 0.9) 100%
+  );
+  
+  --gradient-radial: radial-gradient(
+    circle, 
+    rgba(233, 116, 148, 1) 40%, 
+    rgba(169, 169, 169, 1) 100%
+  );
 
-  --font-size-title: 9.5em;
-  --font-size-h1: 2em;
-  --font-line-height-h1: 6em;
-  --font-size-h2: 1.5em;
-  --font-size-h3: 1.25em;
-  --font-line-height-h3: 6em;
-  --font-size-subtext: 1.15em;
-  --font-size-menu: 2em;
-  --font-size-button: 1.35em;
-  --font-size-placeholder-input: 1.5em;
-  --font-size-label-input: 1.5em;
-  --font-size-text-link: 1.5em;
-  --font-size-regular: 1em;
-  --font-size-title: 9.5em;
-  --font-size-h1: 3em;
-  --font-line-height-h1: 6em;
-  --font-size-h2: 2em;
-  --font-size-h3: 1.5em;
-  --font-line-height-h3: 6em;
-  --font-size-subtext: 2em;
-  --font-size-menu: 2em;
-  --font-size-button: 1.35em;
-  --font-size-placeholder-input: 1.5em;
-  --font-size-label-input: 1.5em;
-  --font-size-text-link: 1.5em;
-  --font-size-test: 1em;
+  /* ==================== */
+  /* Typography */
+  /* ==================== */
+  --font-family: "SF Pro Text", sans-serif;
+  --font-family-alt: "Inter", sans-serif;
+  
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-heavy: 800;
+  
+  --font-size-xs: 0.85em;
+  --font-size-sm: 1em;
+  --font-size-md: 1.15em;
+  --font-size-lg: 1.25em;
+  --font-size-xl: 1.5em;
+  --font-size-xxl: 2em;
+  --font-size-xxxl: 3em;
+  --font-size-giant: 9.5em;
+  
+  --line-height-tight: 1;
+  --line-height-normal: 1.4;
+  --line-height-loose: 1.6;
 
+  /* ==================== */
   /* Effects */
-  --effect-blur-menu-backdrop: blur(1.5em);
-  --effect-shadow-menu-box: 0px 0px 0.5em rgba(0, 0, 0, 0.25);
+  /* ==================== */
+  --blur-amount: blur(6.7px);
+  --shadow-sm: 0 0 0.5em rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0px 0px 60px 1px var(--color-primary);
+  --shadow-input-thumb: 0 0 0.85em 0.25em var(--color-primary-light);
+  
+  /* ==================== */
+  /* Borders */
+  /* ==================== */
+  --border-radius-sm: 0.25em;
+  --border-radius-md: 0.35em;
+  --border-radius-lg: 0.5em;
+  --border-radius-xl: 0.75em;
+  
+  --border-width-thin: 0.1em;
+  --border-width-regular: 0.125em;
+  --border-width-thick: 0.15em;
+  --border-width-xthick: 0.2em;
+  --border-width-xxthick: 0.225em;
 }
 
+/* gegenereerd a.d.h.v. Deepseek */
 
 /* GENERAL STYLING
 ################################################################
@@ -117,6 +162,7 @@ body,html {
     font-family: 'SF Pro Text', sans-serif;
     font-weight: 500;
     color:white;
+    overflow-x:hidden;
 }
 
 * {
