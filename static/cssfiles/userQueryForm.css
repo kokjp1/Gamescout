@@ -8,7 +8,6 @@ form {
   width: calc(60% + 2vw);
   max-width: 800px;
   animation: formFadeIn 1s ease forwards;
-  margin-left:7.25%;
 }
 
 form h2 {
@@ -170,6 +169,13 @@ hr {
   background-color: var(--color-background-semi-transparent);
   opacity: 0;
   animation: formFadeIn 3s ease forwards;
+}
+
+#checkboxes article ul {
+  display:flex;
+  flex-wrap:wrap;
+  column-gap: .25em;
+  row-gap:.5em
 }
 
 #checkboxes article li {

@@ -170,3 +170,14 @@ body,html {
   margin: 0;
   padding: 0;
 }
+
+.arrow {
+  font-size: 5em;
+  color: var(--color-primary);
+  text-decoration: none;
+  margin: 1em;
+  position: absolute;
+  top: -1em;
+  left: 0;
+  cursor:pointer;
+}
