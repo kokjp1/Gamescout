@@ -143,9 +143,10 @@ async function registerAccount(req, res) {
 
   console.log(`added account to database with _id: ${registeredAccount.insertedId}`);
 
-  // Send a simple success message
-  res.send("Account created successfully.");
-}
+
+  req.session.userId = registeredAccount.insertedId; 
+  res.redirect("/home"); 
+  }
 
 // Listening for post request to register an account
 app.post("/register", registerAccount);
