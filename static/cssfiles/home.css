@@ -5,34 +5,14 @@
 body {
   display: flex;
   flex-direction: column;
-  padding-top:10%;
-  padding-left: calc(15% - 5vw);
+  padding-top: 15%;
+  padding-left: 15%;
   box-sizing: border-box;
   gap: 5em;
 }
 
-a {
-  border: var(--border-width-thick) solid var(--color-accent);
-  background-color: var(--color-primary-light);
-  transition: 0.25s ease;
-  padding: .5em ;
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-semibold);
-  border-radius: var(--border-radius-lg);
-  text-decoration: none;
-  color: var(--color-text);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5em;
-  width: calc(50% + 2vw);
-  max-width:300px;
-}
-
 h1 {
   font-size: calc(var(--font-size-xxxl) + 2vw);
-  margin-left:-0.15em;
-
 }
 
 h2 {

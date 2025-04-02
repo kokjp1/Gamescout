@@ -7,8 +7,6 @@ const express = require("express");
 const app = express();
 const session = require("express-session");
 const nodemailer = require("nodemailer");
-const passport = require("passport");
-const googleStrategy = require("passport-google-oauth20").Strategy;
 
 app.use(
   session({
@@ -60,10 +58,7 @@ const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
 
 // Routes
 app.get("/", (req, res) => {
-  const userInput = req.query.name || "";
-  const safeInput = xss(userInput); // Sanitizing input
-
-  res.render("index.ejs", { message: `Home, ${safeInput}` });
+  res.render("index.ejs");
 });
 
 app.get("/login", onLogin);
@@ -129,9 +124,8 @@ async function registerAccount(req, res) {
   req.session.userId = registeredAccount.insertedId;
 
   console.log(`added account to database with _id: ${registeredAccount.insertedId}`);
-
-  req.session.userId = registeredAccount.insertedId;
-  res.redirect("/home");
+  // If everything is correct
+  return res.redirect("/home");
 }
 
 // Listening for post request to register an account
@@ -274,39 +268,24 @@ function generateOTP() {
 }
 
 app.post("/forget", async (req, res) => {
-  const { usernameOrEmail } = req.body;
+  const { email } = req.body;
   const otp = generateOTP();
 
+  const mailOptions = {
+    to: email,
+    from: `"NoReply - ProjectTech" <${process.env.EMAIL}>`,
+    subject: "Your OTP for Password Reset",
+    text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
+  };
+
   try {
-    // Find the user by email or username
-    const user = await activeCollection.findOne({
-      $or: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
-    });
-
-    if (!user) {
-      return res.status(404).json({ message: "No account found with the provided email or username." });
-    }
-
-    const mailOptions = {
-      to: user.email,
-      from: `"NoReply - ProjectTech" <${process.env.EMAIL}>`,
-      subject: "Your verification code for Password Reset",
-      text: `Your verification is: ${otp}. It is valid for 5 minutes.`,
-    };
-
-    try {
-      await transporter.sendMail(mailOptions);
-      req.session.otp = otp; // Store OTP in session
-      req.session.otpExpiration = Date.now() + 5 * 60 * 1000; // Set OTP expiration to 5 minutes
-      req.session.userId = user._id; // Store user ID in session
-      res.render("resetPassword.ejs", { otp });
-    } catch (error) {
-      console.error("Error sending OTP:", error);
-      res.status(500).json({ message: "Failed to send OTP. Please try again." });
-    }
+    await transporter.sendMail(mailOptions);
+    req.session.otp = otp;
+    req.session.otpExpiration = Date.now() + 5 * 60 * 1000; // Set OTP expiration to 5 minutes
+    res.render("resetPassword.ejs", { otp });
   } catch (error) {
-    console.error("Error processing forget password request:", error);
-    res.status(500).json({ message: "An error occurred. Please try again later." });
+    console.error("Error sending OTP:", error);
+    res.status(500).json({ message: "Failed to send OTP. Please try again." });
   }
 });
 
@@ -348,60 +327,6 @@ app.post("/resetPassword", async (req, res) => {
   res.status(200).json({ message: "Password has been reset successfully." });
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.use(
-  new googleStrategy(
-    {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: process.env.REDIRECT_URI,
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        const email = profile.emails[0].value;
-        const username = profile.displayName;
-
-        // Check if the user already exists in the database
-        let user = await activeCollection.findOne({ email });
-
-        if (!user) {
-          // If user doesn't exist, create a new user with a random password
-          const randomPassword = Math.random().toString(36).slice(-8);
-          const hashedPassword = await bcrypt.hash(randomPassword, 10);
-
-          const newUser = {
-            username,
-            email,
-            password: hashedPassword,
-          };
-
-          const result = await activeCollection.insertOne(newUser);
-          console.log(`New user created with ID: ${result.insertedId}`);
-          user = newUser;
-        }
-
-        return done(null, user);
-      } catch (error) {
-        console.error("Error during Google authentication:", error);
-        return done(error, null);
-      }
-    }
-  )
-);
-
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((user, done) => done(null, user));
-
-app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-
-app.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
-  // Successful authentication, log the user in and redirect to home
-  req.session.userId = req.user._id;
-  res.redirect("/home");
-});
-
 // check url to get game id
 app.get("/game/:id", async (req, res) => {
   const gameId = req.params.id;
@@ -412,7 +337,7 @@ app.get("/game/:id", async (req, res) => {
   console.log(response);
 
   // Fetch screenshots
-  const screenshotsResponse = await fetch(`https://api.rawg.io/api/games/${gameId}/screenshots?key=${apiKey}&page_size=16`);
+  const screenshotsResponse = await fetch(`https://api.rawg.io/api/games/${gameId}/screenshots?key=${apiKey}`);
   const screenshots = await screenshotsResponse.json();
 
   res.render("gameDetails", {

@@ -126,7 +126,6 @@
   --blur-amount: blur(6.7px);
   --shadow-sm: 0 0 0.5em rgba(0, 0, 0, 0.25);
   --shadow-md: 0 0.5em 1em rgba(0, 0, 0, 0.2);
-  --shadow-md-pink: 0 0 1em var(--color-primary);
   --shadow-lg: 0px 0px 60px 1px var(--color-primary);
   --shadow-input-thumb: 0 0 0.85em 0.25em var(--color-primary-light);
   
@@ -169,15 +168,4 @@ body,html {
 * {
   margin: 0;
   padding: 0;
-}
-
-.arrow {
-  font-size: 5em;
-  color: var(--color-primary);
-  text-decoration: none;
-  margin: 1em;
-  position: absolute;
-  top: -1em;
-  left: 0;
-  cursor:pointer;
 }

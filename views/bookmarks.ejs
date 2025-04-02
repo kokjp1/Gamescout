@@ -11,12 +11,9 @@
   </head>
   <body>
     <h1>Bookmarks</h1>
-    <a class="arrow" onclick="goBack()">&lt;</a>
-    <script>
-      function goBack() {
-        window.history.back();
-      }
-    </script>
+    <a href="/home" class="arrow">&lt;</a>
+
+    <% if (games && games.length > 0) { %>
     <ul>
       <% games.forEach(game => { %>
       <li>
