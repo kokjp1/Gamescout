@@ -354,7 +354,7 @@ app.post('/resetPassword', async (req, res) => {
   // Clear the OTP from the session
   delete req.session.otp;
 
-  if (updateResult.modifiedCount === 1) {
+  if (updateResult.modifiedCount === 0) {
     console.error(`Failed to update password for user ID: ${req.session.userId}`);
     return res.status(500).json({ message: 'Failed to update password. Please try again.' });
   }
