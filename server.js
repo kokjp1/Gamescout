@@ -369,29 +369,53 @@ passport.use(
       clientSecret: process.env.CLIENT_SECRET,
       callbackURL: process.env.REDIRECT_URI,
     },
-    (accessToken, refreshToken, profile, done) => {
-      return done(null, profile);
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const email = profile.emails[0].value;
+        const username = profile.displayName;
+
+        // Check if the user already exists in the database
+        let user = await activeCollection.findOne({ email });
+
+        if (!user) {
+          // If user doesn't exist, create a new user with a random password
+          const randomPassword = Math.random().toString(36).slice(-8);
+          const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+          const newUser = {
+            username,
+            email,
+            password: hashedPassword,
+          };
+
+          const result = await activeCollection.insertOne(newUser);
+          console.log(`New user created with ID: ${result.insertedId}`);
+          user = newUser;
+        }
+
+        return done(null, user);
+      } catch (error) {
+        console.error("Error during Google authentication:", error);
+        return done(error, null);
+      }
     }
   )
 );
 
-
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
-
-
-app.get("/Googletest", (_, res) => {
-  res.render("Googletest.ejs");
-});
-
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-
-app.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
-  // Successful authentication, redirect home.
-  res.redirect("/home");
-});
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    // Successful authentication, log the user in and redirect to home
+    req.session.userId = req.user._id;
+    res.redirect("/home");
+  }
+);
 
 
 
