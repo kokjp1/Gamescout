@@ -405,6 +405,11 @@ passport.use(
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
+app.get('/googletest', (_, res) => {
+  res.render('googletest.ejs');
+});
+
+
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 app.get(
