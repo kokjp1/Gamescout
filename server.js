@@ -305,8 +305,9 @@ app.post('/forget', async (req, res) => {
 
     try {
       await transporter.sendMail(mailOptions);
-      req.session.otp = otp; 
+      req.session.otp = otp; // Store OTP in session
       req.session.otpExpiration = Date.now() + 5 * 60 * 1000; // Set OTP expiration to 5 minutes
+      req.session.userId = user._id; // Store user ID in session
       res.render('resetPassword.ejs', { otp }); 
     } catch (error) {
       console.error('Error sending OTP:', error);
