@@ -189,6 +189,13 @@ input {
   font-size: var(--font-size-md);
 }
 
+section {
+  width:100%;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .hidden {
   display: none;
 }
@@ -231,8 +238,7 @@ input {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  /*** full width block ***/
-  /* width: 100%; */
+  width: 100%;
 }
 
 .btn-165 svg {
