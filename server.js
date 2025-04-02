@@ -142,7 +142,23 @@ async function registerAccount(req, res) {
   });
 
   console.log(`added account to database with _id: ${registeredAccount.insertedId}`);
-  res.send("account toegevoegd");
+
+  // Send a welcome email
+  const mailOptions = {
+    to: registeringEmail,
+    from: `"Welcome - ProjectTech" <${process.env.EMAIL}>`,
+    subject: "Welcome to ProjectTech!",
+    text: `Hi ${registeringUsername},\n\nThank you for registering at ProjectTech. We're excited to have you on board!\n\nBest regards,\nThe ProjectTech Team`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Welcome email sent to ${registeringEmail}`);
+  } catch (error) {
+    console.error("Error sending welcome email:", error);
+  }
+
+  res.send("Account created successfully. A welcome email has been sent.");
 }
 
 // Listening for post request to register an account
