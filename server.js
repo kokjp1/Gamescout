@@ -146,9 +146,9 @@ async function registerAccount(req, res) {
   // Send a welcome email
   const mailOptions = {
     to: registeringEmail,
-    from: `"Welcome - ProjectTech" <${process.env.EMAIL}>`,
-    subject: "Welcome to ProjectTech!",
-    text: `Hi ${registeringUsername},\n\nThank you for registering at ProjectTech. We're excited to have you on board!\n\nBest regards,\nThe ProjectTech Team`,
+    from: `"Welcome - Game Scouter" <${process.env.EMAIL}>`,
+    subject: "Welcome to Game Scouter!",
+    text: `Hi ${registeringUsername},\n\nThank you for registering at Game Scouter. We're excited to have you on board!\n\nBest regards,\nThe Game Scouter Team`,
   };
 
   try {
