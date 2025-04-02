@@ -1,27 +1,42 @@
 #registreerformulier {
-  /* From https://css.glass */
-  border-radius: 16px;
-  backdrop-filter: blur(6.7px);
-  -webkit-backdrop-filter: blur(6.7px);
+  border-radius: var(--border-radius-xl);
+  backdrop-filter: var(--blur-amount);
+  -webkit-backdrop-filter: var(--blur-amount);
   width: 40%;
-  margin-left:15%;
+  margin-left: 15%;
 }
 
-html, body {
-    width:100%;
-    height:100%;
-    overflow-x:hidden;
-    overflow-y:hidden;}
+@media (max-width: 922px) {
+  #registreerformulier {
+    width: 60%;
+    margin-left: 10%;
+  }
+}
+
+@media (max-width: 616px) {
+  #registreerformulier {
+    width: 80%;
+    margin-left: 10%;
+  }
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
 
 body {
   display: flex;
   justify-content: start;
   align-items: center;
-  font-family: var(--font-family-primary);
+  font-family: var(--font-family);
 }
 
 a {
-  color: white;
+  color: var(--color-text);
 }
 
 form {
@@ -29,7 +44,7 @@ form {
   flex-direction: column;
   align-items: flex-start;
   gap: 1em;
-  padding: 2em 0 2em 0;
+  padding: 2em 0;
 }
 
 fieldset#gegevens {
@@ -39,17 +54,17 @@ fieldset#gegevens {
   gap: 1em;
   border: 0;
   width: 100%;
-  padding:0;
+  padding: 0;
 }
 
 form fieldset#gegevens input {
-  border-radius: 0.45em;
+  border-radius: var(--border-radius-md);
   padding: 1em;
-  background-color: rgb(255, 255, 255, 0.15);
-  border: 0.125em solid rgb(164, 164, 164);
+  background-color: var(--color-background-transparent);
+  border: var(--border-width-regular) solid var(--color-border-light);
   width: 100%;
   box-sizing: border-box;
-  color:white;
+  color: var(--color-text);
 }
 
 form fieldset#gegevens label {
@@ -62,25 +77,20 @@ form fieldset#gegevens label {
 form fieldset#gegevens input:focus {
   outline: none;
   transition: 0.15s ease;
-  border: 0.125em solid var(--color-background-button-primary);
+  border-color: var(--color-primary);
 }
 
 form fieldset#gegevens input::placeholder {
-  color: rgb(160, 157, 171);
-  font-size: 1em;
-  font-weight: 600;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
 }
-
-/* #region PASSWORD CHECKBOX STYLES */
 
 .toggle-password {
   display: inline-block;
   position: relative;
   padding-left: 30px;
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -93,7 +103,7 @@ form fieldset#gegevens input::placeholder {
 }
 
 .toggle-password input:checked ~ .toggle-password__checkmark {
-  background-color: var(--color-border-button-primary);
+  background-color: var(--color-primary-light);
 }
 
 .toggle-password input:checked ~ .toggle-password__checkmark:after {
@@ -101,11 +111,11 @@ form fieldset#gegevens input::placeholder {
 }
 
 .toggle-password:hover input ~ .toggle-password__checkmark {
-  background-color: var(--color-menu-hover);
+  background-color: var(--color-gray-light);
 }
 
 .toggle-password:hover input:checked ~ .toggle-password__checkmark {
-  background-color: var(--color-border-button-primary);
+  background-color: var(--color-primary-light);
 }
 
 .toggle-password__checkmark {
@@ -114,9 +124,9 @@ form fieldset#gegevens input::placeholder {
   left: 0;
   height: 20px;
   width: 20px;
-  background-color: var(--color-primary-gray);
-  transition: background-color 0.25s ease;
-  border: 0.125em solid var(--color-border-button-primary);
+  background-color: var(--color-gray-dark);
+  transition: 0.25s ease;
+  border: var(--border-width-regular) solid var(--color-primary-light);
   border-radius: 4px;
 }
 
@@ -127,7 +137,7 @@ form fieldset#gegevens input::placeholder {
   top: 3px;
   width: 5px;
   height: 10px;
-  border: solid var(--color-primary-gray);
+  border: solid var(--color-gray-dark);
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
   opacity: 0;
@@ -135,60 +145,48 @@ form fieldset#gegevens input::placeholder {
 }
 
 .toggle-password__label {
-  color: var(--color-primary-white);
-  line-height: 1.4;
-  font-size: var(--font-size-test);
-  font-family: var(--font-family-primary);
+  color: var(--color-text);
+  line-height: var(--line-height-normal);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family);
 }
 
-/* #endregion */
-
 form legend {
-  font-size: 2em;
-  font-weight: bold;
+  font-size: var(--font-size-xxl);
+  font-weight: var(--font-weight-bold);
 }
 
 input[type="submit"] {
   appearance: none;
-  color: white;
-  background-color: var(--color-background-button-primary);
-  font-size: 1.25em;
-  font-weight: bold;
+  color: var(--color-text);
+  background-color: var(--color-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
   width: 100%;
   padding: 0.75em;
-  border: 0.1em solid var(--color-border-button-primary);
-  border-radius: 0.25em;
+  border: var(--border-width-thin) solid var(--color-primary-light);
+  border-radius: var(--border-radius-sm);
+  transition: box-shadow 0.25s ease;
 }
 
 input[type="submit"]:hover {
-  background-color: var(--color-background-button-primary-hover);
+  background-color: var(--color-primary-dark);
   cursor: pointer;
-  transition: 0.5s ease;
-  color: rgb(255, 255, 255);
-}
-
-@keyframes shadowhoveropacity {
-  0% {
-    box-shadow: 0em 0em 0.5em 0.15em rgb(142, 55, 255, 0);
-  }
-
-  100% {
-    box-shadow: 0em 0em 0.5em 0.15em rgb(142, 55, 255, 1);
-  }
+  box-shadow: 0em 0em 1em 0.05em #262626;
 }
 
 form a {
-  color: var(--color-primary-pink);
-  font-weight: bold;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
 }
 
 form p {
-  font-size: 1.15em;
+  font-size: var(--font-size-md);
 }
 
 form label,
 input {
-  font-size: 1.1em;
+  font-size: var(--font-size-md);
 }
 
 .hidden {
@@ -199,15 +197,16 @@ input {
   display: flex;
   justify-content: center;
   padding: 1em;
-  border-radius: 0.35em;
-  background-color: rgb(255, 171, 171);
-  width: 80%;
-  color: rgb(255, 58, 58);
-  font-weight: bold;
-  font-size: 0.85em;
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-error-light);
+  width: 100%;
+  color: var(--color-error);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xs);
+  box-sizing: border-box;
 }
 
 #gamescouterLogo {
-  color: rgb(160, 157, 171);
-  font-size: 1.5em;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
 }

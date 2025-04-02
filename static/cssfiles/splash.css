@@ -15,8 +15,8 @@ section {
 
 h1 {
   margin: 0;
-  font-size: var(--font-size-title);
-  line-height: 100%;
+  font-size: var(--font-size-giant);
+  line-height: var(--line-height-tight);
 }
 
 h2 {
@@ -32,27 +32,27 @@ div {
 #login,
 #register {
   padding: 0.5em 3em;
-  font-size: var(--font-size-button);
-  border-radius: 0.25em;
+  font-size: var(--font-size-md);
+  border-radius: var(--border-radius-sm);
   text-decoration: none;
-  color: white;
+  color: var(--color-text);
 }
 
 #login {
-  background-color: var(--color-background-button-primary);
-  border: 0.15em solid var(--color-border-button-primary);
+  background-color: var(--color-primary);
+  border: var(--border-width-thick) solid var(--color-primary-light);
   transition: 0.25s ease;
 }
 
 #login:hover {
-  background-color: var(--color-background-button-primary-hover);
+  background-color: var(--color-primary-dark);
 }
 
 #register {
-  border: 0.15em solid var(--color-border-button-secondary);
+  border: var(--border-width-thick) solid var(--color-primary-dark);
   transition: 0.25s ease;
 }
 
 #register:hover {
-  background-color: var(--color-background-button-primary);
+  background-color: var(--color-primary);
 }

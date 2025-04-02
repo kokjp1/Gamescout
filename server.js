@@ -1,4 +1,4 @@
-// Project setup (express, dotenv, ejs, bcrypt, xss)
+// Project setup (express, dotenv, ejs, bcrypt, xss, nodemailer)
 
 require("dotenv").config();
 const xss = require("xss");
@@ -6,8 +6,8 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const app = express();
 const session = require("express-session");
+const nodemailer = require("nodemailer");
 
-const compression = require("compression");
 
 
 app.use(
@@ -21,9 +21,9 @@ app.use(
     // secret key voor session encryption
     secret: process.env.SESSION_SECRET,
 
-    ttl: 30 * 60, //sessieduur is 30 minuten
+    ttl: 2 * 60 * 60, //sessieduur is 2 uur
     cookie: {
-      maxAge: 30 * 60 * 1000, //sessieduur is 30 minuten
+      maxAge: 2 * 60 * 60 * 1000, //sessieduur is 2 uur
       secure: false, //true als HTTPS
     },
     sameSite: "strict", //beschermt tegen CSRF aanvallen
@@ -32,66 +32,10 @@ app.use(
 );
 
 
-
-
-
-
-// compress all responses
-app.use(compression());
-
-
-
-
-const shouldCompress = (req, res) => {
-  if (req.headers['x-no-compression']) {
-    // don't compress responses if this request header is present
-    return false;
-  }
-
-  // fallback to standard compression
-  return compression.filter(req, res);
-};
-
-app.use(compression({
-  // filter decides if the response should be compressed or not, 
-  // based on the `shouldCompress` function above
-  filter: shouldCompress,
-  // threshold is the byte threshold for the response body size
-  // before compression is considered, the default is 1kb
-  threshold: 1024
-}));
-
-
-
-
-
-
-// app.use(xss());
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
 app.set("view engine", "ejs");
 app.set("views", "views");
-
-
-// Use the session middleware
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
-
-// Access the session as req.session
-app.get('/', function(req, res, next) {
-  if (req.session.views) {
-    req.session.views++
-    res.setHeader('Content-Type', 'text/html')
-    res.write('<p>views: ' + req.session.views + '</p>')
-    res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-    res.end()
-  } else {
-    req.session.views = 1
-    res.end('welcome to the session demo. refresh!')
-  }
-})
-
-
 
 
 
@@ -125,6 +69,7 @@ client
 const activeDatabase = client.db(process.env.DB_NAME);
 const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
 
+
 // Routes
 app.get("/", (req, res) => {
   const userInput = req.query.name || "";
@@ -137,66 +82,66 @@ app.get("/login", onLogin);
 app.get("/register", onRegister);
 
 app.post("/login", accountLogin);
+
+app.get("/bookmarks", (req, res) => {
+  res.render("bookmarks.ejs");
+});
+
 app.get("/results", onResults);
 
-// Register account
+app.get("/game", onGame);
+
 async function registerAccount(req, res) {
-  try {
-    const registeringUsername = xss(req.body.username);
-    const registeringEmail = xss(req.body.email);
-    const registeringPassword = xss(req.body.password);
-    const saltRounds = 10;
+  const registeringUsername = xss(req.body.username);
+  const registeringEmail = xss(req.body.email);
+  const registeringPassword = req.body.password;
+  const saltRounds = 10;
 
-    // Check if the username or email is already in use
-    const existingUser = await activeCollection.findOne({
-      username: registeringUsername,
+  // Check if the username or email is already in use
+  const existingUser = await activeCollection.findOne({
+    username: registeringUsername,
+  });
+  const existingEmail = await activeCollection.findOne({
+    email: registeringEmail,
+  });
+
+  if (existingUser) {
+    return res.render("register.ejs", {
+      errorMessageUsername: "This username is already in use.",
+      errorMessageEmail: "",
+      errorMessagePassword: "",
     });
-    const existingEmail = await activeCollection.findOne({
-      email: registeringEmail,
-    });
-
-    if (existingUser) {
-      return res.render("register.ejs", {
-        errorMessageUsername: "This username is already in use.",
-        errorMessageEmail: "",
-        errorMessagePassword: "",
-      });
-    }
-
-    if (existingEmail) {
-      return res.render("register.ejs", {
-        errorMessageUsername: "",
-        errorMessageEmail: "This email is already in use.",
-        errorMessagePassword: "",
-      });
-    }
-
-    // Password validation
-    const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-    if (!passwordRegex.test(registeringPassword)) {
-      return res.render("register.ejs", {
-        errorMessagePassword:
-          "Password must be at least 8 characters long, including an uppercase letter, a number, and a special character.",
-        errorMessageEmail: "",
-        errorMessageUsername: "",
-      });
-    }
-
-    const hashedPassword = await bcrypt.hash(registeringPassword, saltRounds);
-
-    await activeCollection.insertOne({
-      username: registeringUsername,
-      email: registeringEmail,
-      password: hashedPassword,
-    });
-
-    res.send("account toegevoegd");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("500: server error");
   }
+
+  if (existingEmail) {
+    return res.render("register.ejs", {
+      errorMessageUsername: "",
+      errorMessageEmail: "This email is already in use.",
+      errorMessagePassword: "",
+    });
+  }
+
+  // Password validation
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  if (!passwordRegex.test(registeringPassword)) {
+    return res.render("register.ejs", {
+      errorMessagePassword: "Password must be at least 8 characters long, including an uppercase letter, a number, and a special character.",
+      errorMessageEmail: "",
+      errorMessageUsername: "",
+    });
+  }
+
+  const hashedPassword = await bcrypt.hash(registeringPassword, saltRounds);
+
+  const registeredAccount = await activeCollection.insertOne({
+    username: registeringUsername,
+    email: registeringEmail,
+    password: hashedPassword,
+  });
+
+  console.log(`added account to database with _id: ${registeredAccount.insertedId}`);
+  res.send("account toegevoegd");
 }
 
 // Listening for post request to register an account
@@ -213,48 +158,39 @@ function onRegister(req, res) {
 
 // Login account
 async function accountLogin(req, res) {
-  try {
-    const formUsernameOrEmail = xss(req.body.usernameOrEmail);
-    const formPassword = req.body.password;
+  const formUsernameOrEmail = xss(req.body.usernameOrEmail);
+  const formPassword = req.body.password;
 
-    // Find the account by email or username
-    const account = await activeCollection.findOne(
-      {
-        $or: [
-          { email: formUsernameOrEmail },
-          { username: formUsernameOrEmail },
-        ],
-      },
-      { collation: { locale: "en", strength: 2 } } // Makes username search case-insensitive
-    );
+  // Find the account by email or username
+  const account = await activeCollection.findOne(
+    {
+      $or: [{ email: formUsernameOrEmail }, { username: formUsernameOrEmail }],
+    },
+    { collation: { locale: "en", strength: 2 } } // Makes username search case-insensitive
+  );
 
-    // If no account is found
-    if (!account) {
-      return res.render("login.ejs", {
-        errorMessageUsernameOrEmail:
-          "We cannot find an account with this email or username, please try again or register.",
-        errorMessagePassword: "",
-      });
-    }
-
-    const passwordMatch = await bcrypt.compare(formPassword, account.password);
-    // If the password is incorrect
-    if (!passwordMatch) {
-      return res.render("login.ejs", {
-        errorMessageUsernameOrEmail: "",
-        errorMessagePassword: "Incorrect password, please try again.",
-      });
-    }
-
-    // Store userID in session
-    req.session.userId = account._id;
-
-    // If everything is correct
-    return res.redirect("/home");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("500: server error");
+  // If no account is found
+  if (!account) {
+    return res.render("login.ejs", {
+      errorMessageUsernameOrEmail: "We cannot find an account with this email or username, please try again or register.",
+      errorMessagePassword: "",
+    });
   }
+
+  const passwordMatch = await bcrypt.compare(formPassword, account.password);
+  // If the password is incorrect
+  if (!passwordMatch) {
+    return res.render("login.ejs", {
+      errorMessageUsernameOrEmail: "",
+      errorMessagePassword: "Incorrect password, please try again.",
+    });
+  }
+
+  // Store userID in session
+  req.session.userId = account._id;
+
+  // If everything is correct
+  return res.redirect("/home");
 }
 
 // Home page
@@ -262,24 +198,19 @@ app.get("/home", async (req, res) => {
   // Check if the user is logged in
   if (!req.session.userId) {
     return res.render("login.ejs", {
-      errorMessageUsernameOrEmail:
-        "You have been logged out, please log in again.",
+      errorMessageUsernameOrEmail: "You have been logged out, please log in again.",
       errorMessagePassword: "",
     });
   }
 
-  try {
-    // Convert the userId from the session to an ObjectId (hexstring is new, not deprecated)
-    const userId = new ObjectId(req.session.userId);
-    // Fetch the user from the database using the ObjectId
-    const user = await activeCollection.findOne({ _id: userId });
+  // Convert the userId from the session to an ObjectId (hexstring is new, not deprecated)
+  // Hulp van chatGPT omdat objectId deprecated is.
+  const userId = ObjectId.createFromHexString(req.session.userId);
+  // Fetch the user from the database using the ObjectId
+  const user = await activeCollection.findOne({ _id: userId });
 
-    // Render the home page with the username fetched from the database
-    res.render("home.ejs", { username: user.username });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("500: server error");
-  }
+  // Render the home page with the username fetched from the database
+  res.render("home.ejs", { username: user.username });
 });
 
 // Rendering pages
@@ -294,22 +225,177 @@ function onResults(req, res) {
   res.render("results.ejs");
 }
 
-// error handlers - **ALTIJD ONDERAAN HOUDEN**
+// Process information from the user entering the search paramters
+app.post("/gameFinderForm", gameFormHandler);
 
-app.use((req, res) => {
-  console.error("404 error at URL: " + req.url);
-  res.status(404).send("404 error at URL: " + req.url);
+// Hulp van chatGPT bij het schrijven van deze functie.
+async function gameFormHandler(req, res) {
+  const { release_date, genre, platform, multiplayerSingleplayer, noLimit } = req.body;
+
+  let gameReleaseDate;
+
+  if (noLimit) {
+    gameReleaseDate = "2000-01-01,2025-12-31";
+  } else {
+    gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
+  }
+  const gameGenres = genre.join(",");
+  const gamePlatform = platform;
+  const gameMultiplayerSingleplayer = multiplayerSingleplayer;
+  const apiKey = process.env.API_KEY;
+
+  console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayerSingleplayer);
+
+  const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}&page_size=40`);
+
+  const data = await response.json();
+
+  console.log(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`);
+
+  res.render("results.ejs", { games: data.results });
+
+  // // Store game IDs in session
+  // // Hulp van chatGPT bij het opzetten van de detail pagina.
+  // req.session.gameResults = data.results.map((game) => ({
+  //   id: game.id,
+  //   name: game.name,
+  // }));
+}
+
+function onGame(req, res) {
+  res.render("game.ejs");
+}
+
+
+// Nodemailer setup
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  requireTLS: true,
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.APP_PASSWORD,
+  },
 });
 
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+app.post('/forget', async (req, res) => {
+  const { email } = req.body; 
+  const otp = generateOTP();
+
+  const mailOptions = {
+    to: email,
+    from: `"NoReply - ProjectTech" <${process.env.EMAIL}>`,
+    subject: 'Your OTP for Password Reset',
+    text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    req.session.otp = otp; 
+    req.session.otpExpiration = Date.now() + 5 * 60 * 1000; // Set OTP expiration to 5 minutes
+    res.render('resetPassword.ejs', { otp }); 
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    res.status(500).json({ message: 'Failed to send OTP. Please try again.' });
+  }
+});
+
+
+
+app.get('/forget', (_, res) => {
+  res.render('forget.ejs', {
+  });
+});
+
+
+app.get('/resetPassword', (_, res) => {
+  res.render('resetPassword.ejs');
+});
+
+app.post('/resetPassword', async (req, res) => {
+  const { newPassword, confirmPassword, otp } = req.body;
+
+  // Check if the OTP matches
+  if (otp !== req.session.otp) {
+    return res.status(400).json({ message: 'Invalid OTP. Please try again.' });
+  }
+
+  // Proceed with password update logic
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ message: 'Passwords do not match.' });
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  console.log(`Attempting to update password for user ID: ${req.session.userId}`);
+  
+  const updateResult = await activeCollection.updateOne(
+    { _id: new ObjectId(req.session.userId) },
+    { $set: { password: hashedPassword } }
+  );
+
+  // Clear the OTP from the session
+  delete req.session.otp;
+
+  if (updateResult.modifiedCount === 0) {
+    console.error(`Failed to update password for user ID: ${req.session.userId}`);
+    return res.status(500).json({ message: 'Failed to update password. Please try again.' });
+  }
+
+  console.log(`Password updated successfully for user ID: ${req.session.userId}`);
+  res.status(200).json({ message: 'Password has been reset successfully.' });
+});
+
+
+
+
+
+// check url to get game id
+app.get("/game/:id", async (req, res) => {
+  const gameId = req.params.id;
+  const apiKey = process.env.API_KEY;
+
+  const response = await fetch(`https://api.rawg.io/api/games/${gameId}?key=${apiKey}`);
+  const gameDetails = await response.json();
+  console.log(response)
+
+  // Fetch screenshots
+  const screenshotsResponse = await fetch(`https://api.rawg.io/api/games/${gameId}/screenshots?key=${apiKey}`);
+  const screenshots = await screenshotsResponse.json();
+
+  res.render("gameDetails", {
+    game: gameDetails,
+    screenshots: screenshots.results,
+  });
+});
+
+
+// error handlers - **ALTIJD ONDERAAN HOUDEN**
+
+// Middleware to handle not found errors - error 404
+app.use((req, res) => {
+  // log error to console
+  console.error("404 error at URL: " + req.url);
+  // send back a HTTP response with status code 404
+  res.status(404).render("404.ejs");
+});
+
+// Middleware to handle server errors - error 500
 app.use((err, req, res) => {
+  // log error to console
   console.error(err.stack);
+  // send back a HTTP response with status code 500
   res.status(500).send("500: server error");
 });
 
 // Start server **ALTIJD ONDERAAN**
 app.listen(process.env.PORT, () => {
   console.log("✅ Server gestart en online ✅");
-  console.log(
-    `🌐 beschikbaar op port: http://localhost:${process.env.PORT} 🌐`
-  );
+  console.log(`🌐 beschikbaar op port: http://localhost:${process.env.PORT} 🌐`);
 });
