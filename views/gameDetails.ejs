@@ -13,7 +13,6 @@
   <body>
     <h1><%= game.name %></h1>
     <img src="<%= game.background_image %>" width="100%" style="max-width: 800px; border-radius: 8px" />
-    <button>Bookmark this game</button>
     <div class="game-info">
       <!-- Hulp van chatgpt, HTML tags strippen, HTML apostrof omzetten naar normale apostrof & quotes omzetten 
        In de string van de API response worden er html tags meegegeven, deze vervangen.-->
@@ -24,32 +23,38 @@
       <p>Metacritic score: <%= game.metacritic || 'Geen metacritic score.' %></p>
     </div>
 
+    <form action="/bookmarks/add" method="POST">
+      <input type="hidden" name="gameId" value="<%= game.id %>" />
+      <input type="hidden" name="returnTo" value="<%= currentUrl %>" />
+      <button type="submit">🔖 Bookmark This Game</button>
+    </form>
+
     <section>
-    <% if (screenshots && screenshots.length) { %>
+      <% if (screenshots && screenshots.length) { %>
       <h2 class="section-title">Screenshots</h2>
-      
+
       <div class="swiper mySwiper2">
         <div class="swiper-wrapper">
           <% screenshots.forEach(screenshot => { %>
-            <div class="swiper-slide">
-              <img src="<%= screenshot.image %>" alt="<%= game.name %> screenshot" />
-            </div>
+          <div class="swiper-slide">
+            <img src="<%= screenshot.image %>" alt="<%= game.name %> screenshot" />
+          </div>
           <% }); %>
         </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
       </div>
-      
+
       <div thumbsSlider="" class="swiper mySwiper">
         <div class="swiper-wrapper">
           <% screenshots.forEach(screenshot => { %>
-            <div class="swiper-slide">
-              <img src="<%= screenshot.image %>" alt="<%= game.name %> screenshot thumbnail" />
-            </div>
+          <div class="swiper-slide">
+            <img src="<%= screenshot.image %>" alt="<%= game.name %> screenshot thumbnail" />
+          </div>
           <% }); %>
         </div>
       </div>
-    <% } %>
+      <% } %>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="/frontendJS/swiper.js"></script>
