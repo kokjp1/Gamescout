@@ -8,6 +8,4 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       favoriteButton.innerHTML = "Bookmarked";
     }  });
-
-  console.log("test");
 });

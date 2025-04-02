@@ -8,6 +8,7 @@ form {
   width: calc(60% + 2vw);
   max-width: 800px;
   animation: formFadeIn 1s ease forwards;
+  margin-bottom:2em;
 }
 
 form h2 {
@@ -143,11 +144,33 @@ input[type="range"]:disabled::-webkit-slider-thumb {
 }
 
 .genreSelector .nextButton {
-  position: absolute;
-  right: 0;
-  bottom: -3em;
-  margin-left: auto;
-  margin-right: auto;
+  position: sticky;
+  float: right; 
+  bottom: 1em; 
+  right: 1em; 
+  margin-left: auto; 
+  margin-top: auto; 
+  
+  padding: 0.75em 1.5em;
+  background: var(--color-primary);
+  border-radius: var(--border-radius-lg);
+  z-index: 100;
+  box-shadow: var(--shadow-md)
+}
+
+.genreSelector .prevButton {
+  position: sticky;
+  float: left; 
+  bottom: 1em; 
+  left: 1em; 
+  margin-right: auto; 
+  margin-top: auto; 
+  
+  padding: 0.75em 1.5em;
+  background: var(--color-primary);
+  border-radius: var(--border-radius-lg);
+  z-index: 100;
+  box-shadow: var(--shadow-md)
 }
 
 #checkboxes {
@@ -324,4 +347,26 @@ select option {
 
 .nextButton:hover {
   background-color: var(--color-primary-dark);
+}
+
+.prevButton {
+  background-color: var(--color-primary-light);
+  border: var(--border-width-regular) solid var(--color-primary-dark);
+  padding:0.5em 2em;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.prevButton:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* Hide on first step */
+.dateRange .prevButton {
+  display: none;
 }
