@@ -53,11 +53,8 @@
         <p>Genres: <br /><%= game.genres.map(genre => genre.name).join(", ") %></p>
         <p>Metacritic score: <br /><%= game.metacritic || 'Geen metacritic score.' %></p>
       </div>
-      <form action="/bookmarks/add" method="POST">
-        <input type="hidden" name="gameId" value="<%= game.id %>" />
-        <input type="hidden" name="returnTo" value="<%= currentUrl %>" />
-        <button type="submit" data-action="favorite">Bookmark this game for later</button>
-      </form>
+      <button id="bookmarkButton" data-bookmarked="<%= isBookmarked %>" data-gameid="<%= game.id %>"><%= isBookmarked ? '✓ Added to Bookmarks' : 'Bookmark this game for later' %></button>
+
       <a href="/bookmarks">Visit your bookmarks</a>
       <!-- expres niet een class/id toegevoegd om te experimenteren met andere mogelijkheden -->
     </section>

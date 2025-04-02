@@ -406,34 +406,44 @@ app.get("/game/:id", async (req, res) => {
 
   const response = await fetch(`https://api.rawg.io/api/games/${gameId}?key=${apiKey}`);
   const gameDetails = await response.json();
-  console.log(response);
 
-  // Fetch screenshots
   const screenshotsResponse = await fetch(`https://api.rawg.io/api/games/${gameId}/screenshots?key=${apiKey}&page_size=16`);
   const screenshots = await screenshotsResponse.json();
+
+  let isBookmarked = false;
+
+  if (req.session.userId) {
+    const userId = ObjectId.createFromHexString(req.session.userId);
+    const user = await activeCollection.findOne({ _id: userId });
+
+    isBookmarked = user.bookmarks.some((bookmark) => bookmark.gameId === gameId);
+  }
 
   res.render("gameDetails", {
     game: gameDetails,
     screenshots: screenshots.results,
     currentUrl: req.originalUrl,
+    isBookmarked,
   });
 });
 
-app.post("/bookmarks/add", async (req, res) => {
+app.post("/bookmarks/toggle", async (req, res) => {
   const { gameId, returnTo } = req.body;
+  const userId = ObjectId.createFromHexString(req.session.userId);
 
-  // Convert userId from session to ObjectId in database
-  let userId;
-  userId = ObjectId.createFromHexString(req.session.userId);
+  const user = await activeCollection.findOne({ _id: userId });
 
-  // Database updaten
-  await activeCollection.updateOne({ _id: userId }, { $addToSet: { bookmarks: { gameId } } });
+  const alreadyBookmarked = user.bookmarks.some((bookmark) => bookmark.gameId === gameId);
 
-  // When showing search results:
-  req.session.lastSearchUrl = req.originalUrl;
+  if (alreadyBookmarked) {
+    // Remove it
+    await activeCollection.updateOne({ _id: userId }, { $pull: { bookmarks: { gameId } } });
+  } else {
+    // Add it
+    await activeCollection.updateOne({ _id: userId }, { $addToSet: { bookmarks: { gameId } } });
+  }
 
-  // Redirect to same page
-  res.redirect(303, returnTo || req.session.lastSearchUrl || "/");
+  res.redirect(303, returnTo || "/");
 });
 
 app.get("/bookmarks", async (req, res) => {

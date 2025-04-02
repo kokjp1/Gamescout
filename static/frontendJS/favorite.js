@@ -1,11 +1,31 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const favoriteButton = document.querySelector('[data-action="favorite"]');
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("#bookmarkButton");
+  if (!button) return;
 
-  favoriteButton.addEventListener("click", function () {
-    favoriteButton.classList.toggle("favoriteToggle");
-    if (favoriteButton.innerHTML === "Bookmarked") {
-      favoriteButton.innerHTML = "Bookmark this game for later";
-    } else {
-      favoriteButton.innerHTML = "Bookmarked";
-    }  });
+  button.addEventListener("click", async () => {
+    const gameId = button.dataset.gameid;
+    const isBookmarked = button.dataset.bookmarked === "true";
+
+    const response = await fetch("/bookmarks/toggle", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        gameId,
+      }),
+    });
+
+    if (response.ok) {
+      if (isBookmarked) {
+        button.textContent = "Bookmark this game for later";
+        button.dataset.bookmarked = "false";
+        button.classList.remove("favoriteToggle");
+      } else {
+        button.textContent = "✓ Added to Bookmarks";
+        button.dataset.bookmarked = "true";
+        button.classList.add("favoriteToggle");
+      }
+    }
+  });
 });
