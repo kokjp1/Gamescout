@@ -283,13 +283,13 @@ function generateOTP() {
 }
 
 app.post('/forget', async (req, res) => {
-  const { email, username } = req.body; 
+  const { usernameOrEmail } = req.body; 
   const otp = generateOTP();
 
   try {
     // Find the user by email or username
     const user = await activeCollection.findOne({
-      $or: [{ email }, { username }],
+      $or: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
     });
 
     if (!user) {
