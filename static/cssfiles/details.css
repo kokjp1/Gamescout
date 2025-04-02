@@ -93,7 +93,7 @@ section:nth-of-type(3) {
     }
   }
 
-  button {
+  /* button {
     border: var(--border-width-thick) solid var(--color-accent);
     background-color: var(--color-primary-light);
     transition: 0.25s ease;
@@ -103,6 +103,8 @@ section:nth-of-type(3) {
     border-radius: var(--border-radius-lg);
     text-decoration: none;
     color: var(--color-text);
+    display:flex;
+    justify-content: center;
 
     &:hover {
       background-color: var(--color-primary-dark);
@@ -112,9 +114,47 @@ section:nth-of-type(3) {
 
     &.favoriteToggle {
       background-color: green;
+      
+      svg {
+        fill: white; 
+        stroke: none;
     }
   }
+} */
+
+button {
+  border: var(--border-width-thick) solid var(--color-accent);
+  background-color: var(--color-primary-light);
+  transition: 0.25s ease;
+  padding: 1em 3em;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-lg);
+  text-decoration: none;
+  color: var(--color-text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+
+  &:hover {
+    background-color: var(--color-primary-dark);
+    border: var(--border-width-thick) solid var(--color-primary-light);
+    cursor: pointer;
+  }
 }
+
+button.favoriteToggle {
+  background-color: var(--color-primary);
+  box-shadow: var(--shadow-md-pink);
+  color: white; 
+}
+
+button.favoriteToggle svg path {
+  fill: white; 
+  stroke: white;
+}
+
 
 @media (max-width: 1340px) {
   body {
@@ -139,4 +179,5 @@ section:nth-of-type(3) {
       }
     }
   }
+}
 }
