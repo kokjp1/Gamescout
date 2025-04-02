@@ -41,22 +41,32 @@ section {
 .mySwiper2 {
   height: 80%;
   width: 100%;
+  border-radius: 1.25em;
+  border: 0.25em solid var(--color-gray-medium)
+
 }
 
 .mySwiper {
   height: 20%;
   box-sizing: border-box;
   padding: 10px 0;
+  border-radius: 0.75em;
+  
 }
 
 .mySwiper .swiper-slide {
   width: 25%;
   height: 100%;
-  opacity: 0.4;
+  filter: brightness(0.35);
+  border-radius: 0.75em;
+  margin-top: 1em;
+  border: 0.25em solid var(--color-gray-medium)
 }
 
 .mySwiper .swiper-slide-thumb-active {
-  opacity: 1;
+  filter: brightness(1);
+  box-shadow: var(--shadow-lg);
+  border: 0.25em solid var(--color-primary-light);
 }
 
 .swiper-slide img {
@@ -65,6 +75,17 @@ section {
   height: 100%;
   object-fit: cover;
   cursor: pointer;
+  border-radius: 0.5em;
+}
+
+.swiper-button-next::after, .swiper-button-prev::after {
+  color: var(--color-primary-light)
+  }
+
+@media (max-width: 1140px) {
+  section {
+    height: calc(40vw + 20vw);
+  }
 }
 
 /* https://codesandbox.io/p/sandbox/dsg6qv?file=%2Findex.html%3A96%2C7 */
