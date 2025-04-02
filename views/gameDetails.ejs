@@ -7,28 +7,16 @@
     <link rel="icon" type="image/x-icon" href="/images/controllerfavico.png" />
     <link rel="stylesheet" href="/cssfiles/main.css" />
     <link rel="stylesheet" href="/cssfiles/swiper.css" />
+    <link rel="stylesheet" href="/cssfiles/details.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <title><%= game.name %> Details</title>
   </head>
   <body>
-    <h1><%= game.name %></h1>
-    <img src="<%= game.background_image %>" width="100%" style="max-width: 800px; border-radius: 8px" />
-    <div class="game-info">
-      <!-- Hulp van chatgpt, HTML tags strippen, HTML apostrof omzetten naar normale apostrof & quotes omzetten 
-       In de string van de API response worden er html tags meegegeven, deze vervangen.-->
-      <%= game.description.replace(/<[^>]*>/g, '').replace(/&#39;/g, "'").replace(/&quot;/g, '"') %>
-      <p>Released: <%= game.released %></p>
-      <p>Rating: <%= game.rating %></p>
-      <p>Genres: <%= game.genres.map(genre => genre.name).join(", ") %></p>
-      <p>Metacritic score: <%= game.metacritic || 'Geen metacritic score.' %></p>
-    </div>
-
-    <form action="/bookmarks/add" method="POST">
-      <input type="hidden" name="gameId" value="<%= game.id %>" />
-      <input type="hidden" name="returnTo" value="<%= currentUrl %>" />
-      <button type="submit">🔖 Bookmark This Game</button>
-    </form>
-
+    <section id="hero">
+      <h1><%= game.name %></h1>
+      <img src="<%= game.background_image %>" />
+    </section>
+    <!-- <button>Bookmark this game</button> -->
     <section>
       <% if (screenshots && screenshots.length) { %>
       <h2 class="section-title">Screenshots</h2>
@@ -56,6 +44,18 @@
       </div>
       <% } %>
     </section>
+    <section class="game-info">
+      <!-- Hulp van chatgpt, HTML tags strippen, HTML apostrof omzetten naar normale apostrof & quotes omzetten -->
+      <h2><%= game.name %></h2>
+      <%= game.description.replace(/<[^>]*>/g, '').replace(/&#39;/g, "'").replace(/&quot;/g, '"') %>
+      <div id="tags">
+        <p>Released: <br /><%= game.released %></p>
+        <p>Rating: <br /><%= game.rating %></p>
+        <p>Genres: <br /><%= game.genres.map(genre => genre.name).join(", ") %></p>
+        <p>Metacritic score: <br /><%= game.metacritic || 'Geen metacritic score.' %></p>
+      </div>
+    </section>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="/frontendJS/swiper.js"></script>
   </body>

@@ -66,8 +66,8 @@ app.get("/register", onRegister);
 
 app.post("/login", accountLogin);
 
-app.get("/bookmark", (req, res) => {
-  res.render("bookmark.ejs");
+app.get("/bookmarks", (req, res) => {
+  res.render("bookmarks.ejs");
 });
 
 app.get("/results", onResults);
@@ -249,6 +249,8 @@ function onGame(req, res) {
   res.render("game.ejs");
 }
 
+// Nodemailer setup
+
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -270,7 +272,7 @@ app.post("/forget", async (req, res) => {
 
   const mailOptions = {
     to: email,
-    from: process.env.EMAIL,
+    from: `"NoReply - ProjectTech" <${process.env.EMAIL}>`,
     subject: "Your OTP for Password Reset",
     text: `Your OTP is: ${otp}. It is valid for 5 minutes.`,
   };

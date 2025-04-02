@@ -44,6 +44,7 @@ Beyond discovery, GameScout also offers personalized features like profiles and 
   ├── mongodb@6.13.1
   ├── nodemon@3.1.9
   └── xss@1.0.15
+  └── nodemailer@6.10.0
 
 ## License
 
