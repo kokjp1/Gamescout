@@ -143,22 +143,8 @@ async function registerAccount(req, res) {
 
   console.log(`added account to database with _id: ${registeredAccount.insertedId}`);
 
-  // Send a welcome email
-  const mailOptions = {
-    to: registeringEmail,
-    from: `"Welcome - Game Scouter" <${process.env.EMAIL}>`,
-    subject: "Welcome to Game Scouter!",
-    text: `Hi ${registeringUsername},\n\nThank you for registering at Game Scouter. We're excited to have you on board!\n\nBest regards,\nThe Game Scouter Team`,
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log(`Welcome email sent to ${registeringEmail}`);
-  } catch (error) {
-    console.error("Error sending welcome email:", error);
-  }
-
-  res.send("Account created successfully. A welcome email has been sent.");
+  // Send a simple success message
+  res.send("Account created successfully.");
 }
 
 // Listening for post request to register an account
