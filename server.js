@@ -355,8 +355,11 @@ app.post("/bookmarks/add", async (req, res) => {
   // Database updaten
   await activeCollection.updateOne({ _id: userId }, { $push: { bookmarks: { gameId } } });
 
+  // When showing search results:
+  req.session.lastSearchUrl = req.originalUrl;
+
   // Redirect to same page
-  res.redirect(returnTo || "/");
+  res.redirect(303, returnTo || req.session.lastSearchUrl || "/");
 });
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
