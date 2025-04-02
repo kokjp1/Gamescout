@@ -66,10 +66,6 @@ app.get("/register", onRegister);
 
 app.post("/login", accountLogin);
 
-app.get("/bookmarks", (req, res) => {
-  res.render("bookmarks.ejs");
-});
-
 app.get("/results", onResults);
 
 app.get("/game", onGame);
@@ -121,10 +117,15 @@ async function registerAccount(req, res) {
     username: registeringUsername,
     email: registeringEmail,
     password: hashedPassword,
+    bookmarks: [],
   });
 
+  // Save the new user ID in session
+  req.session.userId = registeredAccount.insertedId;
+
   console.log(`added account to database with _id: ${registeredAccount.insertedId}`);
-  res.send("account toegevoegd");
+  // If everything is correct
+  return res.redirect("/home");
 }
 
 // Listening for post request to register an account
@@ -351,17 +352,37 @@ app.post("/bookmarks/add", async (req, res) => {
 
   // Convert userId from session to ObjectId in database
   let userId;
-  console.log("HALLO", req.session.userId);
   userId = ObjectId.createFromHexString(req.session.userId);
 
   // Database updaten
-  await activeCollection.updateOne({ _id: userId }, { $push: { bookmarks: { gameId } } });
+  await activeCollection.updateOne({ _id: userId }, { $addToSet: { bookmarks: { gameId } } });
 
   // When showing search results:
   req.session.lastSearchUrl = req.originalUrl;
 
   // Redirect to same page
   res.redirect(303, returnTo || req.session.lastSearchUrl || "/");
+});
+
+app.get("/bookmarks", async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect("/login");
+  }
+
+  const userId = ObjectId.createFromHexString(req.session.userId);
+  const user = await activeCollection.findOne({ _id: userId });
+
+  const gameIds = user.bookmarks.map((bookmark) => bookmark.gameId);
+  const apiKey = process.env.API_KEY;
+
+  const gamePromises = gameIds.map(async (id) => {
+    const response = await fetch(`https://api.rawg.io/api/games/${id}?key=${apiKey}`);
+    return response.json();
+  });
+
+  const gameDetails = await Promise.all(gamePromises);
+
+  res.render("bookmarks.ejs", { games: gameDetails });
 });
 
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
