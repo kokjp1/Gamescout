@@ -436,8 +436,8 @@ passport.use(
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
-app.get('/googletest', (_, res) => {
-  res.render('googletest.ejs');
+app.get('/googleLogin', (_, res) => {
+  res.render('googleLogin.ejs');
 });
 
 
