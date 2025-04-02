@@ -436,10 +436,6 @@ passport.use(
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
-app.get('/googleLogin', (_, res) => {
-  res.render('googleLogin.ejs');
-});
-
 
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
@@ -452,30 +448,6 @@ app.get(
     res.redirect("/home");
   }
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
