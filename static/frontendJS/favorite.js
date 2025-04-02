@@ -3,7 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   favoriteButton.addEventListener("click", function () {
     favoriteButton.classList.toggle("favoriteToggle");
-  });
+    if (favoriteButton.innerHTML === "Bookmarked") {
+      favoriteButton.innerHTML = "Bookmark this game for later";
+    } else {
+      favoriteButton.innerHTML = "Bookmarked";
+    }  });
 
   console.log("test");
 });
