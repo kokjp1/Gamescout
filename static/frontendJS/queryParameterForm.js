@@ -1,7 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
     const nextButtons = document.querySelectorAll(".nextButton");
+    const prevButtons = document.querySelectorAll(".prevButton");
     const formSteps = document.querySelectorAll(".form-step");
     let currentStep = 0;
+
+    // Initialize - show first step only
+    formSteps.forEach((step, index) => {
+        step.style.display = index === 0 ? "block" : "none";
+    });
 
     function handleNextButtonClick() {
         formSteps[currentStep].style.display = "none";
@@ -12,13 +18,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function handlePrevButtonClick() {
+        formSteps[currentStep].style.display = "none";
+        currentStep -= 1;
+
+        if (currentStep >= 0) {
+            formSteps[currentStep].style.display = "block";
+        }
+    }
+
     nextButtons.forEach(button => {
         button.addEventListener("click", handleNextButtonClick);
     });
 
+    prevButtons.forEach(button => {
+        button.addEventListener("click", handlePrevButtonClick);
+    });
 
     // Release date range input code
-
     const rangeInput = document.getElementById("release_date");
     const releaseDateValue = document.getElementById("release_date_value");
     const noLimitCheckbox = document.getElementById("noLimit");
@@ -39,5 +56,4 @@ document.addEventListener("DOMContentLoaded", function () {
             releaseDateValue.textContent = rangeInput.value;
         }
     }
-
 });

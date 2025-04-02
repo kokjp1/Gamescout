@@ -16,14 +16,6 @@
       <h1><%= game.name %></h1>
       <img src="<%= game.background_image %>" />
     </section>
-
-    <a class="arrow" onclick="goBack()">&lt;</a>
-    <script>
-      function goBack() {
-        window.history.back();
-      }
-    </script>
-
     <section>
       <% if (screenshots && screenshots.length) { %>
       <h2 class="section-title">Images</h2>
@@ -69,6 +61,14 @@
       <a href="/bookmarks">Visit your bookmarks</a>
       <!-- expres niet een class/id toegevoegd om te experimenteren met andere mogelijkheden -->
     </section>
+
+    <a class="arrow" onclick="goBack()">&lt; &lt;</a>
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="/frontendJS/swiper.js"></script>
     <script src="/frontendJS/favorite.js"></script>

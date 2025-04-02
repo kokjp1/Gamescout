@@ -97,6 +97,7 @@ section:nth-of-type(3) {
       box-shadow: inset 0.1em 0.1em 0.1em 0 rgba(255, 255, 255, 0.5), inset -0.2em -0.2em 0.2em 0 rgba(0, 0, 0, 0.5);
     }
   }
+}
 
 button {
   border: var(--border-width-thick) solid var(--color-accent);
@@ -146,14 +147,13 @@ button.favoriteToggle svg path {
     }
 
     div#tags {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
+      display: grid;  
+      grid-template-columns: repeat(2, 1fr);
       gap: 0.5em;
 
       p {
-        margin: 0; /* Remove default margins */
+        margin: 0;
       }
     }
   }
-}
 }
