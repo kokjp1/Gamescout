@@ -7,7 +7,8 @@ const express = require("express");
 const app = express();
 const session = require("express-session");
 const nodemailer = require("nodemailer");
-
+const passport = require("passport");
+const googleStrategy = require("passport-google-oauth20").Strategy;
 
 
 app.use(
@@ -72,7 +73,10 @@ const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
 
 // Routes
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+  const userInput = req.query.name || "";
+  const safeInput = xss(userInput); // Sanitizing input
+
+  res.render("index.ejs", { message: `Home, ${safeInput}` });
 });
 
 app.get("/login", onLogin);
@@ -138,7 +142,23 @@ async function registerAccount(req, res) {
   });
 
   console.log(`added account to database with _id: ${registeredAccount.insertedId}`);
-  res.send("account toegevoegd");
+
+  // Send a welcome email
+  const mailOptions = {
+    to: registeringEmail,
+    from: `"Welcome - ProjectTech" <${process.env.EMAIL}>`,
+    subject: "Welcome to ProjectTech!",
+    text: `Hi ${registeringUsername},\n\nThank you for registering at ProjectTech. We're excited to have you on board!\n\nBest regards,\nThe ProjectTech Team`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Welcome email sent to ${registeringEmail}`);
+  } catch (error) {
+    console.error("Error sending welcome email:", error);
+  }
+
+  res.send("Account created successfully. A welcome email has been sent.");
 }
 
 // Listening for post request to register an account
@@ -348,6 +368,97 @@ app.post('/resetPassword', async (req, res) => {
   console.log(`Password updated successfully for user ID: ${req.session.userId}`);
   res.status(200).json({ message: 'Password has been reset successfully.' });
 });
+
+
+
+
+
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+  new googleStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: process.env.REDIRECT_URI,
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const email = profile.emails[0].value;
+        const username = profile.displayName;
+
+        // Check if the user already exists in the database
+        let user = await activeCollection.findOne({ email });
+
+        if (!user) {
+          // If user doesn't exist, create a new user with a random password
+          const randomPassword = Math.random().toString(36).slice(-8);
+          const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+          const newUser = {
+            username,
+            email,
+            password: hashedPassword,
+          };
+
+          const result = await activeCollection.insertOne(newUser);
+          console.log(`New user created with ID: ${result.insertedId}`);
+          user = newUser;
+        }
+
+        return done(null, user);
+      } catch (error) {
+        console.error("Error during Google authentication:", error);
+        return done(error, null);
+      }
+    }
+  )
+);
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
+
+app.get('/googletest', (_, res) => {
+  res.render('googletest.ejs');
+});
+
+
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    // Successful authentication, log the user in and redirect to home
+    req.session.userId = req.user._id;
+    res.redirect("/home");
+  }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
