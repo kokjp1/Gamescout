@@ -7,7 +7,8 @@ const express = require("express");
 const app = express();
 const session = require("express-session");
 const nodemailer = require("nodemailer");
-
+const passport = require("passport");
+const googleStrategy = require("passport-google-oauth20").Strategy;
 
 
 app.use(
@@ -351,6 +352,68 @@ app.post('/resetPassword', async (req, res) => {
   console.log(`Password updated successfully for user ID: ${req.session.userId}`);
   res.status(200).json({ message: 'Password has been reset successfully.' });
 });
+
+
+
+
+
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+  new googleStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: process.env.REDIRECT_URI,
+    },
+    (accessToken, refreshToken, profile, done) => {
+      return done(null, profile);
+    }
+  )
+);
+
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
+
+
+
+app.get("/Googletest", (_, res) => {
+  res.render("Googletest.ejs");
+});
+
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+
+app.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
+  // Successful authentication, redirect home.
+  res.redirect("/home");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
