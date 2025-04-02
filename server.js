@@ -10,7 +10,6 @@ const nodemailer = require("nodemailer");
 const passport = require("passport");
 const googleStrategy = require("passport-google-oauth20").Strategy;
 
-
 app.use(
   session({
     //Sla de sessie niet opnieuw op als deze onveranderd is
@@ -32,14 +31,10 @@ app.use(
   })
 );
 
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("static"));
 app.set("view engine", "ejs");
 app.set("views", "views");
-
-
-
 
 // MongoDB setup
 
@@ -70,7 +65,6 @@ client
 const activeDatabase = client.db(process.env.DB_NAME);
 const activeCollection = activeDatabase.collection(process.env.DB_COLLECTION);
 
-
 // Routes
 app.get("/", (req, res) => {
   const userInput = req.query.name || "";
@@ -83,10 +77,6 @@ app.get("/login", onLogin);
 app.get("/register", onRegister);
 
 app.post("/login", accountLogin);
-
-app.get("/bookmarks", (req, res) => {
-  res.render("bookmarks.ejs");
-});
 
 app.get("/results", onResults);
 
@@ -139,14 +129,14 @@ async function registerAccount(req, res) {
     username: registeringUsername,
     email: registeringEmail,
     password: hashedPassword,
+    bookmarks: [],
   });
 
   console.log(`added account to database with _id: ${registeredAccount.insertedId}`);
 
-
-  req.session.userId = registeredAccount.insertedId; 
-  res.redirect("/home"); 
-  }
+  req.session.userId = registeredAccount.insertedId;
+  res.redirect("/home");
+}
 
 // Listening for post request to register an account
 app.post("/register", registerAccount);
@@ -257,24 +247,16 @@ async function gameFormHandler(req, res) {
   console.log(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`);
 
   res.render("results.ejs", { games: data.results });
-
-  // // Store game IDs in session
-  // // Hulp van chatGPT bij het opzetten van de detail pagina.
-  // req.session.gameResults = data.results.map((game) => ({
-  //   id: game.id,
-  //   name: game.name,
-  // }));
 }
 
 function onGame(req, res) {
   res.render("game.ejs");
 }
 
-
 // Nodemailer setup
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
+  host: "smtp.gmail.com",
   port: 587,
   secure: false,
   requireTLS: true,
@@ -284,13 +266,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-app.post('/forget', async (req, res) => {
-  const { usernameOrEmail } = req.body; 
+app.post("/forget", async (req, res) => {
+  const { usernameOrEmail } = req.body;
   const otp = generateOTP();
 
   try {
@@ -300,13 +281,13 @@ app.post('/forget', async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ message: 'No account found with the provided email or username.' });
+      return res.status(404).json({ message: "No account found with the provided email or username." });
     }
 
     const mailOptions = {
       to: user.email,
       from: `"NoReply - ProjectTech" <${process.env.EMAIL}>`,
-      subject: 'Your verification code for Password Reset',
+      subject: "Your verification code for Password Reset",
       text: `Your verification is: ${otp}. It is valid for 5 minutes.`,
     };
 
@@ -315,67 +296,54 @@ app.post('/forget', async (req, res) => {
       req.session.otp = otp; // Store OTP in session
       req.session.otpExpiration = Date.now() + 5 * 60 * 1000; // Set OTP expiration to 5 minutes
       req.session.userId = user._id; // Store user ID in session
-      res.render('resetPassword.ejs', { otp }); 
+      res.render("resetPassword.ejs", { otp });
     } catch (error) {
-      console.error('Error sending OTP:', error);
-      res.status(500).json({ message: 'Failed to send OTP. Please try again.' });
+      console.error("Error sending OTP:", error);
+      res.status(500).json({ message: "Failed to send OTP. Please try again." });
     }
   } catch (error) {
-    console.error('Error processing forget password request:', error);
-    res.status(500).json({ message: 'An error occurred. Please try again later.' });
+    console.error("Error processing forget password request:", error);
+    res.status(500).json({ message: "An error occurred. Please try again later." });
   }
 });
 
-
-
-app.get('/forget', (_, res) => {
-  res.render('forget.ejs', {
-  });
+app.get("/forget", (_, res) => {
+  res.render("forget.ejs", {});
 });
 
-
-app.get('/resetPassword', (_, res) => {
-  res.render('resetPassword.ejs');
+app.get("/resetPassword", (_, res) => {
+  res.render("resetPassword.ejs");
 });
 
-app.post('/resetPassword', async (req, res) => {
+app.post("/resetPassword", async (req, res) => {
   const { newPassword, confirmPassword, otp } = req.body;
 
   // Check if the OTP matches
   if (otp !== req.session.otp) {
-    return res.status(400).json({ message: 'Invalid OTP. Please try again.' });
+    return res.status(400).json({ message: "Invalid OTP. Please try again." });
   }
 
   // Proceed with password update logic
   if (newPassword !== confirmPassword) {
-    return res.status(400).json({ message: 'Passwords do not match.' });
+    return res.status(400).json({ message: "Passwords do not match." });
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   console.log(`Attempting to update password for user ID: ${req.session.userId}`);
-  
-  const updateResult = await activeCollection.updateOne(
-    { _id: new ObjectId(req.session.userId) },
-    { $set: { password: hashedPassword } }
-  );
+
+  const updateResult = await activeCollection.updateOne({ _id: new ObjectId(req.session.userId) }, { $set: { password: hashedPassword } });
 
   // Clear the OTP from the session
   delete req.session.otp;
 
   if (updateResult.modifiedCount === 0) {
     console.error(`Failed to update password for user ID: ${req.session.userId}`);
-    return res.status(500).json({ message: 'Failed to update password. Please try again.' });
+    return res.status(500).json({ message: "Failed to update password. Please try again." });
   }
 
   console.log(`Password updated successfully for user ID: ${req.session.userId}`);
-  res.status(200).json({ message: 'Password has been reset successfully.' });
+  res.status(200).json({ message: "Password has been reset successfully." });
 });
-
-
-
-
-
-
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -423,20 +391,13 @@ passport.use(
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
-
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => {
-    // Successful authentication, log the user in and redirect to home
-    req.session.userId = req.user._id;
-    res.redirect("/home");
-  }
-);
-
-
+app.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
+  // Successful authentication, log the user in and redirect to home
+  req.session.userId = req.user._id;
+  res.redirect("/home");
+});
 
 // check url to get game id
 app.get("/game/:id", async (req, res) => {
@@ -445,7 +406,7 @@ app.get("/game/:id", async (req, res) => {
 
   const response = await fetch(`https://api.rawg.io/api/games/${gameId}?key=${apiKey}`);
   const gameDetails = await response.json();
-  console.log(response)
+  console.log(response);
 
   // Fetch screenshots
   const screenshotsResponse = await fetch(`https://api.rawg.io/api/games/${gameId}/screenshots?key=${apiKey}&page_size=16`);
@@ -454,10 +415,47 @@ app.get("/game/:id", async (req, res) => {
   res.render("gameDetails", {
     game: gameDetails,
     screenshots: screenshots.results,
+    currentUrl: req.originalUrl,
   });
 });
 
+app.post("/bookmarks/add", async (req, res) => {
+  const { gameId, returnTo } = req.body;
 
+  // Convert userId from session to ObjectId in database
+  let userId;
+  userId = ObjectId.createFromHexString(req.session.userId);
+
+  // Database updaten
+  await activeCollection.updateOne({ _id: userId }, { $addToSet: { bookmarks: { gameId } } });
+
+  // When showing search results:
+  req.session.lastSearchUrl = req.originalUrl;
+
+  // Redirect to same page
+  res.redirect(303, returnTo || req.session.lastSearchUrl || "/");
+});
+
+app.get("/bookmarks", async (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect("/login");
+  }
+
+  const userId = ObjectId.createFromHexString(req.session.userId);
+  const user = await activeCollection.findOne({ _id: userId });
+
+  const gameIds = user.bookmarks.map((bookmark) => bookmark.gameId);
+  const apiKey = process.env.API_KEY;
+
+  const gamePromises = gameIds.map(async (id) => {
+    const response = await fetch(`https://api.rawg.io/api/games/${id}?key=${apiKey}`);
+    return response.json();
+  });
+
+  const gameDetails = await Promise.all(gamePromises);
+
+  res.render("bookmarks.ejs", { games: gameDetails });
+});
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
 // Middleware to handle not found errors - error 404
