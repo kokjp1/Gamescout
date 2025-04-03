@@ -215,44 +215,6 @@ function onLogin(req, res) {
   });
 }
 
-function onResults(req, res) {
-  res.render("results.ejs");
-}
-
-// Process information from the user entering the search paramters
-app.post("/gameFinderForm", gameFormHandler);
-
-// Hulp van chatGPT bij het schrijven van deze functie.
-async function gameFormHandler(req, res) {
-  const { release_date, genre, platform, multiplayerSingleplayer, noLimit } = req.body;
-
-  let gameReleaseDate;
-
-  if (noLimit) {
-    gameReleaseDate = "2000-01-01,2025-12-31";
-  } else {
-    gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
-  }
-  const gameGenres = genre.join(",");
-  const gamePlatform = platform;
-  const gameMultiplayerSingleplayer = multiplayerSingleplayer;
-  const apiKey = process.env.API_KEY;
-
-  console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayerSingleplayer);
-
-  const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}&page_size=40`);
-
-  const data = await response.json();
-
-  console.log(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`);
-
-  res.render("results.ejs", { games: data.results });
-}
-
-function onGame(req, res) {
-  res.render("game.ejs");
-}
-
 // Nodemailer setup
 
 const transporter = nodemailer.createTransport({
@@ -399,6 +361,44 @@ app.get("/auth/google/callback", passport.authenticate("google", { failureRedire
   req.session.userId = req.user._id;
   res.redirect("/home");
 });
+
+function onResults(req, res) {
+  res.render("results.ejs");
+}
+
+// Process information from the user entering the search paramters
+app.post("/gameFinderForm", gameFormHandler);
+
+// Hulp van chatGPT bij het schrijven van deze functie.
+async function gameFormHandler(req, res) {
+  const { release_date, genre, platform, multiplayerSingleplayer, noLimit } = req.body;
+
+  let gameReleaseDate;
+
+  if (noLimit) {
+    gameReleaseDate = "2000-01-01,2025-12-31";
+  } else {
+    gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
+  }
+  const gameGenres = genre.join(",");
+  const gamePlatform = platform;
+  const gameMultiplayerSingleplayer = multiplayerSingleplayer;
+  const apiKey = process.env.API_KEY;
+
+  console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayerSingleplayer);
+
+  const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}&page_size=40`);
+
+  const data = await response.json();
+
+  console.log(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`);
+
+  res.render("results.ejs", { games: data.results });
+}
+
+function onGame(req, res) {
+  res.render("game.ejs");
+}
 
 // check url to get game id
 app.get("/game/:id", async (req, res) => {

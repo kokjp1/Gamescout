@@ -2,9 +2,9 @@
 
 ## Short introduction
 
-GameScout is the go-to app for gamers looking to discover their next favorite game. With powerful filters and search options, users can easily find games that match their preferences. Whether you're into fast-paced shooters, deep RPGs, or relaxing indie titles, GameScouter helps you explore a world of possibilities.
+GameScout is the go-to app for gamers looking to discover their next favorite game. With powerful filters and search options, users can easily find games that match their preferences. Whether you're into fast-paced shooters, deep RPGs, or relaxing indie titles, GameScout helps you explore a world of possibilities.
 
-Beyond discovery, GameScout also offers personalized features like profiles and bookmarks. Users can save games they want to play later, build a collection of favorites, and keep track of exciting new releases. With GameScouter, finding and organizing your next gaming adventure has never been easier.
+Beyond discovery, GameScout also offers personalized features like profiles and bookmarks. Users can save games they want to play later, build a collection of favorites, and keep track of exciting new releases. With GameScout, finding and organizing your next gaming adventure has never been easier.
 
 ## Installation guide
 
