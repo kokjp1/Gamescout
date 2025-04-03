@@ -400,6 +400,17 @@ app.get("/auth/google/callback", passport.authenticate("google", { failureRedire
   res.redirect("/home");
 });
 
+
+app.get("/testpic", (req, res) => {
+  res.render("testpic.ejs");
+});
+
+
+
+
+
+
+
 // check url to get game id
 app.get("/game/:id", async (req, res) => {
   const gameId = req.params.id;

@@ -32,6 +32,21 @@
                 <input type="checkbox" id="showPassword" />
                 <div class="toggle-password__checkmark"></div>
                 <div class="toggle-password__label">Show Password</div>
+                <h1>Choose Your Profile Picture</h1>
+  <div class="profile-picker">
+    <!-- Loop over profile pictures -->
+    <% const profilePics = ['profile1.jpg', 'profile2.jpg', 'profile3.jpg', 'profile4.jpg']; %>
+    <% profilePics.forEach(pic => { %>
+      <div class="profile-item">
+        <img src="/<%= pic %>" alt="<%= pic %>" onclick="selectProfile('<%= pic %>')" id="<%= pic %>" />
+      </div>
+    <% }) %>
+  </div>
+
+  <form action="/home" method="POST" id="profileForm">
+    <input type="hidden" name="profilePic" id="profilePic" />
+    <button type="submit">Save Profile Picture</button>
+  </form>
               </label>
               <script>
                 let passwordField = document.getElementById("password");
@@ -43,6 +58,19 @@
                     passwordField.type = "password";
                   }
                 });
+                let selectedPic = null;
+
+    function selectProfile(pic) {
+      // Remove previously selected profile's border
+      if (selectedPic) {
+        document.getElementById(selectedPic).classList.remove('selected');
+      }
+      // Add selected border to the clicked image
+      selectedPic = pic;
+      document.getElementById(pic).classList.add('selected');
+      // Set hidden field value to the selected profile
+      document.getElementById('profilePic').value = pic;
+    }
               </script>
             </div>
             <a href="/forget">Trouble signing in?</a>
