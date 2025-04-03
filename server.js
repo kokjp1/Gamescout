@@ -9,6 +9,23 @@ const session = require("express-session");
 const nodemailer = require("nodemailer");
 const passport = require("passport");
 const googleStrategy = require("passport-google-oauth20").Strategy;
+const helmet = require("helmet");
+
+app.use(helmet());
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://apis.google.com"],
+    styleSrc: ["'self'", "'unsafe-inline'"],
+    imgSrc: ["'self'", "data:", "https://rawg.io"],
+    connectSrc: ["'self'", "https://api.rawg.io"],
+  },
+}));
+
+
+
+
 
 app.use(
   session({
