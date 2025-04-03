@@ -372,6 +372,7 @@ passport.use(
             username,
             email,
             password: hashedPassword,
+            bookmarks: [],
           };
 
           const result = await activeCollection.insertOne(newUser);
