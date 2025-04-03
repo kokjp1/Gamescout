@@ -208,21 +208,22 @@ html {
 @media (prefers-color-scheme: light) {
   body {
     background-image: url(../images/whitebg.jpg);
+    color: var(--color-text-dark)
   }
   @media (prefers-color-scheme: light) {
     :root {
-      --color-primary: #d6336c; /* Slightly deeper pink for better contrast */
+      --color-primary: #d6336c; 
       --color-primary-dark: #9c1a4a;
       --color-primary-light: #ff85b3;
       --color-secondary: #c45d7d;
       --color-accent: #f8b8d0;
 
-      --color-gray-dark: #e0e0e0; /* Light mode grays become subtle off-whites */
+      --color-gray-dark: #9c1a4a; 
       --color-gray-medium: #a0a0a0;
-      --color-gray-light: #707070;
+      --color-gray-light: #c9c9c9;
       --color-gray-very-light: #505050;
 
-      --color-text: #222222; /* Dark text on light bg */
+      --color-text: #222222; 
       --color-text-muted: #666666;
       --color-text-dark: #111111;
 
