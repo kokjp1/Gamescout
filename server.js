@@ -371,7 +371,7 @@ app.post("/gameFinderForm", gameFormHandler);
 
 // Hulp van chatGPT bij het schrijven van deze functie.
 async function gameFormHandler(req, res) {
-  const { release_date, genre, platform, multiplayerSingleplayer, noLimit } = req.body;
+  const { release_date, genre, platform, multiplayerSingleplayer, noLimit, page = 1 } = req.body;
 
   let gameReleaseDate;
 
@@ -380,20 +380,29 @@ async function gameFormHandler(req, res) {
   } else {
     gameReleaseDate = `${release_date}-01-01,${release_date}-12-31`;
   }
-  const gameGenres = genre.join(",");
+
+  let gameGenres;
+
+  // Checken of genre een array is of niet
+  if (Array.isArray(genre)) {
+    gameGenres = genre.join(",");
+  } else {
+    gameGenres = genre || "";
+  }
+
   const gamePlatform = platform;
   const gameMultiplayerSingleplayer = multiplayerSingleplayer;
   const apiKey = process.env.API_KEY;
 
   console.log("Fetching games for:", gameReleaseDate, gameGenres, gamePlatform, gameMultiplayerSingleplayer);
 
-  const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}&page_size=40`);
+  const response = await fetch(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}&page_size=40&page=${page}`);
 
   const data = await response.json();
 
-  console.log(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&multiplayer=${gameMultiplayerSingleplayer}`);
+  console.log(`https://api.rawg.io/api/games?key=${apiKey}&dates=${gameReleaseDate}&genres=${gameGenres}&platforms=${gamePlatform}&tags=${gameMultiplayerSingleplayer}&page_size=40&page=${page}`);
 
-  res.render("results.ejs", { games: data.results });
+  res.render("results.ejs", { games: data.results, currentPage: parseInt(page), query: req.body });
 }
 
 function onGame(req, res) {
@@ -401,6 +410,7 @@ function onGame(req, res) {
 }
 
 // check url to get game id
+
 app.get("/game/:id", async (req, res) => {
   const gameId = req.params.id;
   const apiKey = process.env.API_KEY;
@@ -428,6 +438,7 @@ app.get("/game/:id", async (req, res) => {
   });
 });
 
+// Hulp van chatGPT bij de bookmarkfunctie.
 app.post("/bookmarks/toggle", async (req, res) => {
   const { gameId, returnTo } = req.body;
   const userId = ObjectId.createFromHexString(req.session.userId);

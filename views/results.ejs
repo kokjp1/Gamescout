@@ -11,7 +11,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
   </head>
   <body>
-    
     <h1>Best Results</h1>
     <div class="bestResults">
       <% games.forEach((game, index) => { if (index < 3) { %>
@@ -37,7 +36,7 @@
     <div id="game-list">
       <div class="search-controls">
         <input type="text" class="search" placeholder="Search games..." />
-        
+
         <div class="sort-dropdown">
           <button class="sort-button">Sort by...</button>
           <div class="dropdown-content">
@@ -69,8 +68,32 @@
         <% } }); %>
       </ul>
     </div>
+    <!-- hidden form om de query data te behouden voor de pagination -->
+    <form action="/gameFinderForm" method="POST">
+      <input type="hidden" name="release_date" value="<%= query.release_date %>" />
+      <!-- Checken of 'genre' een array is (meerdere genres of niet), zo ja loopen voor elke value. -->
+      <% if (Array.isArray(query.genre)) { %> <% query.genre.forEach(function(item) { %>
+      <input type="hidden" name="genre" value="<%= item %>" />
+      <% }); %> <% } else if (query.genre) { %>
+      <input type="hidden" name="genre" value="<%= query.genre %>" />
+      <% } %>
+      <input type="hidden" name="platform" value="<%= query.platform %>" />
+      <input type="hidden" name="multiplayerSingleplayer" value="<%= query.multiplayerSingleplayer %>" />
+      <input type="hidden" name="noLimit" value="<%= query.noLimit %>" />
+
+      <% if (currentPage > 1) { %>
+      <button type="submit" name="page" value="<%= currentPage - 1 %>">Previous Page</button>
+      <% } %>
+      <button type="submit" name="page" value="<%= currentPage + 1 %>">Next Page</button>
+    </form>
+    <p>Page <%= currentPage %></p>
+
     <a class="arrow" onclick="goBack()">&lt; &lt;</a>
-    <script>function goBack() {window.history.back();}</script>
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
     <script src="/frontendJS/intersectionObserver.js"></script>
     <script src="/frontendJS/sort.js"></script>
   </body>
