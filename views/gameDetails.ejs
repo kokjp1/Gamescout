@@ -3,15 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GameScout | Login</title>
     <link rel="icon" type="image/x-icon" href="/images/controllerfavico.png" />
     <link rel="stylesheet" href="/cssfiles/main.css" />
     <link rel="stylesheet" href="/cssfiles/swiper.css" />
     <link rel="stylesheet" href="/cssfiles/details.css" />
+    <link rel="stylesheet" href="/cssfiles/animations.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <title><%= game.name %> Details</title>
   </head>
   <body>
+    <div class="notification">✓ Bookmark Added</div>
+
     <section id="hero">
       <h1><%= game.name %></h1>
       <img src="<%= game.background_image %>" />
@@ -53,7 +55,8 @@
         <p>Genres: <br /><%= game.genres.map(genre => genre.name).join(", ") %></p>
         <p>Metacritic score: <br /><%= game.metacritic || 'Geen metacritic score.' %></p>
       </div>
-      <button id="bookmarkButton" data-bookmarked="<%= isBookmarked %>" data-gameid="<%= game.id %>"><%= isBookmarked ? '✓ Added to Bookmarks' : 'Bookmark this game for later' %></button>
+      <button id="bookmarkButton" data-bookmarked="<%= isBookmarked %>" data-gameid="<%= game.id %>" onclick="document.querySelector('.notification').classList.toggle('show')"
+        ><%= isBookmarked ? '✓ Added to Bookmarks' : 'Bookmark this game for later' %></button>
 
       <a href="/bookmarks">Visit your bookmarks</a>
       <!-- expres niet een class/id toegevoegd om te experimenteren met andere mogelijkheden -->
@@ -68,6 +71,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="/frontendJS/swiper.js"></script>
-    <script src="/frontendJS/favorite.js"></script>
+    <script src="/frontendJS/bookmark.js"></script>
   </body>
 </html>

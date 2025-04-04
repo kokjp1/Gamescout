@@ -134,6 +134,26 @@ button.favoriteToggle svg path {
   stroke: white;
 }
 
+.notification {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  color: white;
+  padding: 1em 2em;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.notification.show {
+  animation: slideInOut 3s forwards;
+}
+
 
 @media (max-width: 1340px) {
   body {

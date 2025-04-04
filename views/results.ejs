@@ -80,13 +80,14 @@
       <input type="hidden" name="platform" value="<%= query.platform %>" />
       <input type="hidden" name="multiplayerSingleplayer" value="<%= query.multiplayerSingleplayer %>" />
       <input type="hidden" name="noLimit" value="<%= query.noLimit %>" />
-
+        <section id="pagination">
       <% if (currentPage > 1) { %>
-      <button type="submit" name="page" value="<%= currentPage - 1 %>">Previous Page</button>
+      <button type="submit" name="page" value="<%= currentPage - 1 %>"><< Previous Page</button>
       <% } %>
-      <button type="submit" name="page" value="<%= currentPage + 1 %>">Next Page</button>
+      <p>Page <%= currentPage %></p>
+      <button type="submit" name="page" value="<%= currentPage + 1 %>">Next Page >></button>
+      </section>
     </form>
-    <p>Page <%= currentPage %></p>
 
     <a class="arrow" onclick="goBack()">&lt; &lt;</a>
     <script>
