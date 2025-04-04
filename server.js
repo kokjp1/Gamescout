@@ -32,6 +32,8 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use(express.static("static"));
 app.set("view engine", "ejs");
 app.set("views", "views");

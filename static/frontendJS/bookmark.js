@@ -1,31 +1,33 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const button = document.querySelector("#bookmarkButton");
-  if (!button) return;
+document.querySelectorAll(".remove-bookmark-button").forEach((button) => {
+  button.addEventListener("click", async function (event) {
+    event.preventDefault();
+    event.stopPropagation();
 
-  button.addEventListener("click", async () => {
-    const gameId = button.dataset.gameid;
-    const isBookmarked = button.dataset.bookmarked === "true";
+    // Disable button immediately
+    this.disabled = true;
 
-    const response = await fetch("/bookmarks/toggle", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        gameId,
-      }),
-    });
+    const gameId = this.dataset.gameId; // Modern alternative to getAttribute
 
-    if (response.ok) {
-      if (isBookmarked) {
-        button.textContent = "Bookmark this game for later";
-        button.dataset.bookmarked = "false";
-        button.classList.remove("favoriteToggle");
+    try {
+      const response = await fetch("/bookmarks/toggle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ gameId }),
+      });
+
+      if (response.ok) {
+        // Remove the game element from the DOM
+        this.closest("li")?.remove();
       } else {
-        button.textContent = "✓ Added to Bookmarks";
-        button.dataset.bookmarked = "true";
-        button.classList.add("favoriteToggle");
+        // Re-enable button if request failed
+        this.disabled = false;
+        console.error("Failed to remove bookmark");
       }
+    } catch (error) {
+      console.error("Network error:", error);
+      this.disabled = false; // Re-enable button on error
     }
   });
 });

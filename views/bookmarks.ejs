@@ -29,6 +29,7 @@
               <h2><%= game.name %></h2>
               <p>Released: <%= game.released || 'Unknown' %></p>
             </div>
+            <button class="remove-bookmark-button" data-game-id="<%= game.id %>">Verwijder Bookmark</button>
           </article>
         </a>
       </li>
@@ -39,5 +40,6 @@
     <% } %>
 
     <script src="/frontendJS/intersectionObserver.js"></script>
+    <script src="/frontendJS/bookmark.js"></script>
   </body>
 </html>
