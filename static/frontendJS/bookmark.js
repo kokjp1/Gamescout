@@ -3,10 +3,9 @@ document.querySelectorAll(".remove-bookmark-button").forEach((button) => {
     event.preventDefault();
     event.stopPropagation();
 
-    // Disable button immediately
     this.disabled = true;
 
-    const gameId = this.dataset.gameId; // Modern alternative to getAttribute
+    const gameId = this.dataset.gameId;
 
     try {
       const response = await fetch("/bookmarks/toggle", {
@@ -18,16 +17,14 @@ document.querySelectorAll(".remove-bookmark-button").forEach((button) => {
       });
 
       if (response.ok) {
-        // Remove the game element from the DOM
         this.closest("li")?.remove();
       } else {
-        // Re-enable button if request failed
         this.disabled = false;
         console.error("Failed to remove bookmark");
       }
     } catch (error) {
       console.error("Network error:", error);
-      this.disabled = false; // Re-enable button on error
+      this.disabled = false;
     }
   });
 });
