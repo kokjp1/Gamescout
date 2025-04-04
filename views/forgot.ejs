@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot your password?</title>
+    <link rel="stylesheet" href="cssfiles/form.css">
+    <link rel="stylesheet" href="cssfiles/main.css">
+</head>
+<body>
+    <div id="registreerformulier">
+        <form action="/forgot" method="POST">
+            <legend>Forgot your password?</legend>
+            
+            <fieldset id="gegevens">
+                <label for="usernameOrEmail">
+                    Username or Email
+                    <input type="text" id="usernameOrEmail" name="usernameOrEmail" placeholder="Username or Email" required>
+                </label>
+            </fieldset>
+            <input type="submit" value="Continue">
+
+            
+            <% if (locals.message) { %>
+                <div class="errorMessage"><%= message %></div>
+            <% } %>
+        </form>
+    </div>
+</body>
+</html>

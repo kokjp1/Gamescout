@@ -79,3 +79,18 @@ button {
     transform: rotate(315deg) scale(1.2);
   }
 }
+
+#empty-state {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top:10%;
+  p {
+    text-align: center;
+    font-size: var(--font-size-xxl); 
+  }
+  img {
+    width: 20%;
+  }
+}

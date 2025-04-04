@@ -234,7 +234,7 @@ function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-app.post("/forget", async (req, res) => {
+app.post("/forgot", async (req, res) => {
   const { usernameOrEmail } = req.body;
   const otp = generateOTP();
 
@@ -245,7 +245,7 @@ app.post("/forget", async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ message: "No account found with the provided email or username." });
+      return res.render('forgot.ejs', { message: "We couldn't find an account with that username or email" });
     }
 
     const mailOptions = {
@@ -266,17 +266,17 @@ app.post("/forget", async (req, res) => {
       res.status(500).json({ message: "Failed to send OTP. Please try again." });
     }
   } catch (error) {
-    console.error("Error processing forget password request:", error);
+    console.error("Error processing forgot password request:", error);
     res.status(500).json({ message: "An error occurred. Please try again later." });
   }
 });
 
-app.get("/forget", (_, res) => {
-  res.render("forget.ejs", {});
+app.get("/forgot", (_, res) => {
+  res.render("forgot.ejs", {});
 });
 
 app.get("/resetPassword", (_, res) => {
-  res.render("resetPassword.ejs");
+  res.render("resetPassword.ejs", {message: ""});
 });
 
 app.post("/resetPassword", async (req, res) => {
@@ -284,12 +284,12 @@ app.post("/resetPassword", async (req, res) => {
 
   // Check if the OTP matches
   if (otp !== req.session.otp) {
-    return res.status(400).json({ message: "Invalid OTP. Please try again." });
+    return res.render('resetPassword', { message: "Invalid verification code. Please try again." });
   }
 
   // Proceed with password update logic
   if (newPassword !== confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match." });
+    return res.render('resetPassword', { message: "Passwords do not match." });
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -302,12 +302,17 @@ app.post("/resetPassword", async (req, res) => {
 
   if (updateResult.modifiedCount === 0) {
     console.error(`Failed to update password for user ID: ${req.session.userId}`);
-    return res.status(500).json({ message: "Failed to update password. Please try again." });
+    return res.render('resetPassword', { message: "Failed to update password. Please try again." });
   }
 
   console.log(`Password updated successfully for user ID: ${req.session.userId}`);
-  res.status(200).json({ message: "Password has been reset successfully." });
+  res.render("login.ejs", {
+    errorMessageUsernameOrEmail: "",
+    errorMessagePassword: "",
+  });
 });
+
+
 
 app.use(passport.initialize());
 app.use(passport.session());
