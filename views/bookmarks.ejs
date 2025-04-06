@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/cssfiles/main.css" />
     <link rel="stylesheet" href="/cssfiles/bookmarks.css" />
     <link rel="stylesheet" href="/cssfiles/animations.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
   </head>
   <body>
     <h1>Bookmarks</h1>
@@ -19,32 +20,48 @@
     </script>
 
     <% if (games && games.length > 0) { %>
-    <ul>
-      <% games.forEach(game => { %>
-      <li>
-        <a href="/game/<%= game.id %>">
-          <article class="gametile">
-            <img src="<%= game.background_image || '/images/fallback.jpg' %>" alt="Game cover" />
-            <div>
-              <h2><%= game.name %></h2>
-              <p>Released: <%= game.released || 'Unknown' %></p>
-            </div>
-            <button class="remove-bookmark-button" data-game-id="<%= game.id %>"><svg xmlns="http://www.w3.org/2000/svg" width="5em" height="5em" viewBox="0 0 24 24">
-              <path fill="#ff9c9c" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" stroke-width="0.5" stroke="#e00000" />
-            </svg></button>
-          </article>
-        </a>
-      </li>
-      <% }) %>
-    </ul>
+    <div id="bookmark-list">
+      <div class="search-controls">
+        <input type="text" class="search" placeholder="Search bookmarks..." />
+        <div class="sort-dropdown">
+          <button class="sort-button">Sort by...</button>
+          <div class="dropdown-content">
+            <a href="#" id="sort-Released-ascending">Sort Released (Oldest First)</a>
+            <a href="#" id="sort-Released-descending">Sort Released (Newest First)</a>
+          </div>
+        </div>
+      </div>
+
+      <ul class="list">
+        <% games.forEach(game => { %>
+        <li>
+          <a href="/game/<%= game.id %>">
+            <article class="gametile">
+              <img src="<%= game.background_image || '/images/fallback.jpg' %>" alt="Game cover" />
+              <div>
+                <h2 class="name"><%= game.name %></h2>
+                <p>Released: <span class="released"><%= game.released || 'Unknown' %></span></p>
+              </div>
+              <button class="remove-bookmark-button" data-game-id="<%= game.id %>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="5em" height="5em" viewBox="0 0 24 24">
+                  <path fill="#ff9c9c" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" stroke-width="0.5" stroke="#e00000" />
+                </svg>
+              </button>
+            </article>
+          </a>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
     <% } else { %>
     <section id="empty-state">
-    <p>Je hebt nog geen games opgeslagen als bookmark.</p>
-    <img src="images/emptyBookmarks.gif" alt="Empty bookmarks" />
+      <p>Je hebt nog geen games opgeslagen als bookmark.</p>
+      <img src="images/emptyBookmarks.gif" alt="Empty bookmarks" />
     </section>
     <% } %>
 
     <script src="/frontendJS/intersectionObserver.js"></script>
     <script src="/frontendJS/bookmark.js"></script>
+    <script src="/frontendJS/bookmarksSort.js"></script>
   </body>
 </html>
