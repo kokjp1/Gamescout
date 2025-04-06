@@ -183,3 +183,7 @@ h1 {
     display: block;
   }
 }
+
+ul.list {
+  width:100%;
+}
