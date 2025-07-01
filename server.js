@@ -245,7 +245,7 @@ app.post("/forgot", async (req, res) => {
     });
 
     if (!user) {
-      return res.render('forgot.ejs', { message: "We couldn't find an account with that username or email" });
+      return res.render("forgot.ejs", { message: "We couldn't find an account with that username or email" });
     }
 
     const mailOptions = {
@@ -276,7 +276,7 @@ app.get("/forgot", (_, res) => {
 });
 
 app.get("/resetPassword", (_, res) => {
-  res.render("resetPassword.ejs", {message: ""});
+  res.render("resetPassword.ejs", { message: "" });
 });
 
 app.post("/resetPassword", async (req, res) => {
@@ -284,12 +284,12 @@ app.post("/resetPassword", async (req, res) => {
 
   // Check if the OTP matches
   if (otp !== req.session.otp) {
-    return res.render('resetPassword', { message: "Invalid verification code. Please try again." });
+    return res.render("resetPassword", { message: "Invalid verification code. Please try again." });
   }
 
   // Proceed with password update logic
   if (newPassword !== confirmPassword) {
-    return res.render('resetPassword', { message: "Passwords do not match." });
+    return res.render("resetPassword", { message: "Passwords do not match." });
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -302,7 +302,7 @@ app.post("/resetPassword", async (req, res) => {
 
   if (updateResult.modifiedCount === 0) {
     console.error(`Failed to update password for user ID: ${req.session.userId}`);
-    return res.render('resetPassword', { message: "Failed to update password. Please try again." });
+    return res.render("resetPassword", { message: "Failed to update password. Please try again." });
   }
 
   console.log(`Password updated successfully for user ID: ${req.session.userId}`);
@@ -311,8 +311,6 @@ app.post("/resetPassword", async (req, res) => {
     errorMessagePassword: "",
   });
 });
-
-
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -485,6 +483,28 @@ app.get("/bookmarks", async (req, res) => {
 
   res.render("bookmarks.ejs", { games: gameDetails });
 });
+
+// bookmark delete functie //
+
+app.post("/bookmarks/clear", async (req, res) => {
+  if (!req.session.userId) {
+    return res.sendStatus(401); // Niet ingelogd
+  }
+
+  const userId = ObjectId.createFromHexString(req.session.userId);
+
+  try {
+    await activeCollection.updateOne(
+      { _id: userId },
+      { $set: { bookmarks: [] } } // Leeg de array
+    );
+    res.sendStatus(200);
+  } catch (err) {
+    console.error("Fout bij legen van bookmarks:", err);
+    res.sendStatus(500);
+  }
+});
+
 // error handlers - **ALTIJD ONDERAAN HOUDEN**
 
 // Middleware to handle not found errors - error 404

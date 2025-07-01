@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
       el.classList.remove("fade-in");
       void el.offsetWidth;
       el.classList.add("fade-in");
-    });
+    }); 
   }
 
   updateSortButton();

@@ -185,5 +185,31 @@ h1 {
 }
 
 ul.list {
-  width:100%;
+  width: 100%;
+}
+
+.label {
+  font-weight: bold;
+}
+
+/*BUTTON */
+
+.clear-button {
+  width: 20%;
+  padding: 0.75em;
+  background-color: var(--color-secondary);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--border-radius-md);
+  color: var(--color-text);
+  font-weight: bold;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+  }
 }

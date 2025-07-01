@@ -30,6 +30,8 @@
             <a href="#" id="sort-Released-descending">Sort Released (Newest First)</a>
           </div>
         </div>
+        <!-- Bookmark button thijs -->
+        <button id="clearBookmarksBtn" class="clear-button">Verwijder alle bookmarks</button>
       </div>
 
       <ul class="list">
@@ -40,7 +42,10 @@
               <img src="<%= game.background_image || '/images/fallback.jpg' %>" alt="Game cover" />
               <div>
                 <h2 class="name"><%= game.name %></h2>
-                <p>Released: <span class="released"><%= game.released || 'Unknown' %></span></p>
+                <p><span class="label">Released:</span> <span class="released"><%= game.released || 'Unknown' %></span></p>
+                <p><span class="label">Rating:</span> <br /><%= game.rating %></p>
+                <p><span class="label">Genres:</span> <br /><%= game.genres.map(genre => genre.name).join(", ") %></p>
+                <p><span class="label">Metacritic score:</span> <br /><%= game.metacritic || 'Geen metacritic score.' %></p>
               </div>
               <button class="remove-bookmark-button" data-game-id="<%= game.id %>">
                 <svg xmlns="http://www.w3.org/2000/svg" width="5em" height="5em" viewBox="0 0 24 24">
