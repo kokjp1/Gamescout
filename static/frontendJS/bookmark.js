@@ -32,11 +32,11 @@ document.querySelectorAll(".remove-bookmark-button").forEach((button) => {
 //button voor delete van Bookmarks//
 
 document.addEventListener("DOMContentLoaded", () => {
-  const clearBtn = document.getElementById("clearBookmarksBtn");
+  const clearBtn = document.getElementById("clearBookmarks");
 
   if (clearBtn) {
     clearBtn.addEventListener("click", function () {
-      if (confirm("Weet je zeker dat je alle bookmarks wilt verwijderen?")) {
+      if (confirm("Are you sure you want to delete all bookmarks? This action cannot be undone.")) {
         fetch("/bookmarks/clear", {
           method: "POST",
         })
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
               const bookmarkCards = document.querySelectorAll(".gametile");
               bookmarkCards.forEach((card) => card.closest("li").remove());
             } else {
-              alert("Er is iets misgegaan bij het verwijderen.");
+              alert("something went wrong, please try again later.");
             }
           })
           .catch((err) => {
